@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
+import logo from "../assets/images/LogoColegio.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,12 +15,19 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 w-full h-16 bg-[#1a1a1a] text-white shadow-md z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-        {/* Logo institucional con efecto luminoso */}
+        {/* Logo + Nombre institucional con efecto rojo fosforescente */}
         <Link
           to="/"
-          className="font-bold text-xl tracking-wide transition-all hover:text-[#FFD700] hover:drop-shadow-[0_0_6px_#FFD700]"
+          className="flex items-center space-x-2 transition-all hover:text-[#FF3B3B] hover:drop-shadow-[0_0_6px_#FF3B3B]"
         >
-          Colegio José Martí
+          <img
+            src={logo}
+            alt="Logo Colegio José Martí"
+            className="h-8 w-auto object-contain transition-all hover:drop-shadow-[0_0_6px_#FF3B3B]"
+          />
+          <span className="font-bold text-xl tracking-wide">
+            Colegio José Martí
+          </span>
         </Link>
 
         {/* Navegación en desktop */}
@@ -28,16 +36,16 @@ const Navbar = () => {
             <Link
               key={link.name}
               to={link.path}
-              className="font-medium transition-all hover:text-[#FFD700] hover:drop-shadow-[0_0_6px_#FFD700]"
+              className="font-medium transition-all hover:text-[#A855F7] hover:drop-shadow-[0_0_6px_#A855F7]"
             >
               {link.name}
             </Link>
           ))}
 
-          {/* Ícono de usuario con efecto fosforescente */}
+          {/* Ícono de usuario con efecto azul eléctrico */}
           <Link
             to="/login"
-            className="transition-all hover:text-[#FFD700] hover:drop-shadow-[0_0_6px_#FFD700]"
+            className="transition-all hover:text-[#1DA1F2] hover:drop-shadow-[0_0_6px_#1DA1F2]"
           >
             <FaUserCircle className="text-2xl" />
           </Link>
@@ -61,17 +69,17 @@ const Navbar = () => {
               key={link.name}
               to={link.path}
               onClick={() => setIsOpen(false)}
-              className="font-medium transition-all hover:text-[#FFD700] hover:drop-shadow-[0_0_6px_#FFD700]"
+              className="font-medium transition-all hover:text-[#A855F7] hover:drop-shadow-[0_0_6px_#A855F7]"
             >
               {link.name}
             </Link>
           ))}
 
-          {/* Ícono de usuario en móvil con efecto */}
+          {/* Ícono de usuario en móvil con efecto azul eléctrico */}
           <Link
             to="/login"
             onClick={() => setIsOpen(false)}
-            className="flex items-center space-x-2 transition-all hover:text-[#FFD700] hover:drop-shadow-[0_0_6px_#FFD700]"
+            className="flex items-center space-x-2 transition-all hover:text-[#1DA1F2] hover:drop-shadow-[0_0_6px_#1DA1F2]"
           >
             <FaUserCircle className="text-xl" />
             <span>Acceder</span>

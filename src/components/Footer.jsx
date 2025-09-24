@@ -10,23 +10,32 @@ import {
 const Footer = () => {
   return (
     <footer className="w-full bg-[#1a1a1a] text-white pt-10 pb-6 px-6 md:px-12 border-t border-gray-700">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-sm">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-sm text-center">
         {/* Más información */}
         <div>
-          <h3 className="font-semibold mb-3">Más información</h3>
-          <ul className="space-y-2">
+          <h3 className="font-semibold mb-4 text-lg">Más información</h3>
+          <ul className="space-y-3">
             <li>
-              <Link to="/terminos" className="hover:underline">
+              <Link
+                to="/terminos"
+                className="transition-all hover:text-[#FFD700] hover:drop-shadow-[0_0_6px_#FFD700]"
+              >
                 Términos de uso
               </Link>
             </li>
             <li>
-              <Link to="/privacidad" className="hover:underline">
+              <Link
+                to="/privacidad"
+                className="transition-all hover:text-[#FFD700] hover:drop-shadow-[0_0_6px_#FFD700]"
+              >
                 Política de privacidad
               </Link>
             </li>
             <li>
-              <Link to="/suscripcion" className="hover:underline">
+              <Link
+                to="/suscripcion"
+                className="transition-all hover:text-[#FFD700] hover:drop-shadow-[0_0_6px_#FFD700]"
+              >
                 Acuerdo de suscripción
               </Link>
             </li>
@@ -35,20 +44,29 @@ const Footer = () => {
 
         {/* Ayuda */}
         <div>
-          <h3 className="font-semibold mb-3">Ayuda</h3>
-          <ul className="space-y-2">
+          <h3 className="font-semibold mb-4 text-lg">Ayuda</h3>
+          <ul className="space-y-3">
             <li>
-              <Link to="/ayuda" className="hover:underline">
+              <Link
+                to="/ayuda"
+                className="transition-all hover:text-[#A855F7] hover:drop-shadow-[0_0_6px_#A855F7]"
+              >
                 Centro de ayuda
               </Link>
             </li>
             <li>
-              <Link to="/dispositivos" className="hover:underline">
+              <Link
+                to="/dispositivos"
+                className="transition-all hover:text-[#A855F7] hover:drop-shadow-[0_0_6px_#A855F7]"
+              >
                 Dispositivos compatibles
               </Link>
             </li>
             <li>
-              <Link to="/acerca" className="hover:underline">
+              <Link
+                to="/acerca"
+                className="transition-all hover:text-[#A855F7] hover:drop-shadow-[0_0_6px_#A855F7]"
+              >
                 Acerca del Colegio
               </Link>
             </li>
@@ -57,20 +75,29 @@ const Footer = () => {
 
         {/* Comunidad */}
         <div>
-          <h3 className="font-semibold mb-3">Comunidad</h3>
-          <ul className="space-y-2">
+          <h3 className="font-semibold mb-4 text-lg">Comunidad</h3>
+          <ul className="space-y-3">
             <li>
-              <Link to="/eventos" className="hover:underline">
+              <Link
+                to="/eventos"
+                className="transition-all hover:text-[#8B5CF6] hover:drop-shadow-[0_0_6px_#8B5CF6]"
+              >
                 Eventos
               </Link>
             </li>
             <li>
-              <Link to="/admisiones" className="hover:underline">
+              <Link
+                to="/admisiones"
+                className="transition-all hover:text-[#8B5CF6] hover:drop-shadow-[0_0_6px_#8B5CF6]"
+              >
                 Admisiones
               </Link>
             </li>
             <li>
-              <Link to="/noticias" className="hover:underline">
+              <Link
+                to="/noticias"
+                className="transition-all hover:text-[#8B5CF6] hover:drop-shadow-[0_0_6px_#8B5CF6]"
+              >
                 Noticias
               </Link>
             </li>
@@ -79,13 +106,13 @@ const Footer = () => {
 
         {/* Redes sociales */}
         <div>
-          <h3 className="font-semibold mb-3">Síguenos</h3>
-          <div className="flex space-x-4 text-xl">
+          <h3 className="font-semibold mb-4 text-lg">Síguenos</h3>
+          <div className="flex justify-center space-x-4 text-xl">
             <a
               href="https://facebook.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#1877F2] hover:drop-shadow-[0_0_6px_#1877F2] transition-all"
+              className="text-[#1877F2] hover:drop-shadow-[0_0_8px_#1877F2] transition-all hover:scale-110"
             >
               <FaFacebookF />
             </a>
@@ -93,7 +120,7 @@ const Footer = () => {
               href="https://instagram.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#E1306C] hover:drop-shadow-[0_0_6px_#E1306C] transition-all"
+              className="text-[#E1306C] hover:drop-shadow-[0_0_8px_#E1306C] transition-all hover:scale-110"
             >
               <FaInstagram />
             </a>
@@ -101,13 +128,13 @@ const Footer = () => {
               href="https://twitter.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#1DA1F2] hover:drop-shadow-[0_0_6px_#1DA1F2] transition-all"
+              className="text-[#1DA1F2] hover:drop-shadow-[0_0_8px_#1DA1F2] transition-all hover:scale-110"
             >
               <FaTwitter />
             </a>
             <a
               href="mailto:contacto@colegiojosemarti.edu"
-              className="text-[#FFD700] hover:drop-shadow-[0_0_6px_#FFD700] transition-all"
+              className="text-[#FFD700] hover:drop-shadow-[0_0_8px_#FFD700] transition-all hover:scale-110"
             >
               <FaEnvelope />
             </a>
