@@ -1,12 +1,67 @@
-# React + Vite
+📘 README.md — Colegio José Martí Frontend
+markdown
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 🏫 Colegio José Martí — Frontend Institucional
 
-Currently, two official plugins are available:
+Este repositorio contiene el desarrollo del sitio web institucional del Colegio José Martí, enfocado en accesibilidad, excelencia visual y estructura modular. El proyecto está construido con React y Tailwind CSS, integrando animaciones suaves, componentes escalables y una narrativa educativa emocional.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🚀 Instalación y ejecución local
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 1. Clona el repositorio
+
+```bash
+git clone https://github.com/tu-usuario/colegio-jose-marti.git
+cd colegio-jose-marti
+2. Instala las dependencias
+bash
+npm install
+Asegúrate de tener Node.js ≥ 18 y npm ≥ 9 instalados.
+
+3. Ejecuta el servidor de desarrollo
+bash
+npm run dev
+El sitio estará disponible en http://localhost:5173
+
+🧱 Tecnologías utilizadas
+⚛️ React — Librería principal para la UI
+
+🎨 Tailwind CSS — Estilización rápida y responsiva
+
+🎞️ Framer Motion — Animaciones suaves y accesibles
+
+📦 React Icons — Iconografía institucional
+
+🧠 React Intersection Observer — Activación de animaciones por scroll
+
+📁 Estructura del proyecto
+Código
+src/
+├── assets/            # Imágenes y recursos institucionales
+├── components/        # Componentes reutilizables (Navbar, Footer, HeroSection, etc.)
+├── layout/            # MainLayout con Navbar y Footer integrados
+├── pages/             # Vistas principales (Home, About, Contact)
+├── App.jsx            # Enrutamiento principal
+└── main.jsx           # Punto de entrada
+✨ Características destacadas
+Diseño emocional y profesional inspirado en Apple y Disney+
+
+Animaciones activadas por scroll con rebotes suaves
+
+Carrusel institucional con imágenes, íconos y narrativa educativa
+
+Secciones modulares: Nosotros, Contacto, Oferta Académica
+
+Layout fijo con Navbar y Footer institucionales
+
+📬 Contacto
+Para dudas, sugerencias o colaboraciones:
+
+📧 contacto@colegiomarti.edu.ve
+
+📍 Caracas, Venezuela
+
+📄 Licencia
+Este proyecto es propiedad del Colegio José Martí. Su uso está limitado a fines educativos y de desarrollo institucional.
+```
