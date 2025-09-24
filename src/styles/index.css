@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+/* 🎨 Variables visuales */
+:root {
+  --color-primary: #fdfdfd; /* Fondo general y navbar */
+  --color-accent: #4b5563; /* Enlaces y botones */
+  --color-contrast: #242424; /* Fondo oscuro si lo usas */
+  --color-soft: #f3f4f6; /* Fondo del footer */
+  --color-text: #1a1a1a; /* Texto principal */
+  --color-hover: #6b7280; /* Hover en enlaces */
+
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  color: var(--color-text);
+  background-color: var(--color-primary);
+}
+
+/* 🔗 Enlaces */
+a {
+  font-weight: 500;
+  color: var(--color-accent);
+  text-decoration: inherit;
+}
+a:hover {
+  color: var(--color-hover);
+}
+
+/* 🧍 Body base */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--color-primary);
+  color: var(--color-text);
+}
+
+/* 🧠 Jerarquía tipográfica */
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+h2 {
+  font-size: 2.4em;
+  line-height: 1.2;
+}
+h3 {
+  font-size: 1.8em;
+  line-height: 1.3;
+}
+
+/* 🔘 Botones */
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: var(--color-accent);
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* 🌞 Modo claro (opcional) */
+@media (prefers-color-scheme: light) {
+  :root {
+    color: var(--color-text);
+    background-color: var(--color-primary);
+  }
+  a:hover {
+    color: var(--color-hover);
+  }
+  button {
+    background-color: var(--color-soft);
+  }
+}
