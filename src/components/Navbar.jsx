@@ -12,18 +12,41 @@ const Navbar = () => {
     { name: "Contáctanos", path: "/contact" },
   ];
 
+  const handleUserIconClick = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/ping", {
+        method: "GET",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const data = await response.json();
+      console.log("✅ Backend responde:", data);
+
+      if (data.role) {
+        localStorage.setItem("userRole", data.role);
+        document.cookie = `userRole=${data.role}; path=/;`;
+      }
+
+      window.location.href = "http://localhost:5173/login";
+    } catch (error) {
+      console.error("❌ Error al contactar backend:", error);
+      window.location.href = "http://localhost:5173/login";
+    }
+  };
+
   return (
     <nav className="fixed top-0 w-full h-16 bg-[#1a1a1a] text-white shadow-md z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-        {/* Logo + Nombre institucional con efecto rojo fosforescente */}
+        {/* Logo + Nombre institucional */}
         <Link
           to="/"
-          className="flex items-center space-x-2 transition-all hover:text-[#FF3B3B] hover:drop-shadow-[0_0_6px_#FF3B3B]"
+          className="flex items-center space-x-2 transition-all hover:text-[#D1D5DB] hover:drop-shadow-[0_0_6px_#D1D5DB]"
         >
           <img
             src={logo}
             alt="Logo Colegio José Martí"
-            className="h-8 w-auto object-contain transition-all hover:drop-shadow-[0_0_6px_#FF3B3B]"
+            className="h-8 w-auto object-contain transition-all hover:drop-shadow-[0_0_6px_#D1D5DB]"
           />
           <span className="font-bold text-xl tracking-wide">
             Colegio José Martí
@@ -36,19 +59,19 @@ const Navbar = () => {
             <Link
               key={link.name}
               to={link.path}
-              className="font-medium transition-all hover:text-[#A855F7] hover:drop-shadow-[0_0_6px_#A855F7]"
+              className="font-medium transition-all hover:text-[#D1D5DB] hover:drop-shadow-[0_0_6px_#D1D5DB]"
             >
               {link.name}
             </Link>
           ))}
 
-          {/* Ícono de usuario con efecto azul eléctrico */}
-          <Link
-            to="/login"
-            className="transition-all hover:text-[#1DA1F2] hover:drop-shadow-[0_0_6px_#1DA1F2]"
+          {/* Ícono de usuario */}
+          <button
+            onClick={handleUserIconClick}
+            className="transition-all hover:text-[#D1D5DB] hover:drop-shadow-[0_0_6px_#D1D5DB]"
           >
             <FaUserCircle className="text-2xl" />
-          </Link>
+          </button>
         </div>
 
         {/* Botón hamburguesa en móvil */}
@@ -69,21 +92,22 @@ const Navbar = () => {
               key={link.name}
               to={link.path}
               onClick={() => setIsOpen(false)}
-              className="font-medium transition-all hover:text-[#A855F7] hover:drop-shadow-[0_0_6px_#A855F7]"
+              className="font-medium transition-all hover:text-[#D1D5DB] hover:drop-shadow-[0_0_6px_#D1D5DB]"
             >
               {link.name}
             </Link>
           ))}
 
-          {/* Ícono de usuario en móvil con efecto azul eléctrico */}
-          <Link
-            to="/login"
-            onClick={() => setIsOpen(false)}
-            className="flex items-center space-x-2 transition-all hover:text-[#1DA1F2] hover:drop-shadow-[0_0_6px_#1DA1F2]"
+          <button
+            onClick={() => {
+              setIsOpen(false);
+              handleUserIconClick();
+            }}
+            className="flex items-center space-x-2 transition-all hover:text-[#D1D5DB] hover:drop-shadow-[0_0_6px_#D1D5DB]"
           >
             <FaUserCircle className="text-xl" />
             <span>Acceder</span>
-          </Link>
+          </button>
         </div>
       )}
     </nav>

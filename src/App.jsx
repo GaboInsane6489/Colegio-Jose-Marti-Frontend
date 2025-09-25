@@ -4,8 +4,13 @@ import MainLayout from "./layouts/MainLayout";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Login from "./pages/Login";
+import AdminDashboard from "./pages/AdminDashboard";
+import useClickSound from "./hooks/useClickSound";
 
 function App() {
+  useClickSound();
+
   return (
     <Router>
       <Routes>
@@ -33,6 +38,8 @@ function App() {
             </MainLayout>
           }
         />
+        <Route path="/login" element={<Login />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
       </Routes>
     </Router>
   );
