@@ -10,9 +10,12 @@ const NavbarAdmin = () => {
     const fetchAdmin = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:3000/api/auth/ping", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/auth/ping`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setAdminName(res.data.email);
       } catch (error) {
         console.error("❌ Error al obtener el nombre del admin:", error);
