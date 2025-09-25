@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import logo from "../assets/images/LogoColegio.png";
 import HeroSection from "../components/HeroSection";
+import InfoSection from "../components/InfoSection";
+import GraduationSection from "../components/GraduationSection";
 
 const Home = () => {
   const { ref, inView } = useInView({ triggerOnce: false, threshold: 0.3 });
@@ -82,6 +84,12 @@ const Home = () => {
 
       {/* Sección institucional con carrusel */}
       <HeroSection />
+
+      {/* Sección de info */}
+      <InfoSection />
+
+      {/* Sección de Graduación emocional */}
+      <GraduationSection />
     </>
   );
 };
