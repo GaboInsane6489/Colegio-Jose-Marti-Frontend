@@ -28,10 +28,10 @@ const Navbar = () => {
         document.cookie = `userRole=${data.role}; path=/;`;
       }
 
-      window.location.href = "http://localhost:5173/login";
+      window.location.href = "http://localhost:5173/auth"; // ✅ Ruta corregida
     } catch (error) {
       console.error("❌ Error al contactar backend:", error);
-      window.location.href = "http://localhost:5173/login";
+      window.location.href = "http://localhost:5173/auth"; // ✅ Ruta corregida
     }
   };
 

@@ -47,6 +47,20 @@ const PendientesList = () => {
     }
   };
 
+  const rechazarUsuario = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`http://localhost:3000/api/admin/rechazar/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setPendientes((prev) => prev.filter((user) => user._id !== id));
+    } catch (error) {
+      console.error("❌ Error al rechazar usuario:", error);
+      alert("No se pudo rechazar el usuario.");
+    }
+  };
+
   return (
     <motion.section
       id="validacion"
@@ -55,9 +69,11 @@ const PendientesList = () => {
       initial={{ opacity: 0, y: 30 }}
       transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
     >
-      <div className="max-w-4xl mx-auto space-y-6">
+      <div className="max-w-5xl mx-auto space-y-8">
         <div className="flex justify-between items-center">
-          <h2 className="text-xl font-semibold">Usuarios pendientes</h2>
+          <h2 className="text-2xl font-bold tracking-wide">
+            Validación de usuarios registrados
+          </h2>
           <button
             onClick={fetchPendientes}
             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200"
@@ -71,9 +87,11 @@ const PendientesList = () => {
         ) : errorMsg ? (
           <p className="text-red-400">{errorMsg}</p>
         ) : pendientes.length === 0 ? (
-          <p className="text-gray-400">No hay usuarios pendientes.</p>
+          <div className="text-center text-gray-400">
+            <p>🎉 No hay usuarios pendientes por validar.</p>
+          </div>
         ) : (
-          <ul className="space-y-4">
+          <ul className="space-y-6">
             {pendientes.map((user, index) => (
               <motion.li
                 key={user._id}
@@ -84,19 +102,32 @@ const PendientesList = () => {
                   type: "spring",
                   bounce: 0.4,
                 }}
-                className="bg-white text-black p-4 shadow rounded hover:shadow-md transition duration-200"
+                className="bg-white text-black p-6 rounded shadow hover:shadow-lg transition duration-200"
               >
                 <div className="flex justify-between items-center">
                   <div>
-                    <p className="font-medium">📧 {user.email}</p>
-                    <p className="text-sm text-gray-600">Rol: {user.role}</p>
+                    <p className="font-semibold text-lg">📧 {user.email}</p>
+                    <p className="text-sm text-gray-600">
+                      Rol solicitado:{" "}
+                      <span className="font-medium text-indigo-600">
+                        {user.role}
+                      </span>
+                    </p>
                   </div>
-                  <button
-                    onClick={() => validarUsuario(user._id)}
-                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 hover:brightness-110 transition duration-200"
-                  >
-                    ✅ Validar
-                  </button>
+                  <div className="flex space-x-3">
+                    <button
+                      onClick={() => validarUsuario(user._id)}
+                      className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+                    >
+                      ✅ Validar
+                    </button>
+                    <button
+                      onClick={() => rechazarUsuario(user._id)}
+                      className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
+                    >
+                      ❌ Rechazar
+                    </button>
+                  </div>
                 </div>
               </motion.li>
             ))}

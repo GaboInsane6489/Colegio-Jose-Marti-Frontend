@@ -4,8 +4,9 @@ import MainLayout from "./layouts/MainLayout";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import Login from "./pages/Login";
+import AuthPage from "./pages/AuthPage";
 import AdminDashboard from "./pages/AdminDashboard";
+import EstudianteDashboard from "./pages/EstudianteDashboard"; // ✅ nuevo import
 import useClickSound from "./hooks/useClickSound";
 
 function App() {
@@ -38,8 +39,13 @@ function App() {
             </MainLayout>
           }
         />
-        <Route path="/login" element={<Login />} />
+        <Route path="/auth" element={<AuthPage />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route
+          path="/estudiante/dashboard"
+          element={<EstudianteDashboard />}
+        />{" "}
+        {/* ✅ nueva ruta */}
       </Routes>
     </Router>
   );

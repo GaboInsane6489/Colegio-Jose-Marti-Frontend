@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const NavbarAdmin = () => {
-  const [adminName, setAdminName] = useState("");
+const NavbarEstudiante = () => {
+  const [nombre, setNombre] = useState("");
   const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
-    const fetchAdmin = async () => {
+    const fetchEstudiante = async () => {
       try {
         const token = localStorage.getItem("token");
         const res = await axios.get(
@@ -16,19 +16,19 @@ const NavbarAdmin = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        setAdminName(res.data.email);
+        setNombre(res.data.nombre || res.data.email);
       } catch (error) {
-        console.error("❌ Error al obtener el nombre del admin:", error);
+        console.error("❌ Error al obtener datos del estudiante:", error);
       }
     };
 
-    fetchAdmin();
+    fetchEstudiante();
   }, []);
 
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userRole");
-    window.location.href = "/auth"; // ✅ Ruta corregida
+    window.location.href = "/auth";
   };
 
   return (
@@ -37,28 +37,28 @@ const NavbarAdmin = () => {
         {/* 🔗 Navegación principal */}
         <div className="flex items-center space-x-6 text-sm font-medium">
           <Link
-            to="/"
+            to="/estudiante/dashboard"
             className="text-lime-400 hover:text-lime-300 transition-all"
           >
             Inicio
           </Link>
           <a
-            href="#validacion"
+            href="#clases"
             className="text-lime-400 hover:text-lime-300 transition-all"
           >
-            Validación
+            Clases
           </a>
           <a
-            href="#estadisticas"
+            href="#progreso"
             className="text-lime-400 hover:text-lime-300 transition-all"
           >
-            Estadísticas
+            Progreso
           </a>
           <a
-            href="#configuracion"
+            href="#mensajes"
             className="text-lime-400 hover:text-lime-300 transition-all"
           >
-            Configuración
+            Mensajes
           </a>
         </div>
 
@@ -68,9 +68,9 @@ const NavbarAdmin = () => {
             onClick={() => setShowMenu(!showMenu)}
             className="flex items-center space-x-2 hover:text-lime-300 transition-all"
           >
-            <span className="text-sm font-semibold">{adminName}</span>
+            <span className="text-sm font-semibold">{nombre}</span>
             <span className="bg-white text-black rounded-full w-6 h-6 flex items-center justify-center font-bold">
-              A
+              E
             </span>
           </button>
 
@@ -99,4 +99,4 @@ const NavbarAdmin = () => {
   );
 };
 
-export default NavbarAdmin;
+export default NavbarEstudiante;
