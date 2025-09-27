@@ -5,76 +5,66 @@ import {
   FaInstagram,
   FaTwitter,
   FaEnvelope,
+  FaMapMarkerAlt,
+  FaPhoneAlt,
 } from "react-icons/fa";
 
 const Footer = () => {
   return (
     <footer className="w-full bg-[#1a1a1a] text-white pt-10 pb-6 px-6 md:px-12 border-t border-gray-700">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-sm text-center">
-        {/* Más información */}
-        <div>
-          <h3 className="font-semibold mb-4 text-lg">Más información</h3>
-          <ul className="space-y-3">
-            <li>
-              <Link
-                to="/terminos"
-                className="transition-all hover:text-[#FFD700] hover:drop-shadow-[0_0_6px_#FFD700]"
-              >
-                Términos de uso
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/privacidad"
-                className="transition-all hover:text-[#FFD700] hover:drop-shadow-[0_0_6px_#FFD700]"
-              >
-                Política de privacidad
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/suscripcion"
-                className="transition-all hover:text-[#FFD700] hover:drop-shadow-[0_0_6px_#FFD700]"
-              >
-                Acuerdo de suscripción
-              </Link>
-            </li>
-          </ul>
+        {/* Institucional */}
+        <div className="flex flex-col items-center">
+          <h3 className="font-semibold mb-4 text-lg">Colegio José Martí</h3>
+          <p className="text-gray-400 leading-relaxed max-w-xs">
+            Educación integral con excelencia académica. Formamos y acompañamos
+            el desarrollo de nuestros estudiantes con valores y compromiso.
+          </p>
+          <div className="mt-4 space-y-2 text-gray-300">
+            <div className="flex items-center justify-center gap-2">
+              <FaMapMarkerAlt />
+              <span>Caracas, Venezuela</span>
+            </div>
+            <div className="flex items-center justify-center gap-2">
+              <FaPhoneAlt />
+              <span>+58 212-555-1234</span>
+            </div>
+          </div>
         </div>
 
-        {/* Ayuda */}
-        <div>
-          <h3 className="font-semibold mb-4 text-lg">Ayuda</h3>
+        {/* Explora */}
+        <div className="flex flex-col items-center">
+          <h3 className="font-semibold mb-4 text-lg">Explora</h3>
           <ul className="space-y-3">
             <li>
               <Link
-                to="/ayuda"
-                className="transition-all hover:text-[#A855F7] hover:drop-shadow-[0_0_6px_#A855F7]"
+                to="/nosotros"
+                className="transition-all hover:text-[#FFD700] hover:drop-shadow-[0_0_6px_#FFD700]"
               >
-                Centro de ayuda
+                Nosotros
               </Link>
             </li>
             <li>
               <Link
-                to="/dispositivos"
-                className="transition-all hover:text-[#A855F7] hover:drop-shadow-[0_0_6px_#A855F7]"
+                to="/modelo"
+                className="transition-all hover:text-[#FFD700] hover:drop-shadow-[0_0_6px_#FFD700]"
               >
-                Dispositivos compatibles
+                Modelo Pedagógico
               </Link>
             </li>
             <li>
               <Link
-                to="/acerca"
-                className="transition-all hover:text-[#A855F7] hover:drop-shadow-[0_0_6px_#A855F7]"
+                to="/perfil-egresado"
+                className="transition-all hover:text-[#FFD700] hover:drop-shadow-[0_0_6px_#FFD700]"
               >
-                Acerca del Colegio
+                Perfil del Egresado
               </Link>
             </li>
           </ul>
         </div>
 
         {/* Comunidad */}
-        <div>
+        <div className="flex flex-col items-center">
           <h3 className="font-semibold mb-4 text-lg">Comunidad</h3>
           <ul className="space-y-3">
             <li>
@@ -104,10 +94,10 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Redes sociales */}
-        <div>
-          <h3 className="font-semibold mb-4 text-lg">Síguenos</h3>
-          <div className="flex justify-center space-x-4 text-xl">
+        {/* Conecta */}
+        <div className="flex flex-col items-center">
+          <h3 className="font-semibold mb-4 text-lg">Conecta con nosotros</h3>
+          <div className="flex justify-center space-x-4 text-xl mb-4">
             <a
               href="https://facebook.com"
               target="_blank"
@@ -139,6 +129,7 @@ const Footer = () => {
               <FaEnvelope />
             </a>
           </div>
+          <p className="text-gray-400 text-sm">contacto@colegiojosemarti.edu</p>
         </div>
       </div>
 
