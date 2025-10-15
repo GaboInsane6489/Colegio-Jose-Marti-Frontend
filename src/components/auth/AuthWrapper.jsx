@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ping } from "../../services/authService";
+import { pingUsuario } from "../../services/authService";
 import { getCookie } from "../../utils/cookieUtils";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
@@ -17,7 +17,7 @@ const AuthWrapper = () => {
       if (!token) return;
 
       try {
-        const res = await ping(token);
+        const res = await pingUsuario(token);
         const { role } = res.data;
 
         localStorage.setItem("userRole", role);

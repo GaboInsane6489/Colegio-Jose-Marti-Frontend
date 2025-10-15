@@ -3,6 +3,7 @@ import PendientesList from "../components/admin/PendientesList";
 import EstadisticasPanel from "../components/admin/EstadisticasPanel";
 import ConfiguracionPanel from "../components/admin/ConfiguracionPanel";
 import UsuariosTable from "../components/admin/UsuariosTable";
+import DocentesManager from "../components/admin/DocentesManager";
 import VideoFondoAdmin from "../components/admin/VideoFondoAdmin";
 import Footer from "../components/Footer";
 
@@ -25,6 +26,11 @@ const AdminDashboard = () => {
           {/* 📋 Tabla de todos los usuarios */}
           <section id="usuarios" className="scroll-mt-24">
             <UsuariosTable />
+          </section>
+
+          {/* 👩‍🏫 Gestión de docentes */}
+          <section id="docentes" className="scroll-mt-24">
+            <DocentesManager />
           </section>
 
           {/* 📊 Estadísticas generales */}

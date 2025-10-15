@@ -13,6 +13,14 @@ const PendientesList = () => {
 
     try {
       const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("❌ No se encontró el token en localStorage");
+        setErrorMsg("Sesión inválida. Por favor inicia sesión nuevamente.");
+        return;
+      }
+
+      console.log("🔐 Token:", token);
+
       const res = await axios.get(
         "http://localhost:3000/api/admin/pendientes",
         {
@@ -22,7 +30,7 @@ const PendientesList = () => {
 
       setPendientes(res.data.pendientes);
     } catch (error) {
-      console.error("❌ Error al cargar usuarios pendientes:", error);
+      console.error("❌ Error al cargar usuarios pendientes:", error.message);
       setErrorMsg("No se pudo cargar la lista de usuarios.");
     } finally {
       setLoading(false);
@@ -36,28 +44,52 @@ const PendientesList = () => {
   const validarUsuario = async (id) => {
     try {
       const token = localStorage.getItem("token");
+      if (!token) {
+        alert("⚠️ Sesión inválida. Inicia sesión nuevamente.");
+        return;
+      }
+
+      console.log("🔐 Validando usuario con token:", token);
+
       await axios.patch(`http://localhost:3000/api/admin/validar/${id}`, null, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       setPendientes((prev) => prev.filter((user) => user._id !== id));
     } catch (error) {
-      console.error("❌ Error al validar usuario:", error);
-      alert("No se pudo validar el usuario.");
+      console.error("❌ Error al validar usuario:", error.message);
+      if (error.response?.status === 401) {
+        alert(
+          "⚠️ No tienes permiso para validar usuarios. Inicia sesión como administrador."
+        );
+      } else {
+        alert("❌ Error inesperado al validar usuario.");
+      }
     }
   };
 
   const rechazarUsuario = async (id) => {
     try {
       const token = localStorage.getItem("token");
+      if (!token) {
+        alert("⚠️ Sesión inválida. Inicia sesión nuevamente.");
+        return;
+      }
+
+      console.log("🔐 Rechazando usuario con token:", token);
+
       await axios.delete(`http://localhost:3000/api/admin/rechazar/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       setPendientes((prev) => prev.filter((user) => user._id !== id));
     } catch (error) {
-      console.error("❌ Error al rechazar usuario:", error);
-      alert("No se pudo rechazar el usuario.");
+      console.error("❌ Error al rechazar usuario:", error.message);
+      if (error.response?.status === 401) {
+        alert("⚠️ No tienes permiso para rechazar usuarios.");
+      } else {
+        alert("❌ Error inesperado al rechazar usuario.");
+      }
     }
   };
 

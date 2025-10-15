@@ -5,20 +5,26 @@ import { motion } from "framer-motion";
 const DocenteDashboard = () => {
   const [cursos, setCursos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchCursos = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get(
-          "http://localhost:3000/api/docente/cursos",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        setCursos(res.data.cursos);
-      } catch (error) {
-        console.error("❌ Error al cargar cursos:", error);
+        if (!token) {
+          setError("No hay token de sesión. Por favor inicia sesión.");
+          setLoading(false);
+          return;
+        }
+
+        const res = await axios.get("/api/docentes/cursos", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        setCursos(res.data.cursos || []);
+      } catch (err) {
+        console.error("❌ Error al cargar cursos:", err);
+        setError("No se pudieron cargar los cursos.");
       } finally {
         setLoading(false);
       }
@@ -44,6 +50,8 @@ const DocenteDashboard = () => {
 
       {loading ? (
         <p className="text-gray-500">Cargando cursos...</p>
+      ) : error ? (
+        <p className="text-red-500">{error}</p>
       ) : cursos.length === 0 ? (
         <p className="text-gray-600">No tienes cursos asignados.</p>
       ) : (
@@ -60,7 +68,7 @@ const DocenteDashboard = () => {
                 <div>
                   <p className="font-medium text-gray-800">📚 {curso.nombre}</p>
                   <p className="text-sm text-gray-600">
-                    Estudiantes: {curso.estudiantes.length}
+                    Estudiantes: {curso.estudiantes?.length || 0}
                   </p>
                 </div>
                 <button className="bg-emerald-500 text-white px-4 py-2 rounded hover:bg-emerald-600 hover:brightness-110 transition duration-200">

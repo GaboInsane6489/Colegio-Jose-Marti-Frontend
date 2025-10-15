@@ -12,7 +12,8 @@ import Contact from "./pages/Contact";
 // Páginas independientes
 import AuthPage from "./pages/AuthPage";
 import AdminDashboard from "./pages/AdminDashboard";
-import EstudianteDashboard from "./pages/EstudianteDashboard"; // ✅ nueva ruta
+import EstudianteDashboard from "./pages/EstudianteDashboard";
+import DocenteDashboard from "./pages/DocenteDashboard"; // ✅ nueva ruta
 
 function App() {
   return (
@@ -43,11 +44,12 @@ function App() {
             </MainLayout>
           }
         />
-
         {/* Rutas independientes */}
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/estudiante/dashboard" element={<EstudianteDashboard />} />
+        <Route path="/docente/dashboard" element={<DocenteDashboard />} />{" "}
+        {/* ✅ nueva ruta */}
       </Routes>
     </Router>
   );
