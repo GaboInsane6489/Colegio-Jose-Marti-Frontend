@@ -5,12 +5,16 @@ import { getCookie } from "../../utils/cookieUtils";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 
+/**
+ * 🧭 Componente envolvente para login y registro
+ * Verifica sesión activa y redirige según rol.
+ * Alterna entre formulario de login y registro.
+ */
 const AuthWrapper = () => {
   const navigate = useNavigate();
   const [role, setRole] = useState(null);
   const [mostrarRegistro, setMostrarRegistro] = useState(false);
 
-  // ✅ Verifica sesión si ya hay token
   useEffect(() => {
     const verificarSesion = async () => {
       const token = localStorage.getItem("token");
@@ -26,7 +30,7 @@ const AuthWrapper = () => {
 
         if (role === "admin") navigate("/admin/dashboard");
         else if (role === "docente") navigate("/docente/dashboard");
-        else if (role === "estudiante") navigate("/estudiante/dashboard");
+        else navigate("/estudiante/dashboard");
       } catch (error) {
         console.error("❌ Error al verificar sesión:", error);
       }

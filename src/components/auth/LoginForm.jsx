@@ -8,9 +8,14 @@ import {
   LockClosedIcon,
 } from "@heroicons/react/24/outline";
 
+/**
+ * 🔐 Formulario de login institucional
+ * Permite acceso universal por correo y contraseña.
+ * Redirige según rol: admin, docente, estudiante.
+ */
 const LoginForm = ({ setRole }) => {
   const navigate = useNavigate();
-  const [correo, setCorreo] = useState("");
+  const [email, setEmail] = useState(""); // 🔄 Renombrado para coincidir con backend
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -19,7 +24,7 @@ const LoginForm = ({ setRole }) => {
     setError("");
 
     try {
-      const res = await loginUsuario(correo, password);
+      const res = await loginUsuario(email, password);
       const { token } = res.data;
       localStorage.setItem("token", token);
 
@@ -30,9 +35,10 @@ const LoginForm = ({ setRole }) => {
       document.cookie = `userRole=${role}; path=/`;
       setRole(role);
 
+      // 🎯 Redirección según rol
       if (role === "admin") navigate("/admin/dashboard");
       else if (role === "docente") navigate("/docente/dashboard");
-      else if (role === "estudiante") navigate("/estudiante/dashboard");
+      else navigate("/estudiante/dashboard");
     } catch (err) {
       console.error("❌ Error en el login:", err);
       setError("Credenciales inválidas o cuenta no validada.");
@@ -56,12 +62,12 @@ const LoginForm = ({ setRole }) => {
       )}
 
       <InputField
-        id="correo"
+        id="email"
         label="Correo institucional"
         type="email"
         placeholder="Ej. maria@colegio.edu.ve"
-        value={correo}
-        onChange={(e) => setCorreo(e.target.value)}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         icon={<EnvelopeIcon className="h-5 w-5 text-gray-400" />}
       />
       <InputField

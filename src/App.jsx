@@ -13,13 +13,17 @@ import Contact from "./pages/Contact";
 import AuthPage from "./pages/AuthPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import EstudianteDashboard from "./pages/EstudianteDashboard";
-import DocenteDashboard from "./pages/DocenteDashboard"; // ✅ nueva ruta
+import DocenteDashboard from "./pages/DocenteDashboard";
+
+// Páginas docentes independientes
+import NotasPage from "./pages/docente/NotasPage";
+import ActividadesPage from "./pages/docente/ActividadesPage";
 
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Rutas con layout institucional */}
+        {/* 🌐 Rutas con layout institucional */}
         <Route
           path="/"
           element={
@@ -44,12 +48,16 @@ function App() {
             </MainLayout>
           }
         />
-        {/* Rutas independientes */}
+
+        {/* 🔐 Rutas independientes */}
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/estudiante/dashboard" element={<EstudianteDashboard />} />
-        <Route path="/docente/dashboard" element={<DocenteDashboard />} />{" "}
-        {/* ✅ nueva ruta */}
+        <Route path="/docente/dashboard" element={<DocenteDashboard />} />
+
+        {/* 🧠 Páginas docentes independientes */}
+        <Route path="/docente/notas" element={<NotasPage />} />
+        <Route path="/docente/actividades" element={<ActividadesPage />} />
       </Routes>
     </Router>
   );

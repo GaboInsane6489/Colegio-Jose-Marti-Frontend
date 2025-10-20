@@ -7,9 +7,13 @@ import {
   LockClosedIcon,
 } from "@heroicons/react/24/outline";
 
+/**
+ * 📝 Formulario de registro institucional
+ * Crea usuario con rol "estudiante" y estado pendiente de validación.
+ */
 const RegisterForm = ({ onRegistroExitoso }) => {
   const [nombre, setNombre] = useState("");
-  const [correo, setCorreo] = useState("");
+  const [email, setEmail] = useState(""); // 🔄 Renombrado para coincidir con backend
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -18,7 +22,7 @@ const RegisterForm = ({ onRegistroExitoso }) => {
     setError("");
 
     try {
-      await registerUsuario(nombre, correo, password);
+      await registerUsuario(nombre, email, password);
       alert("✅ Registro exitoso. Espera validación del administrador.");
       onRegistroExitoso();
     } catch (err) {
@@ -55,11 +59,11 @@ const RegisterForm = ({ onRegistroExitoso }) => {
         icon={<UserIcon className="h-5 w-5 text-gray-400" />}
       />
       <InputField
-        id="correo"
+        id="email"
         type="email"
         placeholder="Correo institucional"
-        value={correo}
-        onChange={(e) => setCorreo(e.target.value)}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         icon={<EnvelopeIcon className="h-5 w-5 text-gray-400" />}
       />
       <InputField

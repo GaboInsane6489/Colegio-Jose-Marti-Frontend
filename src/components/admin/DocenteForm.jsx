@@ -13,56 +13,56 @@ const DocenteForm = ({
   onCancel,
 }) => {
   const [nombre, setNombre] = useState("");
-  const [correo, setCorreo] = useState("");
+  const [email, setEmail] = useState(""); // 👈 renombrado
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
     if (modoEdicion) {
       setNombre(initialValues.nombre || "");
-      setCorreo(initialValues.correo || "");
+      setEmail(initialValues.email || ""); // 👈 corregido
     }
   }, [initialValues, modoEdicion]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!nombre.trim() || !correo.trim() || !password.trim()) {
+    if (!nombre.trim() || !email.trim() || !password.trim()) {
       return setError("Todos los campos son obligatorios.");
     }
 
-    const correoValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo);
+    const correoValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     if (!correoValido) {
       return setError("Ingresa un correo válido.");
     }
 
     setError("");
-    onSubmit({ nombre, correo, password, rol: "docente" });
+    onSubmit({ nombre, correo: email, password }); // 👈 'correo' para compatibilidad con useDocentes
 
     if (!modoEdicion) {
       setNombre("");
-      setCorreo("");
+      setEmail("");
       setPassword("");
     }
   };
 
   return (
-    <section className="flex justify-center px-4">
+    <section className="flex justify-center px-4 py-6">
       <div className="w-full max-w-xl">
         <motion.form
           onSubmit={handleSubmit}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="w-full bg-white p-6 rounded-xl shadow-lg space-y-6 border border-gray-200"
+          className="w-full bg-black p-6 rounded-xl shadow-lg space-y-6 border border-white"
         >
-          <h3 className="text-xl font-semibold text-gray-800 flex justify-center items-center gap-2">
-            <PencilSquareIcon className="h-6 w-6 text-gray-700" />
+          <h3 className="text-xl font-semibold text-white flex justify-center items-center gap-2">
+            <PencilSquareIcon className="h-6 w-6 text-white" />
             {modoEdicion ? "Editar docente" : "Crear nuevo docente"}
           </h3>
 
           {error && (
-            <div className="bg-red-100 text-red-700 px-4 py-2 rounded-md text-sm text-center">
+            <div className="bg-red-600 text-white px-4 py-2 rounded-md text-sm text-center">
               {error}
             </div>
           )}
@@ -70,7 +70,7 @@ const DocenteForm = ({
           <div>
             <label
               htmlFor="nombre"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-white mb-1"
             >
               Nombre completo
             </label>
@@ -79,8 +79,8 @@ const DocenteForm = ({
               type="text"
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
-              className="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-              placeholder="Ej. María González"
+              className="w-full bg-gray-900 text-white border border-white rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-white transition"
+              placeholder="María González"
               autoFocus
               required
             />
@@ -88,18 +88,18 @@ const DocenteForm = ({
 
           <div>
             <label
-              htmlFor="correo"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              htmlFor="email"
+              className="block text-sm font-medium text-white mb-1"
             >
               Correo electrónico
             </label>
             <input
-              id="correo"
+              id="email"
               type="email"
-              value={correo}
-              onChange={(e) => setCorreo(e.target.value)}
-              className="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-              placeholder="Ej. maria@colegio.edu.ve"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full bg-gray-900 text-white border border-white rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-white transition"
+              placeholder="maria@colegio.edu.ve"
               required
             />
           </div>
@@ -107,7 +107,7 @@ const DocenteForm = ({
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-white mb-1"
             >
               Contraseña inicial
             </label>
@@ -116,8 +116,8 @@ const DocenteForm = ({
               type="text"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-              placeholder="Ej. Marti2025!"
+              className="w-full bg-gray-900 text-white border border-white rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-white transition"
+              placeholder="Marti2025!"
               required
             />
           </div>
@@ -125,22 +125,22 @@ const DocenteForm = ({
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-2">
             <button
               type="submit"
-              className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gray-900 text-white px-6 py-2.5 rounded-md hover:bg-gray-800 transition font-medium shadow-sm"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 rounded-md transition font-medium shadow-sm bg-[#1e3a8a] hover:bg-[#3749a3] text-white"
             >
               <span>
                 {modoEdicion ? "Actualizar docente" : "Crear docente"}
               </span>
-              <PlusIcon className="h-5 w-5" />
+              <PlusIcon className="h-5 w-5 text-white" />
             </button>
 
             {modoEdicion && (
               <button
                 type="button"
                 onClick={onCancel}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gray-200 text-gray-700 px-6 py-2.5 rounded-md hover:bg-gray-300 transition font-medium shadow-sm"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gray-700 text-white px-6 py-2.5 rounded-md hover:bg-gray-600 transition font-medium shadow-sm"
               >
                 <span>Cancelar</span>
-                <ArrowUturnLeftIcon className="h-5 w-5" />
+                <ArrowUturnLeftIcon className="h-5 w-5 text-white" />
               </button>
             )}
           </div>

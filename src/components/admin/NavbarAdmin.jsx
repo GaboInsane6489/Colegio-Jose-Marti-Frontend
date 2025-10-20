@@ -49,37 +49,40 @@ const NavbarAdmin = () => {
             Menú
           </button>
 
-          <button
-            aria-label="Menú de usuario"
-            aria-expanded={showMenu}
-            onClick={() => setShowMenu(!showMenu)}
-            className="flex items-center gap-2 hover:text-[#ccff00] transition-colors duration-200"
-          >
-            <span className="text-base font-semibold">{adminName}</span>
-            <span className="bg-white text-black rounded-full w-7 h-7 flex items-center justify-center font-bold border-2 border-lime-400">
-              A
-            </span>
-          </button>
+          {/* Encapsulado para posicionar el menú correctamente */}
+          <div className="relative pl-2">
+            <button
+              aria-label="Menú de usuario"
+              aria-expanded={showMenu}
+              onClick={() => setShowMenu(!showMenu)}
+              className="flex items-center gap-2 hover:text-[#ccff00] transition-colors duration-200"
+            >
+              <span className="text-base font-semibold">{adminName}</span>
+              <span className="bg-white text-black rounded-full w-7 h-7 flex items-center justify-center font-bold border-2 border-lime-400">
+                A
+              </span>
+            </button>
 
-          {showMenu && (
-            <div className="absolute right-4 top-16 bg-[#1a1a1a] text-lime-300 rounded shadow-lg w-48 border border-lime-400">
-              <button className="w-full text-left px-4 py-2 hover:text-[#ccff00] hover:bg-[#2a2a2a] transition-colors duration-200">
-                Editar perfil
-              </button>
-              <button
-                onClick={logout}
-                className="w-full text-left px-4 py-2 hover:text-[#ccff00] hover:bg-[#2a2a2a] transition-colors duration-200"
-              >
-                Cerrar sesión
-              </button>
-              <button
-                onClick={() => window.location.reload()}
-                className="w-full text-left px-4 py-2 hover:text-[#ccff00] hover:bg-[#2a2a2a] transition-colors duration-200"
-              >
-                Recargar
-              </button>
-            </div>
-          )}
+            {showMenu && (
+              <div className="absolute left-0 top-14 bg-[#1a1a1a] text-lime-300 rounded shadow-lg w-48 border border-lime-400 z-50">
+                <button className="w-full text-left px-4 py-2 hover:text-[#ccff00] hover:bg-[#2a2a2a] transition-colors duration-200">
+                  Editar perfil
+                </button>
+                <button
+                  onClick={logout}
+                  className="w-full text-left px-4 py-2 hover:text-[#ccff00] hover:bg-[#2a2a2a] transition-colors duration-200"
+                >
+                  Cerrar sesión
+                </button>
+                <button
+                  onClick={() => window.location.reload()}
+                  className="w-full text-left px-4 py-2 hover:text-[#ccff00] hover:bg-[#2a2a2a] transition-colors duration-200"
+                >
+                  Recargar
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* 🔗 Navegación principal */}
@@ -90,17 +93,23 @@ const NavbarAdmin = () => {
             showLinks ? "flex" : "hidden"
           } md:flex flex-wrap items-center gap-4 text-base font-semibold`}
         >
-          <Link
-            to="/"
-            className="text-lime-400 hover:text-[#ccff00] transition-colors duration-200"
-          >
-            Inicio
-          </Link>
           <a
             href="#validacion"
             className="text-lime-400 hover:text-[#ccff00] transition-colors duration-200"
           >
             Validación
+          </a>
+          <a
+            href="#usuarios"
+            className="text-lime-400 hover:text-[#ccff00] transition-colors duration-200"
+          >
+            Usuarios
+          </a>
+          <a
+            href="#docentes"
+            className="text-lime-400 hover:text-[#ccff00] transition-colors duration-200"
+          >
+            Docentes
           </a>
           <a
             href="#estadisticas"
