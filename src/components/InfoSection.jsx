@@ -9,7 +9,7 @@ const InfoSection = () => {
   return (
     <section
       ref={ref}
-      className="w-full bg-[#f8f8f8] py-20 px-6 text-[#1a1a1a] flex justify-center"
+      className="w-full bg-[#f8f8f8] pt-10 pb-20 px-6 text-[#1a1a1a] flex justify-center rounded-xl"
     >
       <motion.div
         initial={{ opacity: 0, y: 50 }}
@@ -27,7 +27,7 @@ const InfoSection = () => {
             bounce: 0.3,
             duration: 0.6,
           }}
-          className="text-3xl md:text-4xl font-bold mb-6 drop-shadow-sm"
+          className="text-3xl md:text-4xl font-bold mb-6 drop-shadow-sm text-black"
         >
           Evaluación y acompañamiento integral
         </motion.h2>

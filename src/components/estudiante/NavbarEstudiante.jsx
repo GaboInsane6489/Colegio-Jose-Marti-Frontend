@@ -9,7 +9,14 @@ const NavbarEstudiante = () => {
   useEffect(() => {
     const fetchEstudiante = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token =
+          localStorage.getItem("token") || sessionStorage.getItem("token");
+
+        if (!token) {
+          console.warn("🔒 No hay token disponible");
+          return;
+        }
+
         const res = await axios.get(
           `${import.meta.env.VITE_API_URL}/api/auth/ping`,
           {
@@ -35,9 +42,13 @@ const NavbarEstudiante = () => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#1a1a1a] text-white shadow-md">
       <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
         {/* 🔗 Navegación principal */}
-        <div className="flex items-center space-x-6 text-sm font-medium">
+        <nav
+          role="navigation"
+          aria-label="Menú principal del estudiante"
+          className="flex items-center space-x-6 text-sm font-medium"
+        >
           <Link
-            to="/estudiante/dashboard"
+            to="/"
             className="text-lime-400 hover:text-lime-300 transition-all"
           >
             Inicio
@@ -60,12 +71,14 @@ const NavbarEstudiante = () => {
           >
             Mensajes
           </a>
-        </div>
+        </nav>
 
         {/* 👤 Menú de usuario */}
         <div className="relative">
           <button
             onClick={() => setShowMenu(!showMenu)}
+            aria-label="Abrir menú de usuario"
+            aria-expanded={showMenu}
             className="flex items-center space-x-2 hover:text-lime-300 transition-all"
           >
             <span className="text-sm font-semibold">{nombre}</span>
@@ -75,7 +88,10 @@ const NavbarEstudiante = () => {
           </button>
 
           {showMenu && (
-            <div className="absolute right-0 mt-2 bg-[#1a1a1a] text-lime-300 rounded shadow-lg w-44 border border-lime-400">
+            <div
+              role="menu"
+              className="absolute right-0 mt-2 bg-[#1a1a1a] text-lime-300 rounded shadow-lg w-44 border border-lime-400"
+            >
               <button className="w-full text-left px-4 py-2 hover:text-lime-200 hover:bg-[#2a2a2a] transition-all">
                 Editar perfil
               </button>

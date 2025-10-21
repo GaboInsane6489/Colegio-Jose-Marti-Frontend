@@ -6,6 +6,9 @@ import {
   ArrowUturnLeftIcon,
 } from "@heroicons/react/24/outline";
 
+const validarCorreo = (correo) =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo.trim());
+
 const DocenteForm = ({
   onSubmit,
   initialValues = {},
@@ -13,37 +16,49 @@ const DocenteForm = ({
   onCancel,
 }) => {
   const [nombre, setNombre] = useState("");
-  const [email, setEmail] = useState(""); // 👈 renombrado
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
     if (modoEdicion) {
       setNombre(initialValues.nombre || "");
-      setEmail(initialValues.email || ""); // 👈 corregido
+      setEmail(initialValues.email || "");
+      setPassword(""); // 👈 no se precarga por seguridad
     }
   }, [initialValues, modoEdicion]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!nombre.trim() || !email.trim() || !password.trim()) {
-      return setError("Todos los campos son obligatorios.");
+    if (!nombre.trim() || !email.trim()) {
+      return setError("Nombre y correo son obligatorios.");
     }
 
-    const correoValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    if (!correoValido) {
+    if (!modoEdicion && !password.trim()) {
+      return setError("La contraseña es obligatoria.");
+    }
+
+    if (!validarCorreo(email)) {
       return setError("Ingresa un correo válido.");
     }
 
     setError("");
-    onSubmit({ nombre, correo: email, password }); // 👈 'correo' para compatibilidad con useDocentes
+    onSubmit({ nombre, correo: email.trim(), password: password.trim() });
 
     if (!modoEdicion) {
       setNombre("");
       setEmail("");
       setPassword("");
     }
+  };
+
+  const handleCancel = () => {
+    setNombre("");
+    setEmail("");
+    setPassword("");
+    setError("");
+    onCancel?.();
   };
 
   return (
@@ -104,23 +119,25 @@ const DocenteForm = ({
             />
           </div>
 
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-white mb-1"
-            >
-              Contraseña inicial
-            </label>
-            <input
-              id="password"
-              type="text"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-gray-900 text-white border border-white rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-white transition"
-              placeholder="Marti2025!"
-              required
-            />
-          </div>
+          {!modoEdicion && (
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-white mb-1"
+              >
+                Contraseña inicial
+              </label>
+              <input
+                id="password"
+                type="text"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full bg-gray-900 text-white border border-white rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-white transition"
+                placeholder="Marti2025!"
+                required
+              />
+            </div>
+          )}
 
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-2">
             <button
@@ -136,7 +153,7 @@ const DocenteForm = ({
             {modoEdicion && (
               <button
                 type="button"
-                onClick={onCancel}
+                onClick={handleCancel}
                 className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gray-700 text-white px-6 py-2.5 rounded-md hover:bg-gray-600 transition font-medium shadow-sm"
               >
                 <span>Cancelar</span>

@@ -44,28 +44,49 @@ const AuthWrapper = () => {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 px-4 sm:px-6 lg:px-8">
-      <h1 className="text-2xl font-bold mb-4">Acceso a la plataforma</h1>
+    <div className="flex flex-col items-center justify-center w-full max-w-xl bg-white/10 backdrop-blur-md rounded-xl shadow-xl p-8 border border-white/20">
+      {/* 🔐 Ícono institucional centrado */}
+      <div className="mb-6">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-10 w-10 text-white mx-auto"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 11c0-1.105-.895-2-2-2s-2 .895-2 2v1h4v-1zM6 11V9a6 6 0 1112 0v2m-6 4h.01M4 15h16v6H4v-6z"
+          />
+        </svg>
+      </div>
 
-      {mostrarRegistro ? (
-        <RegisterForm onRegistroExitoso={() => setMostrarRegistro(false)} />
-      ) : (
-        <LoginForm setRole={setRole} />
-      )}
+      {/* 🔄 Formulario dinámico */}
+      <div className="w-full">
+        {mostrarRegistro ? (
+          <RegisterForm onRegistroExitoso={() => setMostrarRegistro(false)} />
+        ) : (
+          <LoginForm setRole={setRole} />
+        )}
+      </div>
 
+      {/* 🔁 Alternancia */}
       <button
         type="button"
         onClick={() => setMostrarRegistro(!mostrarRegistro)}
-        className="mt-4 text-blue-600 hover:underline"
+        className="mt-6 text-blue-300 hover:text-white font-medium transition duration-200"
       >
         {mostrarRegistro
           ? "¿Ya tienes cuenta? Inicia sesión"
           : "¿Eres estudiante nuevo? Regístrate aquí"}
       </button>
 
+      {/* ⏳ Estado de carga */}
       {!role && (
-        <p className="text-gray-600 mt-4">
-          Cargando información del usuario...
+        <p className="text-white/60 mt-4 text-sm text-center">
+          Verificando sesión activa...
         </p>
       )}
     </div>

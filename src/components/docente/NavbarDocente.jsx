@@ -49,7 +49,6 @@ const NavbarDocente = () => {
             Menú
           </button>
 
-          {/* Encapsulado para posicionar el menú correctamente */}
           <div className="relative pl-2">
             <button
               aria-label="Menú de usuario"
@@ -94,7 +93,7 @@ const NavbarDocente = () => {
           } md:flex flex-wrap items-center gap-4 text-base font-semibold`}
         >
           <Link
-            to="/dashboard/docente"
+            to="/"
             className="text-blue-400 hover:text-blue-300 transition-colors duration-200"
           >
             Inicio
@@ -123,12 +122,12 @@ const NavbarDocente = () => {
           >
             Notificaciones
           </a>
-          <a
-            href="#perfil"
+          <Link
+            to="/docente/dashboard"
             className="text-blue-400 hover:text-blue-300 transition-colors duration-200"
           >
             Perfil
-          </a>
+          </Link>
         </nav>
       </div>
     </header>

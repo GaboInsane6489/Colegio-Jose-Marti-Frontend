@@ -10,7 +10,8 @@ const NavbarAdmin = () => {
   useEffect(() => {
     const fetchAdmin = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token =
+          localStorage.getItem("token") || sessionStorage.getItem("token");
         const res = await axios.get(
           `${import.meta.env.VITE_API_URL}/api/auth/ping`,
           {
@@ -93,6 +94,12 @@ const NavbarAdmin = () => {
             showLinks ? "flex" : "hidden"
           } md:flex flex-wrap items-center gap-4 text-base font-semibold`}
         >
+          <Link
+            to="/"
+            className="text-lime-400 hover:text-[#ccff00] transition-colors duration-200"
+          >
+            Inicio
+          </Link>
           <a
             href="#validacion"
             className="text-lime-400 hover:text-[#ccff00] transition-colors duration-200"

@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 import logo from "../assets/images/LogoColegio.png";
 
-const LandingVideo = ({ inView }) => {
+const LandingContent = ({ inView }) => {
   const animationProps = useMemo(() => {
     return inView
       ? {
@@ -23,29 +23,9 @@ const LandingVideo = ({ inView }) => {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={animationProps.section}
       transition={{ type: "spring", bounce: 0.3, duration: 1 }}
-      className="relative w-full h-screen flex items-center justify-center text-[#1a1a1a] overflow-hidden"
+      className="relative w-full h-screen flex items-center justify-center text-white overflow-hidden"
     >
-      {/* 🎥 Video de fondo institucional */}
-      <div className="fixed top-0 left-0 w-full h-full z-0 pointer-events-none">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          aria-hidden="true"
-          role="presentation"
-          className="w-full h-full object-cover opacity-20"
-        >
-          <source
-            src="https://cdn.pixabay.com/video/2015/09/27/846-140823862_large.mp4"
-            type="video/mp4"
-          />
-        </video>
-        {/* 🧱 Capa de oscurecimiento reforzada */}
-        <div className="absolute inset-0 bg-black opacity-40"></div>
-      </div>
-
-      {/* 🧠 Contenido institucional */}
+      {/* 🧠 Contenido institucional centrado */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={animationProps.content}
@@ -70,7 +50,7 @@ const LandingVideo = ({ inView }) => {
             bounce: 0.3,
             duration: 0.6,
           }}
-          className="text-4xl md:text-5xl font-bold mb-2 tracking-tight leading-tight text-white drop-shadow-lg"
+          className="text-4xl md:text-5xl font-bold mb-2 tracking-tight leading-tight drop-shadow-lg"
         >
           Colegio José Martí
         </motion.h1>
@@ -79,7 +59,7 @@ const LandingVideo = ({ inView }) => {
           initial={{ opacity: 0, y: 10 }}
           animate={animationProps.p1}
           transition={{ delay: 0.3, duration: 0.6 }}
-          className="text-xl italic text-white mb-4 drop-shadow"
+          className="text-xl italic mb-4 drop-shadow"
         >
           “Aquí no solo se aprende, se transforma.”
         </motion.p>
@@ -88,7 +68,7 @@ const LandingVideo = ({ inView }) => {
           initial={{ opacity: 0, y: 20 }}
           animate={animationProps.p2}
           transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
-          className="text-lg md:text-xl max-w-2xl mx-auto text-white drop-shadow"
+          className="text-lg md:text-xl max-w-2xl mx-auto drop-shadow"
         >
           Formamos de forma integral, excelencia académica y valores que
           transforman.
@@ -119,4 +99,4 @@ const LandingVideo = ({ inView }) => {
   );
 };
 
-export default LandingVideo;
+export default LandingContent;

@@ -21,12 +21,18 @@ const ActividadCard = ({ actividad, onEditar, onEliminar, onNotificar }) => {
   } = actividad;
 
   const actividadId = _id || id;
+  if (!actividadId) {
+    console.warn("⚠️ Actividad sin ID válida:", actividad);
+    return null;
+  }
 
   let fechaFormateada = "Sin fecha";
-  try {
-    fechaFormateada = format(new Date(fechaEntrega), "PPP", { locale: es });
-  } catch (err) {
-    console.warn("⚠️ Fecha inválida en actividad:", fechaEntrega);
+  if (fechaEntrega) {
+    try {
+      fechaFormateada = format(new Date(fechaEntrega), "PPP", { locale: es });
+    } catch (err) {
+      console.warn("⚠️ Fecha inválida en actividad:", fechaEntrega);
+    }
   }
 
   const colorEstado = {
@@ -75,7 +81,7 @@ const ActividadCard = ({ actividad, onEditar, onEliminar, onNotificar }) => {
           <p className="text-white font-medium">📎 Recursos:</p>
           <ul className="list-disc list-inside text-white/70 space-y-1 pl-4">
             {recursos.map((url, index) => (
-              <li key={`recurso-${index}`}>
+              <li key={`${actividadId}-recurso-${index}`}>
                 <a
                   href={url}
                   target="_blank"

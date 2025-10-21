@@ -8,16 +8,24 @@ const useDocentes = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const token = localStorage.getItem("token");
+  const getToken = () =>
+    localStorage.getItem("token") || sessionStorage.getItem("token");
 
-  const headers = {
-    Authorization: `Bearer ${token}`,
+  const getHeaders = () => {
+    const token = getToken();
+    return token ? { Authorization: `Bearer ${token}` } : {};
   };
 
   /**
    * 📋 Obtener lista de docentes institucionales
    */
   const fetchDocentes = async () => {
+    const headers = getHeaders();
+    if (!headers.Authorization) {
+      console.warn("🔒 No hay token disponible para obtener docentes");
+      return;
+    }
+
     setLoading(true);
     try {
       const { data } = await axios.get(`${API_URL}/api/admin/docentes`, {
@@ -42,6 +50,7 @@ const useDocentes = () => {
    * 📝 Crear nuevo docente institucional
    */
   const crearDocente = async (nuevo) => {
+    const headers = getHeaders();
     try {
       const payload = {
         nombre: nuevo.nombre,
@@ -70,6 +79,7 @@ const useDocentes = () => {
    * ✏️ Actualizar docente institucional
    */
   const actualizarDocente = async (id, actualizado) => {
+    const headers = getHeaders();
     try {
       const { data } = await axios.put(
         `${API_URL}/api/admin/actualizar/${id}`,
@@ -95,6 +105,7 @@ const useDocentes = () => {
    * ❌ Eliminar docente institucional
    */
   const eliminarDocente = async (id) => {
+    const headers = getHeaders();
     try {
       await axios.delete(`${API_URL}/api/admin/rechazar/${id}`, { headers });
       setDocentes((prev) => prev.filter((doc) => doc._id !== id));
@@ -106,8 +117,8 @@ const useDocentes = () => {
   };
 
   useEffect(() => {
-    if (token) fetchDocentes();
-  }, [token]);
+    fetchDocentes();
+  }, []);
 
   return {
     docentes,

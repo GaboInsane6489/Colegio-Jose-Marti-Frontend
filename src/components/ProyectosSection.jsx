@@ -24,7 +24,12 @@ const ProyectosSection = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.3 });
 
   return (
-    <section ref={ref} className="py-16 px-4 bg-[#fdfdfd] text-[#1a1a1a]">
+    <section
+      ref={ref}
+      className="pt-10 pb-16 px-4 bg-[#fdfdfd] text-[#1a1a1a] rounded-xl"
+      // Si quieres que se integre con el video de fondo, reemplaza la línea anterior por:
+      // className="pt-10 pb-16 px-4 bg-white/5 backdrop-blur-md text-white rounded-xl"
+    >
       <motion.h2
         initial={{ opacity: 0, x: -30 }}
         animate={inView ? { opacity: 1, x: 0 } : {}}

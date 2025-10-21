@@ -8,11 +8,13 @@ import Footer from "@/components/Footer.jsx";
 import VideoFondoDocente from "@/components/docente/VideoFondoDocente.jsx";
 import ToastFeedback from "@/components/ui/ToastFeedback.jsx";
 import useActividades from "@/hooks/useActividades.js";
+import isActividadValida from "@/utils/isActividadValida.js";
 
 const API_URL = import.meta.env.VITE_API_URL?.trim() || "http://localhost:3000";
 
 const ActividadesPage = () => {
   const token = localStorage.getItem("token");
+  const cursoId = "652f1a9b3c2e4f0012a4dabc";
 
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [toast, setToast] = useState(null);
@@ -30,7 +32,12 @@ const ActividadesPage = () => {
     actividades: actividadesBackend,
     loading,
     error,
-  } = useActividades(token);
+  } = useActividades(token, {
+    cursoId,
+    tipo: filtroTipo,
+    estado: filtroEstado,
+    materia: filtroMateria,
+  });
 
   useEffect(() => {
     if (!token) {
@@ -40,7 +47,8 @@ const ActividadesPage = () => {
 
   useEffect(() => {
     if (Array.isArray(actividadesBackend)) {
-      setActividades(actividadesBackend);
+      const limpias = actividadesBackend.filter(isActividadValida);
+      setActividades(limpias);
     }
   }, [actividadesBackend]);
 
@@ -85,8 +93,8 @@ const ActividadesPage = () => {
 
   const handleNotificarActividad = async (id) => {
     try {
-      const { data } = await axios.put(
-        `${API_URL}/api/actividades/notificar/${id}`,
+      const { data } = await axios.post(
+        `${API_URL}/api/actividades/${id}/notificar`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -107,26 +115,31 @@ const ActividadesPage = () => {
     setMostrarFormulario(true);
   };
 
-  const actividadesOrdenadas = [...actividades].sort((a, b) => {
-    switch (orden) {
-      case "fechaAsc":
-        return new Date(a.fechaEntrega) - new Date(b.fechaEntrega);
-      case "fechaDesc":
-        return new Date(b.fechaEntrega) - new Date(a.fechaEntrega);
-      case "ponderacionAsc":
-        return a.ponderacion - b.ponderacion;
-      case "ponderacionDesc":
-        return b.ponderacion - a.ponderacion;
-      default:
-        return 0;
-    }
-  });
+  const actividadesOrdenadas = [...actividades]
+    .filter(isActividadValida)
+    .sort((a, b) => {
+      switch (orden) {
+        case "fechaAsc":
+          return new Date(a.fechaEntrega) - new Date(b.fechaEntrega);
+        case "fechaDesc":
+          return new Date(b.fechaEntrega) - new Date(a.fechaEntrega);
+        case "ponderacionAsc":
+          return (a.ponderacion || 0) - (b.ponderacion || 0);
+        case "ponderacionDesc":
+          return (b.ponderacion || 0) - (a.ponderacion || 0);
+        default:
+          return 0;
+      }
+    });
 
   const actividadesFiltradas = actividadesOrdenadas.filter((act) => {
+    if (!isActividadValida(act)) return false;
+
     const tipoMatch = filtroTipo === "todos" || act.tipo === filtroTipo;
     const estadoMatch = filtroEstado === "todos" || act.estado === filtroEstado;
     const materiaMatch =
       filtroMateria === "todos" || act.materia === filtroMateria;
+
     return tipoMatch && estadoMatch && materiaMatch;
   });
 
@@ -205,15 +218,26 @@ const ActividadesPage = () => {
         ) : (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[80vh] overflow-y-auto px-2">
-              {actividadesPaginadas.map((actividad, index) => (
-                <ActividadCard
-                  key={actividad._id || actividad.id || `actividad-${index}`}
-                  actividad={actividad}
-                  onEditar={handleEditarActividad}
-                  onEliminar={handleEliminarActividad}
-                  onNotificar={handleNotificarActividad}
-                />
-              ))}
+              {actividadesPaginadas.map((actividad, index) => {
+                if (!isActividadValida(actividad)) {
+                  console.warn("⚠️ Actividad inválida detectada:", actividad);
+                  return null;
+                }
+
+                const clave = `actividad-${
+                  actividad._id || actividad.id || index
+                }`;
+
+                return (
+                  <ActividadCard
+                    key={clave}
+                    actividad={actividad}
+                    onEditar={handleEditarActividad}
+                    onEliminar={handleEliminarActividad}
+                    onNotificar={handleNotificarActividad}
+                  />
+                );
+              })}
             </div>
 
             <div className="flex justify-center items-center gap-4 pt-6">

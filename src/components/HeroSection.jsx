@@ -102,7 +102,7 @@ const HeroSection = () => {
   return (
     <section
       ref={ref}
-      className="relative w-full bg-[var(--color-primary)] text-[var(--color-text)] py-20 px-6 overflow-hidden"
+      className="relative w-full bg-[var(--color-primary)] text-[var(--color-text)] pt-10 pb-20 px-6 overflow-hidden rounded-xl"
     >
       <motion.div
         initial={{ opacity: 0, y: 40 }}
@@ -110,7 +110,7 @@ const HeroSection = () => {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="max-w-5xl mx-auto text-center relative"
       >
-        <h2 className="text-3xl md:text-4xl font-bold mb-10 text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.6)]">
+        <h2 className="text-3xl md:text-4xl font-bold mb-10 text-black drop-shadow-sm">
           Nuestra esencia académica
         </h2>
 

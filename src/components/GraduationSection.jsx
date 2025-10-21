@@ -8,9 +8,9 @@ const GraduationSection = () => {
   return (
     <section
       ref={ref}
-      className="relative w-full min-h-[90vh] flex items-center justify-center bg-white overflow-hidden"
+      className="relative w-full min-h-[100vh] flex items-center justify-center bg-white overflow-hidden"
     >
-      {/* Imagen de fondo con gradiente oscuro */}
+      {/* 📸 Imagen de fondo con gradiente oscuro */}
       <div className="absolute inset-0 z-0">
         <img
           src="https://wallpapers.com/images/hd/college-graduation-pictures-ibla1ho56tqxy737.jpg"
@@ -18,15 +18,15 @@ const GraduationSection = () => {
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-        <div className="absolute bottom-0 w-full h-24 bg-gradient-to-b from-transparent to-white z-10" />
+        <div className="absolute bottom-0 w-full h-16 bg-gradient-to-b from-transparent to-white z-10" />
       </div>
 
-      {/* Contenido institucional */}
+      {/* 🧠 Contenido institucional centrado */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ type: "spring", bounce: 0.4, duration: 0.8 }}
-        className="relative z-20 text-center px-6 max-w-3xl text-white"
+        className="relative z-20 text-center px-6 max-w-3xl text-white mt-16"
       >
         <motion.h2
           initial={{ opacity: 0, scale: 0.9 }}

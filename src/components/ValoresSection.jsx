@@ -28,7 +28,12 @@ const ValoresSection = () => {
   });
 
   return (
-    <section ref={ref} className="py-20 px-6 bg-[#fdfdfd] text-white">
+    <section
+      ref={ref}
+      className="pt-10 pb-20 px-6 bg-[#fdfdfd] text-white rounded-xl"
+      // Si quieres que se integre con el video de fondo, reemplaza la línea anterior por:
+      // className="pt-10 pb-20 px-6 bg-white/5 backdrop-blur-md text-white rounded-xl"
+    >
       <motion.h2
         initial={{ opacity: 0, y: 30 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}

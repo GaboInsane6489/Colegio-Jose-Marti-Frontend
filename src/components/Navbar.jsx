@@ -16,11 +16,26 @@ const Navbar = () => {
   useEffect(() => {
     const fetchRole = async () => {
       try {
+        const token =
+          localStorage.getItem("token") || sessionStorage.getItem("token");
+
+        if (!token) {
+          console.warn("🔒 No hay token disponible");
+          return;
+        }
+
         const response = await fetch("http://localhost:3000/api/auth/ping", {
           method: "GET",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         });
+
+        if (response.status === 401 || response.status === 403) {
+          console.warn("🔒 Token inválido o expirado");
+          return;
+        }
 
         const data = await response.json();
         if (data.role) {
