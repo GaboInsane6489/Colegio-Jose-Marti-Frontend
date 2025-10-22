@@ -8,14 +8,14 @@ const GraduationSection = () => {
   return (
     <section
       ref={ref}
-      className="relative w-full min-h-[100vh] flex items-center justify-center bg-white overflow-hidden"
+      className="relative w-full min-h-screen flex items-center justify-center bg-white overflow-hidden"
     >
       {/* 📸 Imagen de fondo con gradiente oscuro */}
       <div className="absolute inset-0 z-0">
         <img
           src="https://wallpapers.com/images/hd/college-graduation-pictures-ibla1ho56tqxy737.jpg"
           alt="Graduación Colegio José Martí"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-center object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
         <div className="absolute bottom-0 w-full h-16 bg-gradient-to-b from-transparent to-white z-10" />
@@ -26,7 +26,7 @@ const GraduationSection = () => {
         initial={{ opacity: 0, y: 40 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ type: "spring", bounce: 0.4, duration: 0.8 }}
-        className="relative z-20 text-center px-6 max-w-3xl text-white mt-16"
+        className="relative z-20 text-center px-4 sm:px-6 max-w-3xl text-white mt-20 sm:mt-24"
       >
         <motion.h2
           initial={{ opacity: 0, scale: 0.9 }}
@@ -37,7 +37,7 @@ const GraduationSection = () => {
             bounce: 0.3,
             duration: 0.6,
           }}
-          className="text-3xl md:text-4xl font-bold mb-4 drop-shadow-lg"
+          className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 drop-shadow-lg"
         >
           “Hoy no solo celebramos un logro, celebramos el inicio de un legado.”
         </motion.h2>
@@ -46,7 +46,7 @@ const GraduationSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
-          className="text-lg md:text-xl text-white/90 mb-6 drop-shadow-sm"
+          className="text-base sm:text-lg md:text-xl text-white/90 mb-6 drop-shadow-sm"
         >
           Cada graduado del Colegio José Martí lleva consigo valores, sueños y
           la fuerza para transformar el mundo.

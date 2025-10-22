@@ -26,20 +26,18 @@ const ProyectosSection = () => {
   return (
     <section
       ref={ref}
-      className="pt-10 pb-16 px-4 bg-[#fdfdfd] text-[#1a1a1a] rounded-xl"
-      // Si quieres que se integre con el video de fondo, reemplaza la línea anterior por:
-      // className="pt-10 pb-16 px-4 bg-white/5 backdrop-blur-md text-white rounded-xl"
+      className="pt-10 pb-16 px-4 sm:px-6 bg-[#fdfdfd] text-[#1a1a1a] rounded-xl"
     >
       <motion.h2
         initial={{ opacity: 0, x: -30 }}
         animate={inView ? { opacity: 1, x: 0 } : {}}
         transition={{ type: "spring", bounce: 0.4, duration: 0.8 }}
-        className="text-3xl md:text-4xl font-bold text-center mb-10"
+        className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-10"
       >
         Proyectos que dejan huella
       </motion.h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
         {proyectos.map((proyecto, index) => (
           <motion.div
             key={index}
@@ -56,16 +54,18 @@ const ProyectosSection = () => {
             <img
               src={proyecto.img}
               alt={proyecto.titulo}
-              className="w-full h-48 object-cover"
+              className="w-full h-40 sm:h-48 md:h-56 object-cover"
             />
-            <div className="p-6 flex flex-col justify-between flex-grow">
-              <h3 className="text-xl font-semibold mb-2">{proyecto.titulo}</h3>
-              <p className="text-[#333] mb-4 leading-relaxed">
+            <div className="p-5 sm:p-6 flex flex-col justify-between flex-grow">
+              <h3 className="text-lg sm:text-xl font-semibold mb-2">
+                {proyecto.titulo}
+              </h3>
+              <p className="text-[#333] mb-4 text-sm sm:text-base leading-normal sm:leading-relaxed">
                 {proyecto.desc}
               </p>
               <a
                 href="/proyectos"
-                className="inline-block text-[#1a1a1a] font-medium hover:text-[#FFD700] transition-colors duration-300"
+                className="inline-block text-[#1a1a1a] font-medium hover:text-[#FFD700] hover:underline transition-colors duration-300"
               >
                 Ver más
               </a>

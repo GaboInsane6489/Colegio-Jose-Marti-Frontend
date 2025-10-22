@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
+import { motion } from "framer-motion";
 import logo from "../assets/images/LogoColegio.png";
 
 const Navbar = () => {
@@ -56,9 +57,12 @@ const Navbar = () => {
   };
 
   return (
-    <nav
+    <motion.nav
       role="navigation"
       aria-label="Barra de navegación principal"
+      initial={{ y: -60, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ type: "spring", bounce: 0.3, duration: 0.8 }}
       className="fixed top-0 w-full h-16 bg-[#1a1a1a] text-white shadow-md z-50 transition-all duration-500"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
@@ -66,7 +70,7 @@ const Navbar = () => {
         <Link
           to="/"
           aria-label="Ir al inicio"
-          className="transition-transform duration-300 hover:scale-105 hover:text-[#D1D5DB] hover:drop-shadow-[0_0_6px_#D1D5DB] focus:outline-none"
+          className="transition-transform duration-300 hover:scale-105 hover:text-[#D1D5DB] hover:drop-shadow-[0_0_6px_#D1D5DB] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D1D5DB]"
         >
           <img
             src={logo}
@@ -81,7 +85,7 @@ const Navbar = () => {
             <Link
               key={link.name}
               to={link.path}
-              className="font-medium transition-all hover:text-[#D1D5DB] hover:drop-shadow-[0_0_6px_#D1D5DB] focus:outline-none"
+              className="font-medium transition-all hover:text-[#D1D5DB] hover:drop-shadow-[0_0_6px_#D1D5DB] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D1D5DB]"
               tabIndex={0}
             >
               {link.name}
@@ -92,11 +96,11 @@ const Navbar = () => {
           <button
             onClick={handleUserIconClick}
             aria-label="Acceder al sistema"
-            className="relative transition-all hover:text-[#D1D5DB] hover:drop-shadow-[0_0_6px_#D1D5DB] focus:outline-none"
+            className="relative transition-all hover:text-[#D1D5DB] hover:drop-shadow-[0_0_6px_#D1D5DB] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D1D5DB]"
           >
             <FaUserCircle className="text-2xl" />
             {userRole && (
-              <span className="absolute -top-2 -right-3 bg-[#ccff00] text-black text-xs font-bold px-2 py-0.5 rounded-full shadow-md">
+              <span className="absolute -top-2 -right-3 bg-[#FFD700] text-black text-xs font-bold px-2 py-0.5 rounded-full shadow-md">
                 {userRole}
               </span>
             )}
@@ -106,7 +110,7 @@ const Navbar = () => {
         {/* Botón hamburguesa en móvil */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden focus:outline-none text-white text-xl"
+          className="md:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D1D5DB] text-white text-xl"
           aria-label="Abrir menú"
         >
           ☰
@@ -117,20 +121,20 @@ const Navbar = () => {
       {isOpen && (
         <div
           role="menu"
-          className="md:hidden px-4 pb-4 flex flex-col space-y-2 bg-[#1a1a1a] text-white shadow-inner"
+          className="md:hidden px-4 pb-4 flex flex-col space-y-2 bg-[#1a1a1a] text-white shadow-inner transition-all duration-300"
         >
           {navLinks.map((link, index) => (
             <React.Fragment key={link.name}>
               <Link
                 to={link.path}
                 onClick={() => setIsOpen(false)}
-                className="font-medium transition-all hover:text-[#D1D5DB] hover:drop-shadow-[0_0_6px_#D1D5DB] focus:outline-none"
+                className="font-medium transition-all hover:text-[#D1D5DB] hover:drop-shadow-[0_0_6px_#D1D5DB] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D1D5DB]"
                 tabIndex={0}
               >
                 {link.name}
               </Link>
               {index < navLinks.length - 1 && (
-                <hr className="border-lime-400 opacity-30" />
+                <hr className="border-gray-300 opacity-40" />
               )}
             </React.Fragment>
           ))}
@@ -140,7 +144,7 @@ const Navbar = () => {
               setIsOpen(false);
               handleUserIconClick();
             }}
-            className="flex items-center space-x-2 transition-all hover:text-[#D1D5DB] hover:drop-shadow-[0_0_6px_#D1D5DB] focus:outline-none"
+            className="flex items-center space-x-2 transition-all hover:text-[#D1D5DB] hover:drop-shadow-[0_0_6px_#D1D5DB] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D1D5DB]"
             aria-label="Acceder al sistema"
           >
             <FaUserCircle className="text-xl" />
@@ -148,7 +152,7 @@ const Navbar = () => {
           </button>
         </div>
       )}
-    </nav>
+    </motion.nav>
   );
 };
 

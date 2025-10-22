@@ -9,7 +9,7 @@ const InfoSection = () => {
   return (
     <section
       ref={ref}
-      className="w-full bg-[#f8f8f8] pt-10 pb-20 px-6 text-[#1a1a1a] flex justify-center rounded-xl"
+      className="w-full bg-[#f8f8f8] pt-10 pb-20 px-4 sm:px-6 text-[#1a1a1a] flex justify-center rounded-xl"
     >
       <motion.div
         initial={{ opacity: 0, y: 50 }}
@@ -27,7 +27,7 @@ const InfoSection = () => {
             bounce: 0.3,
             duration: 0.6,
           }}
-          className="text-3xl md:text-4xl font-bold mb-6 drop-shadow-sm text-black"
+          className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 drop-shadow-sm text-black"
         >
           Evaluación y acompañamiento integral
         </motion.h2>
@@ -37,7 +37,7 @@ const InfoSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
-          className="text-lg md:text-xl text-[#333] mb-10 max-w-3xl mx-auto"
+          className="text-base sm:text-lg md:text-xl text-[#333] mb-10 max-w-3xl mx-auto"
         >
           En el Colegio José Martí, acompañamos a cada estudiante en su proceso
           académico y emocional. Nuestra evaluación formativa tiene propósito,
@@ -46,7 +46,7 @@ const InfoSection = () => {
         </motion.p>
 
         {/* Íconos institucionales */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-12">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -59,7 +59,9 @@ const InfoSection = () => {
             className="flex flex-col items-center"
           >
             <FaUserGraduate className="text-4xl text-[#1a1a1a] mb-2" />
-            <h3 className="font-semibold text-lg">Excelencia Académica</h3>
+            <h3 className="font-semibold text-base sm:text-lg">
+              Excelencia Académica
+            </h3>
             <p className="text-sm text-[#555] text-center">
               Programas formativos que impulsan el pensamiento crítico y la
               creatividad.
@@ -78,7 +80,9 @@ const InfoSection = () => {
             className="flex flex-col items-center"
           >
             <FaHeart className="text-4xl text-[#1a1a1a] mb-2" />
-            <h3 className="font-semibold text-lg">Acompañamiento Emocional</h3>
+            <h3 className="font-semibold text-base sm:text-lg">
+              Acompañamiento Emocional
+            </h3>
             <p className="text-sm text-[#555] text-center">
               Seguimiento constante para fortalecer el bienestar y la
               autoestima.
@@ -97,7 +101,9 @@ const InfoSection = () => {
             className="flex flex-col items-center"
           >
             <FaBookOpen className="text-4xl text-[#1a1a1a] mb-2" />
-            <h3 className="font-semibold text-lg">Evaluación con Propósito</h3>
+            <h3 className="font-semibold text-base sm:text-lg">
+              Evaluación con Propósito
+            </h3>
             <p className="text-sm text-[#555] text-center">
               Instrumentos formativos que valoran el proceso y no solo el
               resultado.

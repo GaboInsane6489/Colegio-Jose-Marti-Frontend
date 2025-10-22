@@ -97,12 +97,21 @@ const HeroSection = () => {
     return () => clearInterval(interval);
   }, [total]);
 
-  const beneficioActual = beneficios[index] ?? beneficios[0];
+  const beneficioActual =
+    total > 0 && beneficios[index] ? beneficios[index] : null;
+
+  if (!beneficioActual || !beneficioActual.imagen) {
+    return (
+      <section className="text-center py-10 text-white">
+        <p>No se pudo cargar el contenido académico.</p>
+      </section>
+    );
+  }
 
   return (
     <section
       ref={ref}
-      className="relative w-full bg-[var(--color-primary)] text-[var(--color-text)] pt-10 pb-20 px-6 overflow-hidden rounded-xl"
+      className="relative w-full bg-[var(--color-primary)] text-[var(--color-text)] pt-10 pb-20 px-4 sm:px-6 overflow-hidden rounded-xl"
     >
       <motion.div
         initial={{ opacity: 0, y: 40 }}
@@ -110,7 +119,7 @@ const HeroSection = () => {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="max-w-5xl mx-auto text-center relative"
       >
-        <h2 className="text-3xl md:text-4xl font-bold mb-10 text-black drop-shadow-sm">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-8 sm:mb-10 text-black drop-shadow-sm">
           Nuestra esencia académica
         </h2>
 
@@ -124,11 +133,11 @@ const HeroSection = () => {
           <img
             src={beneficioActual.imagen}
             alt={beneficioActual.titulo}
-            className="w-full h-[280px] object-cover"
+            className="w-full h-48 sm:h-64 md:h-[280px] object-cover"
           />
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             {beneficioActual.icono}
-            <h3 className="text-xl font-semibold mb-4 text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.6)]">
+            <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.6)]">
               {beneficioActual.titulo}
             </h3>
             <div className="space-y-2 text-sm text-white">
@@ -142,13 +151,13 @@ const HeroSection = () => {
         {/* Botones laterales */}
         <button
           onClick={prev}
-          className="absolute top-1/2 left-0 transform -translate-y-1/2 px-4 py-2 bg-[#1a1a1a] text-white rounded-full shadow-md hover:shadow-[0_0_16px_#ffffff] transition-all duration-300"
+          className="hidden sm:block absolute top-1/2 left-0 transform -translate-y-1/2 px-4 py-2 bg-[#1a1a1a] text-white rounded-full shadow-md hover:shadow-[0_0_16px_#ffffff] transition-all duration-300"
         >
           ←
         </button>
         <button
           onClick={next}
-          className="absolute top-1/2 right-0 transform -translate-y-1/2 px-4 py-2 bg-[#1a1a1a] text-white rounded-full shadow-md hover:shadow-[0_0_16px_#ffffff] transition-all duration-300"
+          className="hidden sm:block absolute top-1/2 right-0 transform -translate-y-1/2 px-4 py-2 bg-[#1a1a1a] text-white rounded-full shadow-md hover:shadow-[0_0_16px_#ffffff] transition-all duration-300"
         >
           →
         </button>

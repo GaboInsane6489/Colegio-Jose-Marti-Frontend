@@ -29,44 +29,49 @@ const TestimoniosSection = () => {
   return (
     <section
       ref={ref}
-      className="pt-10 pb-16 px-4 bg-[#f5f5f5] text-[#1a1a1a] rounded-xl"
-      // Si quieres que se integre con el video de fondo, reemplaza la línea anterior por:
-      // className="pt-10 pb-16 px-4 bg-white/5 backdrop-blur-md text-white rounded-xl"
+      className="pt-10 pb-16 px-4 sm:px-6 bg-[#f5f5f5] text-[#1a1a1a] rounded-xl"
     >
       <motion.h2
         initial={{ opacity: 0, y: 30 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ type: "spring", bounce: 0.4, duration: 0.8 }}
-        className="text-3xl md:text-4xl font-bold text-center mb-10"
+        className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-10"
       >
         Historias que nos llenan de orgullo
       </motion.h2>
 
-      <div className="flex flex-wrap md:flex-nowrap gap-6 overflow-x-auto pb-4 max-w-6xl mx-auto">
-        {testimonios.map((testimonio, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={inView ? { opacity: 1, scale: 1 } : {}}
-            transition={{
-              delay: index * 0.2,
-              type: "spring",
-              bounce: 0.3,
-              duration: 0.6,
-            }}
-            className="min-w-[280px] md:min-w-[320px] bg-white rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.2)] p-6 border border-[#eaeaea] flex flex-col justify-between"
-          >
-            <p className="italic text-[#333] mb-4 leading-relaxed">
-              “{testimonio.mensaje}”
-            </p>
-            <div>
-              <h4 className="font-semibold text-[#1a1a1a]">
-                {testimonio.nombre}
-              </h4>
-              <span className="text-sm text-[#777]">{testimonio.rol}</span>
-            </div>
-          </motion.div>
-        ))}
+      <div className="relative">
+        <div className="flex gap-6 overflow-x-auto scroll-snap-x pb-4 max-w-6xl mx-auto px-1 sm:px-0">
+          {testimonios.map((testimonio, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={inView ? { opacity: 1, scale: 1 } : {}}
+              transition={{
+                delay: index * 0.2,
+                type: "spring",
+                bounce: 0.3,
+                duration: 0.6,
+              }}
+              className="min-w-[260px] sm:min-w-[300px] md:min-w-[320px] scroll-snap-align-start bg-white rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.2)] p-6 border border-[#eaeaea] flex flex-col justify-between"
+            >
+              <p className="italic text-[#333] mb-4 leading-normal sm:leading-relaxed">
+                “{testimonio.mensaje}”
+              </p>
+              <div>
+                <h4 className="font-semibold text-[#1a1a1a]">
+                  {testimonio.nombre}
+                </h4>
+                <span className="text-sm text-[#777]">{testimonio.rol}</span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Indicadores visuales opcionales */}
+        <div className="mt-4 text-center text-sm text-[#555]">
+          Desliza para ver más testimonios →
+        </div>
       </div>
     </section>
   );

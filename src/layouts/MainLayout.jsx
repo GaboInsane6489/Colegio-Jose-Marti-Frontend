@@ -2,14 +2,25 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 const MainLayout = ({ children }) => {
+  const { ref: footerRef, inView: footerInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.2,
+  });
+
   return (
     <div className="flex flex-col min-h-screen w-full bg-[var(--color-primary)] text-[var(--color-text)] overflow-x-hidden">
-      {/* Navbar fijo con sombra institucional */}
-      <div className="fixed top-0 left-0 w-full z-50 shadow-md backdrop-blur-sm bg-[var(--color-primary)]/90">
+      {/* Navbar fijo con animación institucional */}
+      <motion.div
+        initial={{ y: -60, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ type: "spring", bounce: 0.3, duration: 0.8 }}
+        className="fixed top-0 left-0 w-full z-[100] shadow-md backdrop-blur-sm bg-[var(--color-primary)]/90"
+      >
         <Navbar />
-      </div>
+      </motion.div>
 
       {/* Contenido principal con animación de entrada */}
       <motion.main
@@ -21,8 +32,16 @@ const MainLayout = ({ children }) => {
         {children}
       </motion.main>
 
-      {/* Footer institucional */}
-      <Footer />
+      {/* Footer institucional con animación al entrar en vista */}
+      <motion.div
+        ref={footerRef}
+        initial={{ opacity: 0, y: 40 }}
+        animate={footerInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ type: "spring", bounce: 0.3, duration: 0.8 }}
+        className="relative z-[101]"
+      >
+        <Footer />
+      </motion.div>
     </div>
   );
 };

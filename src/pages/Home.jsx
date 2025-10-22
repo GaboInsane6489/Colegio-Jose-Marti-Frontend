@@ -48,28 +48,30 @@ const Home = () => {
         {/* ⬇️ Flecha de scroll animada */}
         {showArrow && (
           <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-30">
-            <div className="animate-bounce text-white/70 text-2xl">↓</div>
+            <div className="animate-bounce text-white/70 text-2xl sm:text-3xl">
+              ↓
+            </div>
           </div>
         )}
 
         {/* 🧾 Secciones institucionales con esquinas redondeadas */}
-        <div className="pt-4 pb-16 w-full space-y-24 px-4">
-          <div className="bg-white/5 backdrop-blur-md rounded-xl p-6">
+        <div className="pt-4 pb-16 w-full space-y-16 px-4 sm:px-6 md:px-8">
+          <div className="bg-white/5 backdrop-blur-md rounded-xl p-4 sm:p-6">
             <HeroSection />
           </div>
-          <div className="bg-white/5 backdrop-blur-md rounded-xl p-6">
+          <div className="bg-white/5 backdrop-blur-md rounded-xl p-4 sm:p-6">
             <InfoSection />
           </div>
-          <div className="bg-white/5 backdrop-blur-md rounded-xl p-6">
+          <div className="bg-white/5 backdrop-blur-md rounded-xl p-4 sm:p-6">
             <ValoresSection />
           </div>
-          <div className="bg-white/5 backdrop-blur-md rounded-xl p-6">
+          <div className="bg-white/5 backdrop-blur-md rounded-xl p-4 sm:p-6">
             <TestimoniosSection />
           </div>
-          <div className="bg-white/5 backdrop-blur-md rounded-xl p-6">
+          <div className="bg-white/5 backdrop-blur-md rounded-xl p-4 sm:p-6">
             <ProyectosSection />
           </div>
-          <div className="bg-white/5 backdrop-blur-md rounded-xl p-6">
+          <div className="bg-white/5 backdrop-blur-md rounded-xl p-4 sm:p-6">
             <GraduationSection />
           </div>
         </div>
