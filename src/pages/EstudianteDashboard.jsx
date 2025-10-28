@@ -1,132 +1,149 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
-import {
-  FaBookOpen,
-  FaChalkboardTeacher,
-  FaTasks,
-  FaChartLine,
-  FaEnvelopeOpenText,
-} from "react-icons/fa";
-import NavbarEstudiante from "../components/estudiante/NavbarEstudiante";
-import ClasesList from "../components/estudiante/ClasesList";
+
+// 🎥 Visuales
 import VideoFondoEstudiante from "../components/estudiante/VideoFondoEstudiante";
+
+// 🧭 Navegación
+import NavbarEstudiante from "../components/estudiante/NavbarEstudiante";
 import Footer from "../components/Footer";
+
+// 🧩 UI académica
+import EncabezadoDashboard from "../components/estudiante/EncabezadoDashboard";
+import SeccionClases from "../components/estudiante/SeccionClases";
+import PanelResumenEstudiante from "../components/estudiante/PanelResumenEstudiante";
+import FiltrosEstudiante from "../components/estudiante/FiltrosEstudiante";
+
+// 📋 Utilidades
+import { exportNotasCSV } from "../utils/useExportNotas";
 
 const EstudianteDashboard = () => {
   const [clases, setClases] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [entregas, setEntregas] = useState([]);
+
+  const [loadingClases, setLoadingClases] = useState(true);
+  const [loadingEntregas, setLoadingEntregas] = useState(true);
+
+  const [filtroMateria, setFiltroMateria] = useState("todos");
+  const [filtroLapso, setFiltroLapso] = useState("todos");
+
+  const materias = ["Matemáticas", "Lengua", "Historia", "Ciencias", "Arte"];
+  const lapsos = ["Lapso 1", "Lapso 2", "Lapso 3"];
+
+  const normalizar = (valor) =>
+    typeof valor === "string" ? valor.trim().toLowerCase() : "";
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+
     const fetchClases = async () => {
       try {
-        const token = localStorage.getItem("token");
         const res = await axios.get(
-          "http://localhost:3000/api/estudiante/clases",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
+          `${import.meta.env.VITE_API_URL}/api/estudiante/clases`,
+          { headers: { Authorization: `Bearer ${token}` } }
         );
         setClases(res.data.clases);
       } catch (error) {
         console.error("❌ Error al cargar clases:", error);
       } finally {
-        setLoading(false);
+        setLoadingClases(false);
+      }
+    };
+
+    const fetchEntregas = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/estudiante/entregas`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setEntregas(res.data.entregas || []);
+      } catch (error) {
+        console.error("❌ Error al cargar entregas:", error);
+      } finally {
+        setLoadingEntregas(false);
       }
     };
 
     fetchClases();
+    fetchEntregas();
   }, []);
 
-  return (
-    <div className="min-h-screen flex flex-col">
-      {/* 🎥 Fondo institucional exclusivo del dashboard */}
-      <VideoFondoEstudiante />
+  const entregasFiltradas = entregas.filter((e) => {
+    const materia = e.materia || e.actividad?.materia || "";
+    const lapso = e.lapso || e.actividad?.lapso || "";
 
-      {/* 🧠 Overlay de contenido */}
+    const materiaMatch =
+      filtroMateria === "todos" ||
+      normalizar(materia) === normalizar(filtroMateria);
+
+    const lapsoMatch =
+      filtroLapso === "todos" || normalizar(lapso) === normalizar(filtroLapso);
+
+    return materiaMatch && lapsoMatch;
+  });
+
+  const tareasPendientes = entregasFiltradas.filter(
+    (e) => e.estado === "pendiente"
+  );
+  const entregasRevisadas = entregasFiltradas.filter(
+    (e) => e.estado === "revisado"
+  );
+  const promedio =
+    entregasRevisadas.reduce((acc, e) => acc + (e.calificacion || 0), 0) /
+    Math.max(entregasRevisadas.length, 1);
+
+  return (
+    <div className="min-h-screen flex flex-col bg-black text-white overflow-hidden">
+      <VideoFondoEstudiante />
       <div className="relative z-10 flex-1">
         <NavbarEstudiante />
-
-        <main className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-12">
-          {/* Encabezado institucional con fondo oscuro */}
-          <motion.div
-            initial={{ opacity: 0, y: -30 }}
+        <main className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-10">
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ type: "spring", stiffness: 120 }}
-            className="text-center bg-black/60 rounded-xl py-8 px-4 shadow-lg"
+            transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <FaBookOpen className="text-white text-5xl sm:text-6xl mb-2 mx-auto drop-shadow-lg" />
-            <h1 className="text-2xl sm:text-4xl font-bold text-white drop-shadow-lg">
-              Panel del Estudiante
-            </h1>
-            <p className="mt-2 text-white text-sm sm:text-base italic drop-shadow">
-              Bienvenido al espacio donde tus clases cobran vida ✨
-            </p>
-          </motion.div>
+            <EncabezadoDashboard />
+          </motion.section>
 
-          {/* Clases activas */}
-          <section
-            id="clases"
-            className="bg-white/90 text-gray-900 rounded-xl shadow-lg p-6 space-y-6 scroll-mt-24"
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
           >
-            <div className="text-center mb-6">
-              <FaChalkboardTeacher className="text-gray-800 text-4xl mb-2 mx-auto" />
-              <h2 className="text-lg sm:text-2xl font-semibold text-gray-900">
-                Tus clases activas
-              </h2>
-            </div>
+            <SeccionClases clases={clases} loading={loadingClases} />
+          </motion.section>
 
-            {loading ? (
-              <p className="text-gray-500 animate-pulse">Cargando clases...</p>
-            ) : clases.length === 0 ? (
-              <div className="text-center py-6">
-                <p className="text-lg">No tienes clases asignadas por ahora.</p>
-                <p className="text-sm mt-2 italic text-gray-500">
-                  Cuando se asignen, aparecerán aquí para que comiences tu
-                  transformación académica ✨
-                </p>
-              </div>
-            ) : (
-              <ClasesList clases={clases} />
-            )}
-          </section>
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+          >
+            <PanelResumenEstudiante
+              promedio={promedio}
+              tareasPendientes={tareasPendientes}
+              loadingEntregas={loadingEntregas}
+            />
+          </motion.section>
 
-          {/* Secciones simuladas */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white/90 text-gray-900 rounded-xl p-5 shadow-lg text-center">
-              <FaTasks className="text-gray-800 text-3xl mb-2 mx-auto" />
-              <h3 className="text-base sm:text-lg font-semibold mb-2">
-                Tareas pendientes
-              </h3>
-              <p className="text-sm text-gray-600">
-                Aún no tienes tareas asignadas. ¡Prepárate para nuevos desafíos!
-              </p>
-            </div>
-
-            <div className="bg-white/90 text-gray-900 rounded-xl p-5 shadow-lg text-center">
-              <FaChartLine className="text-gray-800 text-3xl mb-2 mx-auto" />
-              <h3 className="text-base sm:text-lg font-semibold mb-2">
-                Progreso académico
-              </h3>
-              <p className="text-sm text-gray-600">
-                Tu progreso aparecerá aquí cuando comiences tus clases.
-              </p>
-            </div>
-
-            <div className="bg-white/90 text-gray-900 rounded-xl p-5 shadow-lg text-center">
-              <FaEnvelopeOpenText className="text-gray-800 text-3xl mb-2 mx-auto" />
-              <h3 className="text-base sm:text-lg font-semibold mb-2">
-                Mensajes recientes
-              </h3>
-              <p className="text-sm text-gray-600">
-                No hay mensajes nuevos. Revisa aquí tus comunicaciones con
-                docentes.
-              </p>
-            </div>
-          </div>
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
+          >
+            <FiltrosEstudiante
+              filtroMateria={filtroMateria}
+              setFiltroMateria={setFiltroMateria}
+              filtroLapso={filtroLapso}
+              setFiltroLapso={setFiltroLapso}
+              materias={materias}
+              lapsos={lapsos}
+              entregasFiltradas={entregasFiltradas}
+              exportNotasCSV={exportNotasCSV}
+            />
+          </motion.section>
         </main>
-
-        {/* Footer institucional */}
         <Footer />
       </div>
     </div>

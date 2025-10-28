@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
+import { motion } from "framer-motion";
+
 import LandingContent from "../components/LandingContent";
 import HeroSection from "../components/HeroSection";
 import InfoSection from "../components/InfoSection";
@@ -19,6 +21,11 @@ const Home = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const fadeUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0 },
+  };
 
   return (
     <main className="relative z-0 min-h-screen overflow-x-hidden text-white">
@@ -48,32 +55,41 @@ const Home = () => {
         {/* ⬇️ Flecha de scroll animada */}
         {showArrow && (
           <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-30">
-            <div className="animate-bounce text-white/70 text-2xl sm:text-3xl">
+            <div className="animate-bounce text-white/70 text-xl sm:text-2xl">
               ↓
             </div>
           </div>
         )}
 
-        {/* 🧾 Secciones institucionales con esquinas redondeadas */}
-        <div className="pt-4 pb-16 w-full space-y-16 px-4 sm:px-6 md:px-8">
-          <div className="bg-white/5 backdrop-blur-md rounded-xl p-4 sm:p-6">
-            <HeroSection />
-          </div>
-          <div className="bg-white/5 backdrop-blur-md rounded-xl p-4 sm:p-6">
-            <InfoSection />
-          </div>
-          <div className="bg-white/5 backdrop-blur-md rounded-xl p-4 sm:p-6">
-            <ValoresSection />
-          </div>
-          <div className="bg-white/5 backdrop-blur-md rounded-xl p-4 sm:p-6">
-            <TestimoniosSection />
-          </div>
-          <div className="bg-white/5 backdrop-blur-md rounded-xl p-4 sm:p-6">
-            <ProyectosSection />
-          </div>
-          <div className="bg-white/5 backdrop-blur-md rounded-xl p-4 sm:p-6">
-            <GraduationSection />
-          </div>
+        {/* 🧾 Secciones institucionales con animación única */}
+        <div className="pt-6 pb-16 w-full space-y-12 sm:space-y-16 px-3 sm:px-5 md:px-8">
+          {[
+            HeroSection,
+            InfoSection,
+            ValoresSection,
+            TestimoniosSection,
+            ProyectosSection,
+            GraduationSection,
+          ].map((Section, i) => {
+            const [sectionRef, sectionInView] = useInView({
+              triggerOnce: true,
+              threshold: 0.3,
+            });
+
+            return (
+              <motion.div
+                key={i}
+                ref={sectionRef}
+                variants={fadeUp}
+                initial="hidden"
+                animate={sectionInView ? "visible" : "hidden"}
+                transition={{ duration: 0.4, ease: "easeOut", delay: i * 0.1 }}
+                className="bg-white/5 backdrop-blur-md rounded-xl p-4 sm:p-6"
+              >
+                <Section />
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </main>

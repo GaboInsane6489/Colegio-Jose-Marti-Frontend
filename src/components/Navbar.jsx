@@ -20,10 +20,7 @@ const Navbar = () => {
         const token =
           localStorage.getItem("token") || sessionStorage.getItem("token");
 
-        if (!token) {
-          console.warn("🔒 No hay token disponible");
-          return;
-        }
+        if (!token) return;
 
         const response = await fetch("http://localhost:3000/api/auth/ping", {
           method: "GET",
@@ -33,10 +30,7 @@ const Navbar = () => {
           },
         });
 
-        if (response.status === 401 || response.status === 403) {
-          console.warn("🔒 Token inválido o expirado");
-          return;
-        }
+        if (!response.ok) return;
 
         const data = await response.json();
         if (data.role) {
@@ -63,14 +57,14 @@ const Navbar = () => {
       initial={{ y: -60, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ type: "spring", bounce: 0.3, duration: 0.8 }}
-      className="fixed top-0 w-full h-16 bg-[#1a1a1a] text-white shadow-md z-50 transition-all duration-500"
+      className="fixed top-0 w-full h-16 bg-black text-white shadow-md z-50 transition-all duration-500"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
         {/* Logo institucional */}
         <Link
           to="/"
           aria-label="Ir al inicio"
-          className="transition-transform duration-300 hover:scale-105 hover:text-[#D1D5DB] hover:drop-shadow-[0_0_6px_#D1D5DB] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D1D5DB]"
+          className="transition-transform duration-300 hover:scale-105 hover:text-white hover:drop-shadow-[0_0_6px_white] focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
         >
           <img
             src={logo}
@@ -85,7 +79,7 @@ const Navbar = () => {
             <Link
               key={link.name}
               to={link.path}
-              className="font-medium transition-all hover:text-[#D1D5DB] hover:drop-shadow-[0_0_6px_#D1D5DB] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D1D5DB]"
+              className="font-medium transition-all hover:text-white hover:drop-shadow-[0_0_6px_white] focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
               tabIndex={0}
             >
               {link.name}
@@ -96,11 +90,11 @@ const Navbar = () => {
           <button
             onClick={handleUserIconClick}
             aria-label="Acceder al sistema"
-            className="relative transition-all hover:text-[#D1D5DB] hover:drop-shadow-[0_0_6px_#D1D5DB] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D1D5DB]"
+            className="relative transition-all hover:text-white hover:drop-shadow-[0_0_6px_white] focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
           >
             <FaUserCircle className="text-2xl" />
             {userRole && (
-              <span className="absolute -top-2 -right-3 bg-[#FFD700] text-black text-xs font-bold px-2 py-0.5 rounded-full shadow-md">
+              <span className="absolute -top-2 -right-3 bg-white text-black text-xs font-bold px-2 py-0.5 rounded-full border border-white shadow-md">
                 {userRole}
               </span>
             )}
@@ -110,7 +104,7 @@ const Navbar = () => {
         {/* Botón hamburguesa en móvil */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D1D5DB] text-white text-xl"
+          className="md:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-white text-xl"
           aria-label="Abrir menú"
         >
           ☰
@@ -121,14 +115,14 @@ const Navbar = () => {
       {isOpen && (
         <div
           role="menu"
-          className="md:hidden px-4 pb-4 flex flex-col space-y-2 bg-[#1a1a1a] text-white shadow-inner transition-all duration-300"
+          className="md:hidden px-4 pb-4 flex flex-col space-y-2 bg-black text-white shadow-inner transition-all duration-300"
         >
           {navLinks.map((link, index) => (
             <React.Fragment key={link.name}>
               <Link
                 to={link.path}
                 onClick={() => setIsOpen(false)}
-                className="font-medium transition-all hover:text-[#D1D5DB] hover:drop-shadow-[0_0_6px_#D1D5DB] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D1D5DB]"
+                className="font-medium transition-all hover:text-white hover:drop-shadow-[0_0_6px_white] focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
                 tabIndex={0}
               >
                 {link.name}
@@ -144,7 +138,7 @@ const Navbar = () => {
               setIsOpen(false);
               handleUserIconClick();
             }}
-            className="flex items-center space-x-2 transition-all hover:text-[#D1D5DB] hover:drop-shadow-[0_0_6px_#D1D5DB] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D1D5DB]"
+            className="flex items-center space-x-2 transition-all hover:text-white hover:drop-shadow-[0_0_6px_white] focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
             aria-label="Acceder al sistema"
           >
             <FaUserCircle className="text-xl" />

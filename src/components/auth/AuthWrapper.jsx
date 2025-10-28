@@ -28,9 +28,16 @@ const AuthWrapper = () => {
         document.cookie = `userRole=${role}; path=/`;
         setRole(role);
 
-        if (role === "admin") navigate("/admin/dashboard");
-        else if (role === "docente") navigate("/docente/dashboard");
-        else navigate("/estudiante/dashboard");
+        switch (role) {
+          case "admin":
+            navigate("/admin/dashboard");
+            break;
+          case "docente":
+            navigate("/docente/dashboard");
+            break;
+          default:
+            navigate("/estudiante/dashboard");
+        }
       } catch (error) {
         console.error("❌ Error al verificar sesión:", error);
       }
@@ -44,16 +51,17 @@ const AuthWrapper = () => {
   }, [navigate]);
 
   return (
-    <div className="flex flex-col items-center justify-center w-full max-w-xl bg-white/10 backdrop-blur-md rounded-xl shadow-xl p-8 border border-white/20">
-      {/* 🔐 Ícono institucional centrado */}
-      <div className="mb-6">
+    <div className="flex flex-col items-center justify-center w-full max-w-sm sm:max-w-md md:max-w-xl bg-white/10 backdrop-blur-md rounded-xl shadow-xl p-6 sm:p-8 md:p-10 border border-white/20 animate-fadeIn">
+      {/* 🔐 Ícono institucional */}
+      <div className="mb-4 sm:mb-6">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-10 w-10 text-white mx-auto"
+          className="h-8 w-8 sm:h-10 sm:w-10 text-white mx-auto"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
           strokeWidth={2}
+          aria-hidden="true"
         >
           <path
             strokeLinecap="round"
@@ -76,7 +84,7 @@ const AuthWrapper = () => {
       <button
         type="button"
         onClick={() => setMostrarRegistro(!mostrarRegistro)}
-        className="mt-6 text-blue-300 hover:text-white font-medium transition duration-200"
+        className="mt-6 text-blue-300 hover:text-white text-sm sm:text-base font-medium transition duration-200"
       >
         {mostrarRegistro
           ? "¿Ya tienes cuenta? Inicia sesión"
@@ -85,7 +93,7 @@ const AuthWrapper = () => {
 
       {/* ⏳ Estado de carga */}
       {!role && (
-        <p className="text-white/60 mt-4 text-sm text-center">
+        <p className="text-white/60 mt-4 text-xs sm:text-sm text-center">
           Verificando sesión activa...
         </p>
       )}

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 const API_URL = import.meta.env.VITE_API_URL?.trim() || "http://localhost:3000";
 
@@ -11,6 +12,7 @@ const ActividadForm = ({ cursoId, onActividadCreada }) => {
     fechaEntrega: "",
     ponderacion: 0,
     materia: "",
+    lapso: "",
     recursos: [],
   });
 
@@ -19,6 +21,7 @@ const ActividadForm = ({ cursoId, onActividadCreada }) => {
 
   const tipos = ["tarea", "proyecto", "examen", "otro"];
   const materias = ["Matemáticas", "Lengua", "Historia", "Ciencias", "Arte"];
+  const lapsos = ["Lapso 1", "Lapso 2", "Lapso 3"];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,8 +43,18 @@ const ActividadForm = ({ cursoId, onActividadCreada }) => {
       return;
     }
 
-    if (!formData.materia) {
-      setError("⚠️ La materia es obligatoria.");
+    let docenteId;
+    try {
+      const decoded = jwtDecode(token);
+      docenteId = decoded.id || decoded._id;
+    } catch (err) {
+      setError("❌ Token inválido o no contiene ID de usuario.");
+      setLoading(false);
+      return;
+    }
+
+    if (!formData.materia || !formData.lapso) {
+      setError("⚠️ La materia y el lapso son obligatorios.");
       setLoading(false);
       return;
     }
@@ -58,7 +71,11 @@ const ActividadForm = ({ cursoId, onActividadCreada }) => {
       return;
     }
 
-    const payload = { ...formData, cursoId };
+    const payload = {
+      ...formData,
+      cursoId,
+      docenteId,
+    };
 
     console.log("📤 Enviando actividad al backend:", payload);
 
@@ -84,6 +101,7 @@ const ActividadForm = ({ cursoId, onActividadCreada }) => {
         fechaEntrega: "",
         ponderacion: 0,
         materia: "",
+        lapso: "",
         recursos: [],
       });
     } catch (err) {
@@ -125,6 +143,12 @@ const ActividadForm = ({ cursoId, onActividadCreada }) => {
           name: "materia",
           type: "select",
           options: materias,
+        },
+        {
+          label: "📆 Lapso académico",
+          name: "lapso",
+          type: "select",
+          options: lapsos,
         },
       ].map(({ label, name, type, ...rest }) => (
         <div key={name} className="space-y-2">

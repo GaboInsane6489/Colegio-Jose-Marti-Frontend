@@ -10,6 +10,7 @@ const esObjectIdValido = (id) =>
 
 /**
  * 🎓 Hook institucional para gestionar actividades académicas por curso y filtros.
+ * Soporta filtros: cursoId, tipo, estado, materia, lapso
  */
 const useActividades = (tokenProp, filtros = {}) => {
   const [actividades, setActividades] = useState([]);
@@ -32,6 +33,7 @@ const useActividades = (tokenProp, filtros = {}) => {
     try {
       const params = {};
 
+      // ✅ Validación de cursoId
       if (filtros.cursoId && esObjectIdValido(filtros.cursoId)) {
         params.cursoId = filtros.cursoId;
       } else if (filtros.cursoId) {
@@ -39,11 +41,14 @@ const useActividades = (tokenProp, filtros = {}) => {
         throw new Error("ID de curso inválido o no proporcionado.");
       }
 
+      // ✅ Filtros adicionales
       if (filtros.tipo && filtros.tipo !== "todos") params.tipo = filtros.tipo;
       if (filtros.estado && filtros.estado !== "todos")
         params.estado = filtros.estado;
       if (filtros.materia && filtros.materia !== "todos")
         params.materia = filtros.materia;
+      if (filtros.lapso && filtros.lapso !== "todos")
+        params.lapso = filtros.lapso;
 
       const { data } = await axios.get(`${API_URL}/api/actividades`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -77,6 +82,7 @@ const useActividades = (tokenProp, filtros = {}) => {
     filtros.tipo,
     filtros.estado,
     filtros.materia,
+    filtros.lapso, // ✅ nuevo filtro incluido
   ]);
 
   useEffect(() => {

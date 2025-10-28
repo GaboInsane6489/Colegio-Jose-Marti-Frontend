@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import {
   FaMicroscope,
@@ -88,7 +88,7 @@ const HeroSection = () => {
   const next = () => setIndex((prev) => (prev + 1) % total);
   const prev = () => setIndex((prev - 1 + total) % total);
 
-  const { ref, inView } = useInView({ triggerOnce: false, threshold: 0.3 });
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.3 });
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -97,16 +97,7 @@ const HeroSection = () => {
     return () => clearInterval(interval);
   }, [total]);
 
-  const beneficioActual =
-    total > 0 && beneficios[index] ? beneficios[index] : null;
-
-  if (!beneficioActual || !beneficioActual.imagen) {
-    return (
-      <section className="text-center py-10 text-white">
-        <p>No se pudo cargar el contenido académico.</p>
-      </section>
-    );
-  }
+  const beneficioActual = beneficios[index];
 
   return (
     <section
@@ -114,53 +105,58 @@ const HeroSection = () => {
       className="relative w-full bg-[var(--color-primary)] text-[var(--color-text)] pt-10 pb-20 px-4 sm:px-6 overflow-hidden rounded-xl"
     >
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
         className="max-w-5xl mx-auto text-center relative"
       >
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-8 sm:mb-10 text-black drop-shadow-sm">
+        <h2 className="text-xl sm:text-2xl md:text-4xl font-bold mb-6 sm:mb-10 text-black drop-shadow-sm">
           Nuestra esencia académica
         </h2>
 
-        <motion.div
-          key={index}
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="rounded-xl shadow-lg overflow-hidden mx-auto max-w-3xl bg-[#1f1f1f] border border-[#444] text-center"
-        >
-          <img
-            src={beneficioActual.imagen}
-            alt={beneficioActual.titulo}
-            className="w-full h-48 sm:h-64 md:h-[280px] object-cover"
-          />
-          <div className="p-4 sm:p-6">
-            {beneficioActual.icono}
-            <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.6)]">
-              {beneficioActual.titulo}
-            </h3>
-            <div className="space-y-2 text-sm text-white">
-              {beneficioActual.descripcion.map((linea, i) => (
-                <p key={i}>{linea}</p>
-              ))}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={beneficioActual.titulo}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.4 }}
+            className="rounded-xl shadow-lg overflow-hidden mx-auto max-w-[95%] sm:max-w-3xl bg-[#1f1f1f] border border-[#444] text-center"
+          >
+            <img
+              src={beneficioActual.imagen}
+              alt={beneficioActual.titulo}
+              className="w-full h-40 sm:h-64 md:h-[280px] object-cover"
+            />
+            <div className="p-4 sm:p-6">
+              {beneficioActual.icono}
+              <h3 className="text-base sm:text-xl font-semibold mb-3 sm:mb-4 text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.6)]">
+                {beneficioActual.titulo}
+              </h3>
+              <div className="space-y-2 text-sm text-white">
+                {beneficioActual.descripcion.map((linea, i) => (
+                  <p key={i}>{linea}</p>
+                ))}
+              </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </AnimatePresence>
 
         {/* Botones laterales */}
-        <button
+        <motion.button
           onClick={prev}
-          className="hidden sm:block absolute top-1/2 left-0 transform -translate-y-1/2 px-4 py-2 bg-[#1a1a1a] text-white rounded-full shadow-md hover:shadow-[0_0_16px_#ffffff] transition-all duration-300"
+          whileTap={{ scale: 0.95 }}
+          className="hidden sm:block absolute top-1/2 left-0 transform -translate-y-1/2 px-3 py-2 bg-[#1a1a1a] text-white rounded-full shadow-md hover:shadow-[0_0_16px_#ffffff] transition-all duration-300"
         >
           ←
-        </button>
-        <button
+        </motion.button>
+        <motion.button
           onClick={next}
-          className="hidden sm:block absolute top-1/2 right-0 transform -translate-y-1/2 px-4 py-2 bg-[#1a1a1a] text-white rounded-full shadow-md hover:shadow-[0_0_16px_#ffffff] transition-all duration-300"
+          whileTap={{ scale: 0.95 }}
+          className="hidden sm:block absolute top-1/2 right-0 transform -translate-y-1/2 px-3 py-2 bg-[#1a1a1a] text-white rounded-full shadow-md hover:shadow-[0_0_16px_#ffffff] transition-all duration-300"
         >
           →
-        </button>
+        </motion.button>
       </motion.div>
     </section>
   );

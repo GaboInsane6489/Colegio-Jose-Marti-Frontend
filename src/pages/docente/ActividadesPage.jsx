@@ -22,6 +22,10 @@ const ActividadesPage = () => {
   const [filtroTipo, setFiltroTipo] = useState("todos");
   const [filtroEstado, setFiltroEstado] = useState("todos");
   const [filtroMateria, setFiltroMateria] = useState("todos");
+  const [filtroTipoTemp, setFiltroTipoTemp] = useState("todos");
+  const [filtroEstadoTemp, setFiltroEstadoTemp] = useState("todos");
+  const [filtroMateriaTemp, setFiltroMateriaTemp] = useState("todos");
+
   const [paginaActual, setPaginaActual] = useState(1);
   const [actividades, setActividades] = useState([]);
   const [actividadEditando, setActividadEditando] = useState(null);
@@ -170,13 +174,28 @@ const ActividadesPage = () => {
         <FiltrosActividades
           orden={orden}
           setOrden={setOrden}
-          filtroTipo={filtroTipo}
-          setFiltroTipo={setFiltroTipo}
-          filtroEstado={filtroEstado}
-          setFiltroEstado={setFiltroEstado}
-          filtroMateria={filtroMateria}
-          setFiltroMateria={setFiltroMateria}
+          filtroTipo={filtroTipoTemp}
+          setFiltroTipo={setFiltroTipoTemp}
+          filtroEstado={filtroEstadoTemp}
+          setFiltroEstado={setFiltroEstadoTemp}
+          filtroMateria={filtroMateriaTemp}
+          setFiltroMateria={setFiltroMateriaTemp}
         />
+
+        <div className="text-center pt-4">
+          <button
+            onClick={() => {
+              setFiltroTipo(filtroTipoTemp);
+              setFiltroEstado(filtroEstadoTemp);
+              setFiltroMateria(filtroMateriaTemp);
+              setPaginaActual(1); // Reinicia paginación
+              setToast({ mensaje: "✅ Filtros aplicados", tipo: "success" });
+            }}
+            className="bg-blue-600 text-white px-5 py-2 rounded-full font-medium hover:bg-blue-500 transition"
+          >
+            🔍 Aplicar filtros
+          </button>
+        </div>
 
         <div className="text-center">
           <button
@@ -217,27 +236,29 @@ const ActividadesPage = () => {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[80vh] overflow-y-auto px-2">
-              {actividadesPaginadas.map((actividad, index) => {
-                if (!isActividadValida(actividad)) {
-                  console.warn("⚠️ Actividad inválida detectada:", actividad);
-                  return null;
-                }
+            <div className="max-h-[80vh] overflow-y-auto px-2 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent rounded-md">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-2">
+                {actividadesPaginadas.map((actividad, index) => {
+                  if (!isActividadValida(actividad)) {
+                    console.warn("⚠️ Actividad inválida detectada:", actividad);
+                    return null;
+                  }
 
-                const clave = `actividad-${
-                  actividad._id || actividad.id || index
-                }`;
+                  const clave = `actividad-${
+                    actividad._id || actividad.id || index
+                  }`;
 
-                return (
-                  <ActividadCard
-                    key={clave}
-                    actividad={actividad}
-                    onEditar={handleEditarActividad}
-                    onEliminar={handleEliminarActividad}
-                    onNotificar={handleNotificarActividad}
-                  />
-                );
-              })}
+                  return (
+                    <ActividadCard
+                      key={clave}
+                      actividad={actividad}
+                      onEditar={handleEditarActividad}
+                      onEliminar={handleEliminarActividad}
+                      onNotificar={handleNotificarActividad}
+                    />
+                  );
+                })}
+              </div>
             </div>
 
             <div className="flex justify-center items-center gap-4 pt-6">

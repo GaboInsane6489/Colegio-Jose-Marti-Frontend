@@ -41,9 +41,16 @@ const LoginForm = ({ setRole }) => {
       document.cookie = `userRole=${role}; path=/`;
       setRole(role);
 
-      if (role === "admin") navigate("/admin/dashboard");
-      else if (role === "docente") navigate("/docente/dashboard");
-      else navigate("/estudiante/dashboard");
+      switch (role) {
+        case "admin":
+          navigate("/admin/dashboard");
+          break;
+        case "docente":
+          navigate("/docente/dashboard");
+          break;
+        default:
+          navigate("/estudiante/dashboard");
+      }
     } catch (err) {
       console.error("❌ Error en el login:", err);
       setError("Credenciales inválidas o cuenta no validada.");
@@ -54,50 +61,84 @@ const LoginForm = ({ setRole }) => {
     <div className="flex justify-center w-full">
       <form
         onSubmit={handleLogin}
-        className="w-full max-w-sm bg-white p-6 px-4 shadow-md rounded-xl space-y-5 border border-gray-200"
+        className="w-full max-w-xs sm:max-w-sm md:max-w-md bg-white p-5 sm:p-6 md:p-8 shadow-lg rounded-xl space-y-5 border border-black animate-fadeIn"
         aria-label="Formulario de inicio de sesión"
       >
-        <h2 className="text-lg font-semibold text-center text-gray-800 flex items-center justify-center gap-2">
-          <UserIcon className="h-5 w-5 text-gray-600" />
+        {/* 🧾 Título centrado */}
+        <h2 className="text-sm sm:text-base md:text-lg font-semibold text-center text-black mb-2">
           Iniciar sesión
         </h2>
+
+        {/* 🔒 Icono institucional debajo del título */}
+        <div className="flex justify-center mb-4">
+          <UserIcon className="h-8 w-8 text-black" />
+        </div>
 
         {error && (
           <div
             id="login-error"
-            className="bg-red-100 text-red-700 px-4 py-2 rounded-md text-sm text-center"
+            className="bg-red-100 text-red-700 px-4 py-2 rounded-md text-xs sm:text-sm text-center"
           >
             {error}
           </div>
         )}
 
-        <InputField
-          id="email"
-          label="Correo institucional"
-          type="email"
-          placeholder="Ej. maria@colegio.edu.ve"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          icon={<EnvelopeIcon className="h-5 w-5 text-gray-400" />}
-          aria-invalid={!!error}
-          aria-describedby={error ? "login-error" : undefined}
-          className={error ? "border-red-400" : ""}
-        />
-        <InputField
-          id="password"
-          label="Contraseña"
-          type="password"
-          placeholder="••••••••"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          icon={<LockClosedIcon className="h-5 w-5 text-gray-400" />}
-          aria-invalid={!!error}
-          aria-describedby={error ? "login-error" : undefined}
-          className={error ? "border-red-400" : ""}
-        />
+        {/* 📧 Correo */}
+        <div className="w-full">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-black mb-1"
+          >
+            Correo institucional
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <EnvelopeIcon className="h-5 w-5 text-gray-500" />
+            </div>
+            <input
+              id="email"
+              type="email"
+              placeholder="Ej. maria@colegio.edu.ve"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className={`w-full pl-10 pr-4 py-2 border rounded-md text-sm sm:text-base text-black focus:outline-none focus:ring-2 focus:ring-gray-800 ${
+                error ? "border-red-400" : "border-black"
+              }`}
+              aria-invalid={!!error}
+              aria-describedby={error ? "login-error" : undefined}
+            />
+          </div>
+        </div>
+
+        {/* 🔑 Contraseña */}
+        <div className="w-full">
+          <label
+            htmlFor="password"
+            className="block text-sm font-medium text-black mb-1"
+          >
+            Contraseña
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <LockClosedIcon className="h-5 w-5 text-gray-500" />
+            </div>
+            <input
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className={`w-full pl-10 pr-4 py-2 border rounded-md text-sm sm:text-base text-black focus:outline-none focus:ring-2 focus:ring-gray-800 ${
+                error ? "border-red-400" : "border-black"
+              }`}
+              aria-invalid={!!error}
+              aria-describedby={error ? "login-error" : undefined}
+            />
+          </div>
+        </div>
 
         {/* ✅ Mantener sesión iniciada */}
-        <div className="flex items-center gap-2 text-sm text-gray-700">
+        <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-700">
           <input
             type="checkbox"
             id="mantenerSesion"
@@ -108,9 +149,10 @@ const LoginForm = ({ setRole }) => {
           <label htmlFor="mantenerSesion">Mantener sesión iniciada</label>
         </div>
 
+        {/* 🎯 Botón de acceso */}
         <button
           type="submit"
-          className="w-full bg-gray-900 text-white py-2.5 rounded-md hover:bg-gray-800 transition font-medium"
+          className="w-full bg-gray-900 text-white py-2 rounded-md hover:bg-gray-300 hover:text-black transition font-medium text-sm sm:text-base"
           aria-label="Acceder al sistema"
         >
           Acceder
