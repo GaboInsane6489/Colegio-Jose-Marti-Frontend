@@ -40,6 +40,12 @@ const AuthWrapper = () => {
         }
       } catch (error) {
         console.error("❌ Error al verificar sesión:", error);
+
+        if (error.response?.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userRole");
+          navigate("/auth");
+        }
       }
     };
 

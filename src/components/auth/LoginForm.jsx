@@ -28,13 +28,18 @@ const LoginForm = ({ setRole }) => {
       const res = await loginUsuario(email, password);
       const { token } = res.data;
 
+      // Guardar token según preferencia
       if (mantenerSesion) {
         localStorage.setItem("token", token);
       } else {
         sessionStorage.setItem("token", token);
       }
 
-      const pingRes = await pingUsuario(token);
+      // Recuperar token desde donde esté guardado
+      const storedToken =
+        localStorage.getItem("token") || sessionStorage.getItem("token");
+
+      const pingRes = await pingUsuario(storedToken);
       const { role } = pingRes.data;
 
       localStorage.setItem("userRole", role);

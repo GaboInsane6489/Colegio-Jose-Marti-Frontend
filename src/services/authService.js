@@ -1,8 +1,7 @@
 import axios from "axios";
 
-// 🌐 URL base del backend
-// Recomendado: usar import.meta.env.VITE_API_URL para entornos productivos
-const API_URL = "http://localhost:3000";
+// 🌐 URL base del backend desde entorno
+const API_URL = import.meta.env.VITE_API_URL;
 
 /**
  * 🔐 Login universal para estudiantes, docentes y administradores
