@@ -14,10 +14,15 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src"),
     },
   },
+  build: {
+    outDir: "dist",
+    emptyOutDir: true,
+  },
+  base: "/", // Asegura que Render sirva correctamente rutas internas
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:3000", // ✅ tu backend
+        target: "http://localhost:3000", // Solo para desarrollo local
         changeOrigin: true,
         secure: false,
       },
