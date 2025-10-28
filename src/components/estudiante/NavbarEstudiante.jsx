@@ -12,6 +12,7 @@ const NavbarEstudiante = () => {
   const [showMobileNav, setShowMobileNav] = useState(false);
 
   const location = useLocation();
+  const API_URL = import.meta.env.VITE_API_URL?.trim();
 
   useEffect(() => {
     const fetchEstudiante = async () => {
@@ -19,16 +20,13 @@ const NavbarEstudiante = () => {
         const storedToken =
           localStorage.getItem("token") || sessionStorage.getItem("token");
 
-        if (!storedToken) return;
+        if (!storedToken || !API_URL) return;
 
         setToken(storedToken);
 
-        const res = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/auth/ping`,
-          {
-            headers: { Authorization: `Bearer ${storedToken}` },
-          }
-        );
+        const res = await axios.get(`${API_URL}/api/auth/ping`, {
+          headers: { Authorization: `Bearer ${storedToken}` },
+        });
 
         setNombre(res.data.nombre || res.data.email);
         setUsuarioId(res.data.uid || res.data._id);
@@ -38,7 +36,7 @@ const NavbarEstudiante = () => {
     };
 
     fetchEstudiante();
-  }, []);
+  }, [API_URL]);
 
   const logout = () => {
     localStorage.removeItem("token");

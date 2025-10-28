@@ -8,6 +8,8 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [userRole, setUserRole] = useState("");
 
+  const API_URL = import.meta.env.VITE_API_URL?.trim();
+
   const navLinks = [
     { name: "Inicio", path: "/" },
     { name: "Nosotros", path: "/about" },
@@ -20,9 +22,9 @@ const Navbar = () => {
         const token =
           localStorage.getItem("token") || sessionStorage.getItem("token");
 
-        if (!token) return;
+        if (!token || !API_URL) return;
 
-        const response = await fetch("http://localhost:3000/api/auth/ping", {
+        const response = await fetch(`${API_URL}/api/auth/ping`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -44,10 +46,10 @@ const Navbar = () => {
     };
 
     fetchRole();
-  }, []);
+  }, [API_URL]);
 
   const handleUserIconClick = () => {
-    window.location.href = "http://localhost:5173/auth";
+    window.location.href = "/auth";
   };
 
   return (
@@ -60,7 +62,6 @@ const Navbar = () => {
       className="fixed top-0 w-full h-16 bg-black text-white shadow-md z-50 transition-all duration-500"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-        {/* Logo institucional */}
         <Link
           to="/"
           aria-label="Ir al inicio"
@@ -73,7 +74,6 @@ const Navbar = () => {
           />
         </Link>
 
-        {/* Navegación en desktop */}
         <div className="hidden md:flex items-center space-x-6">
           {navLinks.map((link) => (
             <Link
@@ -86,7 +86,6 @@ const Navbar = () => {
             </Link>
           ))}
 
-          {/* Ícono de usuario + rol */}
           <button
             onClick={handleUserIconClick}
             aria-label="Acceder al sistema"
@@ -101,7 +100,6 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* Botón hamburguesa en móvil */}
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="md:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-white text-xl"
@@ -111,7 +109,6 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Menú móvil */}
       {isOpen && (
         <div
           role="menu"

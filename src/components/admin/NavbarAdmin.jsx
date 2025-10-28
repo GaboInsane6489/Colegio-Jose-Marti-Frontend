@@ -9,18 +9,18 @@ const NavbarAdmin = () => {
   const [showMobileNav, setShowMobileNav] = useState(false);
 
   const location = useLocation();
+  const API_URL = import.meta.env.VITE_API_URL?.trim();
 
   useEffect(() => {
     const fetchAdmin = async () => {
       try {
         const token =
           localStorage.getItem("token") || sessionStorage.getItem("token");
-        const res = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/auth/ping`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        if (!token || !API_URL) return;
+
+        const res = await axios.get(`${API_URL}/api/auth/ping`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setAdminName(res.data.email);
       } catch (error) {
         console.error("❌ Error al obtener el nombre del admin:", error);
@@ -28,7 +28,7 @@ const NavbarAdmin = () => {
     };
 
     fetchAdmin();
-  }, []);
+  }, [API_URL]);
 
   const logout = () => {
     localStorage.removeItem("token");

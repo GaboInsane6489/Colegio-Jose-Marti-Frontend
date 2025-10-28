@@ -9,17 +9,17 @@ const NavbarDocente = () => {
   const [showMobileNav, setShowMobileNav] = useState(false);
 
   const location = useLocation();
+  const API_URL = import.meta.env.VITE_API_URL?.trim();
 
   useEffect(() => {
     const fetchDocente = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/auth/ping`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        if (!token || !API_URL) return;
+
+        const res = await axios.get(`${API_URL}/api/auth/ping`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setDocenteName(res.data.email);
       } catch (error) {
         console.error("❌ Error al obtener el nombre del docente:", error);
@@ -27,7 +27,7 @@ const NavbarDocente = () => {
     };
 
     fetchDocente();
-  }, []);
+  }, [API_URL]);
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -60,7 +60,6 @@ const NavbarDocente = () => {
       className="fixed top-0 left-0 right-0 z-50 bg-black text-white shadow-md border-b border-white"
     >
       <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-        {/* 🖥️ Navegación escritorio alineada a la izquierda */}
         <div className="hidden md:flex items-center gap-6 text-sm font-medium ml-4">
           {enlaces.map(({ path, label, external }) =>
             external ? (
@@ -84,7 +83,6 @@ const NavbarDocente = () => {
           )}
         </div>
 
-        {/* 📱 Botón menú móvil */}
         <button
           onClick={() => setShowMobileNav(!showMobileNav)}
           className="md:hidden text-white hover:text-white transition"
@@ -93,7 +91,6 @@ const NavbarDocente = () => {
           ☰
         </button>
 
-        {/* 👤 Menú usuario */}
         <div className="relative">
           <button
             onClick={() => setShowMenu(!showMenu)}
@@ -138,7 +135,6 @@ const NavbarDocente = () => {
         </div>
       </div>
 
-      {/* 📱 Menú móvil desplegable centrado */}
       <AnimatePresence>
         {showMobileNav && (
           <motion.nav

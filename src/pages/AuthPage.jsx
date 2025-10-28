@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import AuthWrapper from "../components/auth/AuthWrapper";
 import { motion } from "framer-motion";
-import { Particles } from "@tsparticles/react"; // ✅ CORREGIDO
+import { Particles } from "@tsparticles/react";
 
 const AuthPage = () => {
   const particlesOptions = {
