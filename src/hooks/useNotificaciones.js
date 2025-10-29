@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL?.trim() || "http://localhost:3000";
@@ -8,7 +8,9 @@ const useNotificaciones = (token, usuarioId) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const fetchNotificaciones = async () => {
+  const fetchNotificaciones = useCallback(async () => {
+    if (!token || !usuarioId) return;
+
     setLoading(true);
     setError("");
 
@@ -32,7 +34,7 @@ const useNotificaciones = (token, usuarioId) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [token, usuarioId]);
 
   const marcarComoLeida = async (notificacionId) => {
     try {
@@ -53,10 +55,8 @@ const useNotificaciones = (token, usuarioId) => {
   };
 
   useEffect(() => {
-    if (token && usuarioId) {
-      fetchNotificaciones();
-    }
-  }, [token, usuarioId]);
+    fetchNotificaciones();
+  }, [fetchNotificaciones]);
 
   return {
     notificaciones,

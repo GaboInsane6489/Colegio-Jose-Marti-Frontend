@@ -4,10 +4,16 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "prepare": "husky install",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "npm run lint"
+    ]
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -34,9 +40,12 @@
     "@vitejs/plugin-react": "^5.0.3",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.36.0",
+    "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.4.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.13",
     "vite": "^7.1.7"

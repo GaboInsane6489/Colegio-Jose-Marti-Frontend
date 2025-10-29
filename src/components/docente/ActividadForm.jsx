@@ -47,7 +47,7 @@ const ActividadForm = ({ cursoId, onActividadCreada }) => {
     try {
       const decoded = jwtDecode(token);
       docenteId = decoded.id || decoded._id;
-    } catch (err) {
+    } catch {
       setError("❌ Token inválido o no contiene ID de usuario.");
       setLoading(false);
       return;

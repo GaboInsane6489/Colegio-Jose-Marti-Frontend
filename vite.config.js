@@ -11,18 +11,18 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"),
+      "@": path.resolve(__dirname, "src"), // Permite usar "@/..." para importar desde src/
     },
   },
   build: {
     outDir: "dist",
     emptyOutDir: true,
   },
-  base: "/", // Asegura que Render sirva correctamente rutas internas
+  base: "/", // Recomendado para despliegue en Render: asegura rutas internas correctas
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:3000", // Solo para desarrollo local
+        target: "http://localhost:3000", // Proxy local para desarrollo backend
         changeOrigin: true,
         secure: false,
       },

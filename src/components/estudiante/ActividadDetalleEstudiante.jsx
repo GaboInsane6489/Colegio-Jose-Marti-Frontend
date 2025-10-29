@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-const ActividadDetalleEstudiante = ({ entrega, usuarioId }) => {
+const ActividadDetalleEstudiante = ({ entrega, usuarioId: _usuarioId }) => {
   const [expandido, setExpandido] = useState(false);
   const navigate = useNavigate();
 

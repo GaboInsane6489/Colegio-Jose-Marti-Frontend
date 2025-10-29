@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"; // ← compatible con entorno
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 const useDocentes = () => {
   const [docentes, setDocentes] = useState([]);
@@ -11,15 +11,12 @@ const useDocentes = () => {
   const getToken = () =>
     localStorage.getItem("token") || sessionStorage.getItem("token");
 
-  const getHeaders = () => {
+  const getHeaders = useCallback(() => {
     const token = getToken();
     return token ? { Authorization: `Bearer ${token}` } : {};
-  };
+  }, []);
 
-  /**
-   * 📋 Obtener lista de docentes institucionales
-   */
-  const fetchDocentes = async () => {
+  const fetchDocentes = useCallback(async () => {
     const headers = getHeaders();
     if (!headers.Authorization) {
       console.warn("🔒 No hay token disponible para obtener docentes");
@@ -44,17 +41,18 @@ const useDocentes = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [getHeaders]);
 
-  /**
-   * 📝 Crear nuevo docente institucional
-   */
+  useEffect(() => {
+    fetchDocentes();
+  }, [fetchDocentes]);
+
   const crearDocente = async (nuevo) => {
     const headers = getHeaders();
     try {
       const payload = {
         nombre: nuevo.nombre,
-        email: nuevo.correo, // 👈 corregido
+        email: nuevo.correo,
         password: nuevo.password,
         role: "docente",
       };
@@ -75,9 +73,6 @@ const useDocentes = () => {
     }
   };
 
-  /**
-   * ✏️ Actualizar docente institucional
-   */
   const actualizarDocente = async (id, actualizado) => {
     const headers = getHeaders();
     try {
@@ -101,9 +96,6 @@ const useDocentes = () => {
     }
   };
 
-  /**
-   * ❌ Eliminar docente institucional
-   */
   const eliminarDocente = async (id) => {
     const headers = getHeaders();
     try {
@@ -115,10 +107,6 @@ const useDocentes = () => {
       setError("No se pudo eliminar el docente");
     }
   };
-
-  useEffect(() => {
-    fetchDocentes();
-  }, []);
 
   return {
     docentes,

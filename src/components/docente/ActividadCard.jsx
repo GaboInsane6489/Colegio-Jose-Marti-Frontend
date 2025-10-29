@@ -41,7 +41,7 @@ const ActividadCard = ({ actividad, onEditar, onEliminar, onNotificar }) => {
   if (fechaEntrega) {
     try {
       fechaFormateada = format(new Date(fechaEntrega), "PPP", { locale: es });
-    } catch (err) {
+    } catch {
       console.warn("⚠️ Fecha inválida en actividad:", fechaEntrega);
     }
   }

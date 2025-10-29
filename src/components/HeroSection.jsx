@@ -86,13 +86,13 @@ const HeroSection = () => {
   const total = beneficios.length;
 
   const next = () => setIndex((prev) => (prev + 1) % total);
-  const prev = () => setIndex((prev - 1 + total) % total);
+  const prev = () => setIndex((prevIndex) => (prevIndex - 1 + total) % total);
 
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.3 });
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % total);
+      setIndex((prevIndex) => (prevIndex + 1) % total);
     }, 6000);
     return () => clearInterval(interval);
   }, [total]);

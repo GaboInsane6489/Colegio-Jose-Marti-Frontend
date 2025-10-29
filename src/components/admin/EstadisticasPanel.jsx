@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import {
@@ -33,7 +33,7 @@ const EstadisticasPanel = () => {
     }[label];
   };
 
-  const fetchEstadisticas = async () => {
+  const fetchEstadisticas = useCallback(async () => {
     try {
       const { data } = await axios.get("/api/estadisticas");
       setEstadisticas([
@@ -59,13 +59,13 @@ const EstadisticasPanel = () => {
     } catch (error) {
       console.error("Error al cargar estadísticas", error);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchEstadisticas();
     const interval = setInterval(fetchEstadisticas, 30000);
     return () => clearInterval(interval);
-  }, []);
+  }, [fetchEstadisticas]);
 
   return (
     <motion.section

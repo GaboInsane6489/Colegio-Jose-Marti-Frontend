@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import NotificacionesIcon from "@/components/estudiante/NotificacionesIcon.jsx";
 import { motion, AnimatePresence } from "framer-motion";
@@ -12,6 +12,7 @@ const NavbarEstudiante = () => {
   const [showMobileNav, setShowMobileNav] = useState(false);
 
   const location = useLocation();
+  const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_API_URL?.trim();
 
   useEffect(() => {
@@ -41,7 +42,9 @@ const NavbarEstudiante = () => {
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userRole");
-    window.location.href = "/auth";
+    document.cookie =
+      "userRole=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    navigate("/auth"); // ✅ navegación interna segura
   };
 
   const enlaces = [
@@ -66,7 +69,7 @@ const NavbarEstudiante = () => {
       className="fixed top-0 left-0 right-0 z-50 bg-black text-white shadow-md border-b border-white"
     >
       <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-        {/* 🖥️ Navegación escritorio alineada a la izquierda */}
+        {/* 🖥️ Navegación escritorio */}
         <div className="hidden md:flex items-center gap-6 text-sm font-medium ml-4">
           {enlaces.map(({ path, label }) => (
             <div key={path} className="relative group">
@@ -138,7 +141,7 @@ const NavbarEstudiante = () => {
                     Cerrar sesión
                   </button>
                   <button
-                    onClick={() => window.location.reload()}
+                    onClick={() => navigate(0)}
                     className="w-full text-left px-4 py-2 hover:bg-white/10"
                   >
                     Recargar
@@ -150,7 +153,7 @@ const NavbarEstudiante = () => {
         </div>
       </div>
 
-      {/* 📱 Menú móvil desplegable centrado */}
+      {/* 📱 Menú móvil */}
       <AnimatePresence>
         {showMobileNav && (
           <motion.nav

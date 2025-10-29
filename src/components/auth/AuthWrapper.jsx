@@ -22,13 +22,13 @@ const AuthWrapper = () => {
 
       try {
         const res = await pingUsuario(token);
-        const { role } = res.data;
+        const { role: userRole } = res.data;
 
-        localStorage.setItem("userRole", role);
-        document.cookie = `userRole=${role}; path=/`;
-        setRole(role);
+        localStorage.setItem("userRole", userRole);
+        document.cookie = `userRole=${userRole}; path=/`;
+        setRole(userRole);
 
-        switch (role) {
+        switch (userRole) {
           case "admin":
             navigate("/admin/dashboard");
             break;

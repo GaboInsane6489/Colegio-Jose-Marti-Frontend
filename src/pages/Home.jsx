@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { motion } from "framer-motion";
 
@@ -9,6 +9,26 @@ import GraduationSection from "../components/GraduationSection";
 import ValoresSection from "../components/ValoresSection";
 import TestimoniosSection from "../components/TestimoniosSection";
 import ProyectosSection from "../components/ProyectosSection";
+
+const AnimatedSection = ({ Component: _Component, delay }) => {
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 });
+
+  return (
+    <motion.div
+      ref={ref}
+      variants={{
+        hidden: { opacity: 0, y: 30 },
+        visible: { opacity: 1, y: 0 },
+      }}
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
+      transition={{ duration: 0.4, ease: "easeOut", delay }}
+      className="bg-white/5 backdrop-blur-md rounded-xl p-4 sm:p-6"
+    >
+      <_Component />
+    </motion.div>
+  );
+};
 
 const Home = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.3 });
@@ -21,11 +41,6 @@ const Home = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const fadeUp = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0 },
-  };
 
   return (
     <main className="relative z-0 min-h-screen overflow-x-hidden text-white">
@@ -70,26 +85,9 @@ const Home = () => {
             TestimoniosSection,
             ProyectosSection,
             GraduationSection,
-          ].map((Section, i) => {
-            const [sectionRef, sectionInView] = useInView({
-              triggerOnce: true,
-              threshold: 0.3,
-            });
-
-            return (
-              <motion.div
-                key={i}
-                ref={sectionRef}
-                variants={fadeUp}
-                initial="hidden"
-                animate={sectionInView ? "visible" : "hidden"}
-                transition={{ duration: 0.4, ease: "easeOut", delay: i * 0.1 }}
-                className="bg-white/5 backdrop-blur-md rounded-xl p-4 sm:p-6"
-              >
-                <Section />
-              </motion.div>
-            );
-          })}
+          ].map((Section, i) => (
+            <AnimatedSection key={i} Component={Section} delay={i * 0.1} />
+          ))}
         </div>
       </div>
     </main>

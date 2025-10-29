@@ -97,13 +97,14 @@ const ActividadesPage = () => {
 
   const handleNotificarActividad = async (id) => {
     try {
-      const { data } = await axios.post(
+      await axios.post(
         `${API_URL}/api/actividades/${id}/notificar`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+
       setActividades((prev) =>
         prev.map((act) => (act._id === id ? { ...act, notificada: true } : act))
       );

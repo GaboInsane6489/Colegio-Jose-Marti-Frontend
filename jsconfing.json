@@ -3,6 +3,15 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
-    }
-  }
+    },
+    "jsx": "react-jsx",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "target": "esnext",
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "checkJs": false
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }
