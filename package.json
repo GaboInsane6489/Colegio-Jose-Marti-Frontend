@@ -7,8 +7,11 @@
     "prepare": "husky install",
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx --cache --cache-location node_modules/.eslintcache",
+    "limpiar": "rimraf dist node_modules .vite",
+    "reinstalar": "npm install",
+    "deploy": "npm run limpiar && npm run reinstalar && npm run build"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -47,6 +50,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.2.6",
     "postcss": "^8.5.6",
+    "rimraf": "^5.0.5",
     "tailwindcss": "^4.1.13",
     "vite": "^7.1.7"
   }
