@@ -4,7 +4,7 @@ import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 
 const NavbarDocente = () => {
-  const [docenteName, setDocenteName] = useState("");
+  const [docenteName, setDocenteName] = useState("Docente");
   const [showMenu, setShowMenu] = useState(false);
   const [showMobileNav, setShowMobileNav] = useState(false);
 
@@ -13,15 +13,17 @@ const NavbarDocente = () => {
   const API_URL = import.meta.env.VITE_API_URL?.trim();
 
   useEffect(() => {
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
+
+    if (!token || !API_URL) return;
+
     const fetchDocente = async () => {
       try {
-        const token = localStorage.getItem("token");
-        if (!token || !API_URL) return;
-
         const res = await axios.get(`${API_URL}/api/auth/ping`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setDocenteName(res.data.email);
+        setDocenteName(res.data.nombre || res.data.email || "Docente");
       } catch (error) {
         console.error("❌ Error al obtener el nombre del docente:", error);
       }
@@ -36,7 +38,7 @@ const NavbarDocente = () => {
     document.cookie =
       "userRole=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     alert("👋 Sesión cerrada. ¡Gracias por tu dedicación!");
-    navigate("/auth"); // ✅ navegación interna segura
+    navigate("/auth");
   };
 
   const enlaces = [

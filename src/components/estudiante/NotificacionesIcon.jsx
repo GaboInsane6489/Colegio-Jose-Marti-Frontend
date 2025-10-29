@@ -2,22 +2,32 @@ import { useState } from "react";
 import { BellIcon } from "@heroicons/react/24/outline";
 import useNotificaciones from "@/hooks/useNotificaciones.js";
 
+/**
+ * 🔔 Ícono de notificaciones institucionales
+ * Muestra contador de no leídas y dropdown interactivo.
+ */
 const NotificacionesIcon = ({ token, usuarioId }) => {
   const [abierto, setAbierto] = useState(false);
-  const { notificaciones, loading, error, marcarComoLeida } = useNotificaciones(
-    token,
-    usuarioId
-  );
 
-  const noLeidas = notificaciones.filter((n) => !n.leido);
+  const {
+    notificaciones = [],
+    loading,
+    error,
+    marcarComoLeida,
+  } = useNotificaciones(token, usuarioId);
+
+  const noLeidas = Array.isArray(notificaciones)
+    ? notificaciones.filter((n) => !n.leido)
+    : [];
 
   return (
     <div className="relative">
-      {/* Ícono de campana */}
+      {/* 🔔 Botón de campana */}
       <button
         onClick={() => setAbierto(!abierto)}
         className="relative p-2 rounded-full hover:bg-white/10 transition"
         aria-label="Notificaciones"
+        aria-expanded={abierto}
       >
         <BellIcon className="h-6 w-6 text-white" />
         {noLeidas.length > 0 && (
@@ -27,9 +37,12 @@ const NotificacionesIcon = ({ token, usuarioId }) => {
         )}
       </button>
 
-      {/* Dropdown de notificaciones */}
+      {/* 📥 Dropdown de notificaciones */}
       {abierto && (
-        <div className="absolute right-0 mt-2 w-80 bg-white text-black rounded-lg shadow-lg z-50 overflow-hidden">
+        <div
+          role="menu"
+          className="absolute right-0 mt-2 w-80 bg-white text-black rounded-lg shadow-lg z-50 overflow-hidden"
+        >
           <div className="p-4 border-b font-semibold text-lg">
             🔔 Notificaciones
           </div>
@@ -38,8 +51,12 @@ const NotificacionesIcon = ({ token, usuarioId }) => {
             {loading && (
               <p className="p-4 text-sm text-gray-500">Cargando...</p>
             )}
-            {error && <p className="p-4 text-sm text-red-500">{error}</p>}
-            {notificaciones.length === 0 && !loading && (
+            {error && (
+              <p className="p-4 text-sm text-red-500">
+                Error al cargar notificaciones.
+              </p>
+            )}
+            {!loading && notificaciones.length === 0 && (
               <p className="p-4 text-sm text-gray-500">
                 No tienes notificaciones.
               </p>

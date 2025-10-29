@@ -7,21 +7,25 @@ import RegisterForm from "./RegisterForm";
 
 /**
  * 🧭 Componente envolvente para login y registro
- * Verifica sesión activa y redirige según rol.
+ * Verifica sesión activa solo si el token ya existe.
  * Alterna entre formulario de login y registro.
  */
 const AuthWrapper = () => {
   const navigate = useNavigate();
   const [role, setRole] = useState(null);
   const [mostrarRegistro, setMostrarRegistro] = useState(false);
+  const [verificando, setVerificando] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
     const storedRole =
       localStorage.getItem("userRole") || getCookie("userRole");
 
     if (storedRole) setRole(storedRole);
-    if (!token) return; // ⛔ No verificar si no hay token
+    if (!token) return;
+
+    setVerificando(true);
 
     const verificarSesion = async () => {
       try {
@@ -32,24 +36,16 @@ const AuthWrapper = () => {
         document.cookie = `userRole=${userRole}; path=/`;
         setRole(userRole);
 
-        switch (userRole) {
-          case "admin":
-            navigate("/admin/dashboard");
-            break;
-          case "docente":
-            navigate("/docente/dashboard");
-            break;
-          default:
-            navigate("/estudiante/dashboard");
-        }
+        navigate(`/${userRole}/dashboard`);
       } catch (error) {
         console.error("❌ Error al verificar sesión:", error);
 
         if (error.response?.status === 401) {
           localStorage.removeItem("token");
           localStorage.removeItem("userRole");
-          navigate("/auth");
         }
+      } finally {
+        setVerificando(false);
       }
     };
 
@@ -97,8 +93,8 @@ const AuthWrapper = () => {
           : "¿Eres estudiante nuevo? Regístrate aquí"}
       </button>
 
-      {/* ⏳ Estado de carga solo si hay token */}
-      {!role && localStorage.getItem("token") && (
+      {/* ⏳ Estado de carga solo si hay token y está verificando */}
+      {verificando && (
         <p className="text-white/60 mt-4 text-xs sm:text-sm text-center">
           Verificando sesión activa...
         </p>

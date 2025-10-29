@@ -18,10 +18,12 @@ const LoginForm = ({ setRole }) => {
   const [password, setPassword] = useState("");
   const [mantenerSesion, setMantenerSesion] = useState(false);
   const [error, setError] = useState("");
+  const [cargando, setCargando] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
+    setCargando(true);
 
     try {
       const res = await loginUsuario(email, password);
@@ -34,12 +36,8 @@ const LoginForm = ({ setRole }) => {
         sessionStorage.setItem("token", token);
       }
 
-      // Recuperar token desde donde esté guardado
-      const storedToken =
-        localStorage.getItem("token") || sessionStorage.getItem("token");
-
       // Verificar rol con el token
-      const pingRes = await pingUsuario(storedToken);
+      const pingRes = await pingUsuario(token);
       const { role } = pingRes.data;
 
       localStorage.setItem("userRole", role);
@@ -47,19 +45,12 @@ const LoginForm = ({ setRole }) => {
       setRole(role);
 
       // Redirigir según rol
-      switch (role) {
-        case "admin":
-          navigate("/admin/dashboard");
-          break;
-        case "docente":
-          navigate("/docente/dashboard");
-          break;
-        default:
-          navigate("/estudiante/dashboard");
-      }
+      navigate(`/${role}/dashboard`);
     } catch (err) {
       console.error("❌ Error en el login:", err);
       setError("Credenciales inválidas o cuenta no validada.");
+    } finally {
+      setCargando(false);
     }
   };
 
@@ -160,10 +151,15 @@ const LoginForm = ({ setRole }) => {
         {/* 🎯 Botón de acceso */}
         <button
           type="submit"
-          className="w-full bg-gray-900 text-white py-2 rounded-md hover:bg-gray-300 hover:text-black transition font-medium text-sm sm:text-base"
+          disabled={cargando}
+          className={`w-full py-2 rounded-md font-medium text-sm sm:text-base transition ${
+            cargando
+              ? "bg-gray-400 text-white cursor-not-allowed"
+              : "bg-gray-900 text-white hover:bg-gray-300 hover:text-black"
+          }`}
           aria-label="Acceder al sistema"
         >
-          Acceder
+          {cargando ? "Ingresando..." : "Acceder"}
         </button>
       </form>
     </div>

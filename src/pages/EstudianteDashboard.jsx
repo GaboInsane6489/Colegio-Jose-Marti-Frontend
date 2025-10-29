@@ -35,7 +35,9 @@ const EstudianteDashboard = () => {
     typeof valor === "string" ? valor.trim().toLowerCase() : "";
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
+    if (!token) return;
 
     const fetchClases = async () => {
       try {
@@ -43,7 +45,7 @@ const EstudianteDashboard = () => {
           `${import.meta.env.VITE_API_URL}/api/estudiante/clases`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        setClases(res.data.clases);
+        setClases(res.data.clases || []);
       } catch (error) {
         console.error("❌ Error al cargar clases:", error);
       } finally {

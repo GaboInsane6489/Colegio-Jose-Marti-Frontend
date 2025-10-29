@@ -16,21 +16,21 @@ const NavbarEstudiante = () => {
   const API_URL = import.meta.env.VITE_API_URL?.trim();
 
   useEffect(() => {
+    const storedToken =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
+
+    if (!storedToken || !API_URL) return;
+
+    setToken(storedToken);
+
     const fetchEstudiante = async () => {
       try {
-        const storedToken =
-          localStorage.getItem("token") || sessionStorage.getItem("token");
-
-        if (!storedToken || !API_URL) return;
-
-        setToken(storedToken);
-
         const res = await axios.get(`${API_URL}/api/auth/ping`, {
           headers: { Authorization: `Bearer ${storedToken}` },
         });
 
-        setNombre(res.data.nombre || res.data.email);
-        setUsuarioId(res.data.uid || res.data._id);
+        setNombre(res.data.nombre || res.data.email || "Estudiante");
+        setUsuarioId(res.data.uid || res.data._id || "");
       } catch (error) {
         console.error("❌ Error al obtener datos del estudiante:", error);
       }
@@ -44,7 +44,7 @@ const NavbarEstudiante = () => {
     localStorage.removeItem("userRole");
     document.cookie =
       "userRole=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    navigate("/auth"); // ✅ navegación interna segura
+    navigate("/auth");
   };
 
   const enlaces = [

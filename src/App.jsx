@@ -33,6 +33,9 @@ function App() {
   const token =
     localStorage.getItem("token") || sessionStorage.getItem("token");
 
+  const proteger = (componente) =>
+    token ? componente : <Navigate to="/auth" replace />;
+
   return (
     <Router>
       <Routes>
@@ -66,37 +69,28 @@ function App() {
         <Route path="/auth" element={<AuthPage />} />
 
         {/* 🔐 Rutas protegidas */}
-        <Route
-          path="/admin/dashboard"
-          element={token ? <AdminDashboard /> : <Navigate to="/auth" />}
-        />
+        <Route path="/admin/dashboard" element={proteger(<AdminDashboard />)} />
         <Route
           path="/estudiante/dashboard"
-          element={token ? <EstudianteDashboard /> : <Navigate to="/auth" />}
+          element={proteger(<EstudianteDashboard />)}
         />
         <Route
           path="/docente/dashboard"
-          element={token ? <DocenteDashboard /> : <Navigate to="/auth" />}
+          element={proteger(<DocenteDashboard />)}
         />
         <Route
           path="/estudiante/mensajes"
-          element={token ? <BandejaNotificaciones /> : <Navigate to="/auth" />}
+          element={proteger(<BandejaNotificaciones />)}
         />
-        <Route
-          path="/estudiante/entregas"
-          element={token ? <Entregas /> : <Navigate to="/auth" />}
-        />
+        <Route path="/estudiante/entregas" element={proteger(<Entregas />)} />
         <Route
           path="/estudiante/actividades"
-          element={token ? <ActividadesEstudiante /> : <Navigate to="/auth" />}
+          element={proteger(<ActividadesEstudiante />)}
         />
-        <Route
-          path="/docente/notas"
-          element={token ? <NotasPage /> : <Navigate to="/auth" />}
-        />
+        <Route path="/docente/notas" element={proteger(<NotasPage />)} />
         <Route
           path="/docente/actividades"
-          element={token ? <ActividadesPage /> : <Navigate to="/auth" />}
+          element={proteger(<ActividadesPage />)}
         />
       </Routes>
     </Router>

@@ -17,11 +17,23 @@ const Navbar = () => {
   ];
 
   useEffect(() => {
-    const fetchRole = async () => {
-      const token =
-        localStorage.getItem("token") || sessionStorage.getItem("token");
-      if (!token || !API_URL) return;
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
+    const storedRole =
+      localStorage.getItem("userRole") ||
+      document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("userRole="))
+        ?.split("=")[1];
 
+    if (storedRole) {
+      setUserRole(storedRole);
+      return;
+    }
+
+    if (!token || !API_URL) return;
+
+    const fetchRole = async () => {
       try {
         const res = await fetch(`${API_URL}/api/auth/ping`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -41,7 +53,19 @@ const Navbar = () => {
     fetchRole();
   }, [API_URL]);
 
-  const handleUserIconClick = () => navigate("/auth");
+  const handleUserIconClick = () => {
+    const role =
+      localStorage.getItem("userRole") ||
+      document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("userRole="))
+        ?.split("=")[1];
+
+    if (role === "admin") navigate("/admin/dashboard");
+    else if (role === "docente") navigate("/docente/dashboard");
+    else if (role === "estudiante") navigate("/estudiante/dashboard");
+    else navigate("/auth");
+  };
 
   return (
     <motion.nav
@@ -63,7 +87,11 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
-          <button onClick={handleUserIconClick} aria-label="Acceder al sistema">
+          <button
+            onClick={handleUserIconClick}
+            aria-label="Acceder al sistema"
+            className="relative"
+          >
             <FaUserCircle className="text-2xl" />
             {userRole && (
               <span className="absolute -top-2 -right-3 bg-white text-black text-xs font-bold px-2 py-0.5 rounded-full">
@@ -101,6 +129,7 @@ const Navbar = () => {
               setIsOpen(false);
               handleUserIconClick();
             }}
+            className="flex items-center gap-2"
           >
             <FaUserCircle className="text-xl" /> <span>Acceder</span>
           </button>

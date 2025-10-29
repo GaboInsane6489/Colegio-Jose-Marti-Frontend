@@ -4,7 +4,7 @@ import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 
 const NavbarAdmin = () => {
-  const [adminName, setAdminName] = useState("");
+  const [adminName, setAdminName] = useState("Administrador");
   const [showMenu, setShowMenu] = useState(false);
   const [showMobileNav, setShowMobileNav] = useState(false);
 
@@ -13,16 +13,17 @@ const NavbarAdmin = () => {
   const API_URL = import.meta.env.VITE_API_URL?.trim();
 
   useEffect(() => {
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
+
+    if (!token || !API_URL) return;
+
     const fetchAdmin = async () => {
       try {
-        const token =
-          localStorage.getItem("token") || sessionStorage.getItem("token");
-        if (!token || !API_URL) return;
-
         const res = await axios.get(`${API_URL}/api/auth/ping`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setAdminName(res.data.email);
+        setAdminName(res.data.nombre || res.data.email || "Administrador");
       } catch (error) {
         console.error("❌ Error al obtener el nombre del admin:", error);
       }
@@ -37,7 +38,7 @@ const NavbarAdmin = () => {
     document.cookie =
       "userRole=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     alert("👋 Gracias por tu gestión, Gabriel.");
-    navigate("/auth"); // ✅ navegación interna segura
+    navigate("/auth");
   };
 
   const enlaces = [
