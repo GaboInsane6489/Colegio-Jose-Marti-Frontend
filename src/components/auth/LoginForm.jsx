@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUsuario, pingUsuario } from "../../services/authService";
-import InputField from "../shared/InputField";
 import {
   UserIcon,
   EnvelopeIcon,
@@ -39,6 +38,7 @@ const LoginForm = ({ setRole }) => {
       const storedToken =
         localStorage.getItem("token") || sessionStorage.getItem("token");
 
+      // Verificar rol con el token
       const pingRes = await pingUsuario(storedToken);
       const { role } = pingRes.data;
 
@@ -46,6 +46,7 @@ const LoginForm = ({ setRole }) => {
       document.cookie = `userRole=${role}; path=/`;
       setRole(role);
 
+      // Redirigir según rol
       switch (role) {
         case "admin":
           navigate("/admin/dashboard");
@@ -111,6 +112,7 @@ const LoginForm = ({ setRole }) => {
               }`}
               aria-invalid={!!error}
               aria-describedby={error ? "login-error" : undefined}
+              required
             />
           </div>
         </div>
@@ -138,6 +140,7 @@ const LoginForm = ({ setRole }) => {
               }`}
               aria-invalid={!!error}
               aria-describedby={error ? "login-error" : undefined}
+              required
             />
           </div>
         </div>

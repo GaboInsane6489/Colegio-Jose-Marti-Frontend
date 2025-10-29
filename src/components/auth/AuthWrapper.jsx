@@ -16,10 +16,14 @@ const AuthWrapper = () => {
   const [mostrarRegistro, setMostrarRegistro] = useState(false);
 
   useEffect(() => {
-    const verificarSesion = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) return;
+    const token = localStorage.getItem("token");
+    const storedRole =
+      localStorage.getItem("userRole") || getCookie("userRole");
 
+    if (storedRole) setRole(storedRole);
+    if (!token) return; // ⛔ No verificar si no hay token
+
+    const verificarSesion = async () => {
       try {
         const res = await pingUsuario(token);
         const { role: userRole } = res.data;
@@ -48,10 +52,6 @@ const AuthWrapper = () => {
         }
       }
     };
-
-    const storedRole =
-      localStorage.getItem("userRole") || getCookie("userRole");
-    if (storedRole) setRole(storedRole);
 
     verificarSesion();
   }, [navigate]);
@@ -97,8 +97,8 @@ const AuthWrapper = () => {
           : "¿Eres estudiante nuevo? Regístrate aquí"}
       </button>
 
-      {/* ⏳ Estado de carga */}
-      {!role && (
+      {/* ⏳ Estado de carga solo si hay token */}
+      {!role && localStorage.getItem("token") && (
         <p className="text-white/60 mt-4 text-xs sm:text-sm text-center">
           Verificando sesión activa...
         </p>

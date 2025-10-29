@@ -76,6 +76,7 @@ const RegisterForm = ({ onRegistroExitoso }) => {
             }`}
             aria-invalid={!!error}
             aria-describedby={error ? "registro-error" : undefined}
+            required
           />
         </div>
       </div>
@@ -103,6 +104,7 @@ const RegisterForm = ({ onRegistroExitoso }) => {
             }`}
             aria-invalid={!!error}
             aria-describedby={error ? "registro-error" : undefined}
+            required
           />
         </div>
       </div>
@@ -130,6 +132,7 @@ const RegisterForm = ({ onRegistroExitoso }) => {
             }`}
             aria-invalid={!!error}
             aria-describedby={error ? "registro-error" : undefined}
+            required
           />
         </div>
       </div>

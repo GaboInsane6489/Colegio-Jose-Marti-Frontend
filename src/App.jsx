@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
 // Layout principal
 import MainLayout from "./layouts/MainLayout";
@@ -25,6 +30,9 @@ import NotasPage from "./pages/docente/NotasPage";
 import ActividadesPage from "./pages/docente/ActividadesPage";
 
 function App() {
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
+
   return (
     <Router>
       <Routes>
@@ -54,26 +62,42 @@ function App() {
           }
         />
 
-        {/* 🔐 Rutas independientes */}
+        {/* 🔓 Ruta pública para login */}
         <Route path="/auth" element={<AuthPage />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/estudiante/dashboard" element={<EstudianteDashboard />} />
-        <Route path="/docente/dashboard" element={<DocenteDashboard />} />
+
+        {/* 🔐 Rutas protegidas */}
+        <Route
+          path="/admin/dashboard"
+          element={token ? <AdminDashboard /> : <Navigate to="/auth" />}
+        />
+        <Route
+          path="/estudiante/dashboard"
+          element={token ? <EstudianteDashboard /> : <Navigate to="/auth" />}
+        />
+        <Route
+          path="/docente/dashboard"
+          element={token ? <DocenteDashboard /> : <Navigate to="/auth" />}
+        />
         <Route
           path="/estudiante/mensajes"
-          element={<BandejaNotificaciones />}
+          element={token ? <BandejaNotificaciones /> : <Navigate to="/auth" />}
         />
-
-        {/* 🎓 Rutas estudiante */}
-        <Route path="/estudiante/entregas" element={<Entregas />} />
+        <Route
+          path="/estudiante/entregas"
+          element={token ? <Entregas /> : <Navigate to="/auth" />}
+        />
         <Route
           path="/estudiante/actividades"
-          element={<ActividadesEstudiante />}
+          element={token ? <ActividadesEstudiante /> : <Navigate to="/auth" />}
         />
-
-        {/* 🧠 Rutas docente */}
-        <Route path="/docente/notas" element={<NotasPage />} />
-        <Route path="/docente/actividades" element={<ActividadesPage />} />
+        <Route
+          path="/docente/notas"
+          element={token ? <NotasPage /> : <Navigate to="/auth" />}
+        />
+        <Route
+          path="/docente/actividades"
+          element={token ? <ActividadesPage /> : <Navigate to="/auth" />}
+        />
       </Routes>
     </Router>
   );
