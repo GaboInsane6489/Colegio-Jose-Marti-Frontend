@@ -1,13 +1,16 @@
 import { FaFileExport, FaFilter } from "react-icons/fa";
 
+/**
+ * 🎛️ Componente institucional para aplicar filtros y exportar entregas del estudiante
+ */
 const FiltrosEstudiante = ({
   filtroMateria,
   setFiltroMateria,
   filtroLapso,
   setFiltroLapso,
-  materias,
-  lapsos,
-  entregasFiltradas,
+  materias = [],
+  lapsos = [],
+  entregasFiltradas = [],
   exportNotasCSV,
   aplicarFiltros,
 }) => (

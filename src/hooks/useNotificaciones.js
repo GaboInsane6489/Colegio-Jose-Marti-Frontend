@@ -1,25 +1,23 @@
 import { useState, useEffect, useCallback } from "react";
-import axios from "axios";
+import axiosInstancia from "@/services/axiosInstancia";
 
-const API_URL = import.meta.env.VITE_API_URL?.trim() || "http://localhost:3000";
-
-const useNotificaciones = (token, usuarioId) => {
+/**
+ * 🔔 Hook institucional para obtener y gestionar notificaciones por usuario
+ */
+const useNotificaciones = (usuarioId) => {
   const [notificaciones, setNotificaciones] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   const fetchNotificaciones = useCallback(async () => {
-    if (!token || !usuarioId) return;
+    if (!usuarioId) return;
 
     setLoading(true);
     setError("");
 
     try {
-      const { data } = await axios.get(
-        `${API_URL}/api/notificaciones/usuario/${usuarioId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+      const { data } = await axiosInstancia.get(
+        `/api/notificaciones/usuario/${usuarioId}`
       );
 
       if (Array.isArray(data.notificaciones)) {
@@ -34,17 +32,11 @@ const useNotificaciones = (token, usuarioId) => {
     } finally {
       setLoading(false);
     }
-  }, [token, usuarioId]);
+  }, [usuarioId]);
 
   const marcarComoLeida = async (notificacionId) => {
     try {
-      await axios.put(
-        `${API_URL}/api/notificaciones/${notificacionId}/leido`,
-        null,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      await axiosInstancia.put(`/api/notificaciones/${notificacionId}/leido`);
 
       setNotificaciones((prev) =>
         prev.map((n) => (n._id === notificacionId ? { ...n, leido: true } : n))

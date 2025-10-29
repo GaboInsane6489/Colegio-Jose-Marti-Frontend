@@ -9,6 +9,9 @@ import {
 const validarCorreo = (correo) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo.trim());
 
+/**
+ * 🧑‍🏫 Formulario institucional para crear o editar docentes
+ */
 const DocenteForm = ({
   onSubmit,
   initialValues = {},

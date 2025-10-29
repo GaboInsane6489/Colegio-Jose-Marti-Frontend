@@ -2,6 +2,9 @@ import { useState } from "react";
 import axios from "axios";
 import { FaPen, FaSave, FaTimesCircle } from "react-icons/fa";
 
+/**
+ * 📝 Formulario institucional para editar calificación y comentario de una entrega
+ */
 const NotaForm = ({ entrega, onClose, onEdit }) => {
   const [calificacion, setCalificacion] = useState(entrega.calificacion ?? "");
   const [comentarioDocente, setComentarioDocente] = useState(

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { registerUsuario } from "../../services/authService";
+import { registerUsuario } from "@/services/authService";
 import {
   UserIcon,
   EnvelopeIcon,

@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
 import { FaBookOpen } from "react-icons/fa";
 
+/**
+ * 🎓 Encabezado institucional para el panel del estudiante
+ */
 const EncabezadoDashboard = () => (
   <motion.header
     initial={{ opacity: 0, y: -40 }}
@@ -8,6 +11,7 @@ const EncabezadoDashboard = () => (
     transition={{ type: "spring", stiffness: 140, damping: 12 }}
     className="bg-gradient-to-br from-gray-900 via-black to-gray-800 rounded-2xl px-6 py-10 text-center shadow-xl border border-gray-700/30 backdrop-blur-sm"
   >
+    {/* Ícono emocional */}
     <motion.div
       initial={{ scale: 0.8, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
@@ -17,6 +21,7 @@ const EncabezadoDashboard = () => (
       <FaBookOpen className="text-white text-6xl sm:text-7xl mx-auto drop-shadow-lg animate-pulse" />
     </motion.div>
 
+    {/* Título */}
     <motion.h1
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -26,6 +31,7 @@ const EncabezadoDashboard = () => (
       Panel del Estudiante
     </motion.h1>
 
+    {/* Subtítulo emocional */}
     <motion.p
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}

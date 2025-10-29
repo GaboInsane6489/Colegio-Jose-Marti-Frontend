@@ -2,7 +2,10 @@ import ResumenActividad from "./ResumenActividad";
 import GraficoActividad from "./GraficoActividad";
 import DashboardActividadComparativo from "./DashboardActividadComparativo";
 
-const ResumenPorActividad = ({ actividades, entregas }) => (
+/**
+ * 📋 Componente institucional para mostrar resumen visual y estadístico por actividad
+ */
+const ResumenPorActividad = ({ actividades = [], entregas = [] }) => (
   <section className="pt-12 space-y-6">
     <h2 className="text-2xl font-bold text-center flex justify-center items-center gap-2">
       <span className="text-yellow-400">📋</span>

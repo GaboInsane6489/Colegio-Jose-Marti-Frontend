@@ -1,4 +1,4 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -16,83 +16,114 @@ import Contact from "./pages/Contact";
 
 // Páginas independientes
 import AuthPage from "./pages/AuthPage";
-import AdminDashboard from "./pages/AdminDashboard";
-import EstudianteDashboard from "./pages/EstudianteDashboard";
-import DocenteDashboard from "./pages/DocenteDashboard";
 
-// Páginas estudiante
-import Entregas from "./pages/estudiante/Entregas";
-import ActividadesEstudiante from "./pages/estudiante/ActividadesEstudiante";
-import BandejaNotificaciones from "./pages/estudiante/BandejaNotificaciones";
+// Hook institucional
+import usePingUsuario from "./hooks/usePingUsuario";
 
-// Páginas docente
-import NotasPage from "./pages/docente/NotasPage";
-import ActividadesPage from "./pages/docente/ActividadesPage";
+// Carga diferida de dashboards y vistas protegidas
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const EstudianteDashboard = lazy(() => import("./pages/EstudianteDashboard"));
+const DocenteDashboard = lazy(() => import("./pages/DocenteDashboard"));
+const Entregas = lazy(() => import("./pages/estudiante/Entregas"));
+const ActividadesEstudiante = lazy(() =>
+  import("./pages/estudiante/ActividadesEstudiante")
+);
+const BandejaNotificaciones = lazy(() =>
+  import("./pages/estudiante/BandejaNotificaciones")
+);
+const NotasPage = lazy(() => import("./pages/docente/NotasPage"));
+const ActividadesPage = lazy(() => import("./pages/docente/ActividadesPage"));
 
 function App() {
-  const token =
-    localStorage.getItem("token") || sessionStorage.getItem("token");
+  const { rol, cargando } = usePingUsuario();
 
-  const proteger = (componente) =>
-    token ? componente : <Navigate to="/auth" replace />;
+  const proteger = (componente, rolEsperado) => {
+    if (cargando)
+      return (
+        <div className="min-h-screen flex items-center justify-center text-white bg-black">
+          Verificando sesión...
+        </div>
+      );
+    if (!rol) return <Navigate to="/auth" replace />;
+    if (rolEsperado && rol !== rolEsperado)
+      return <Navigate to={`/${rol}/dashboard`} replace />;
+    return componente;
+  };
 
   return (
     <Router>
-      <Routes>
-        {/* 🌐 Rutas públicas con layout institucional */}
-        <Route
-          path="/"
-          element={
-            <MainLayout>
-              <Home />
-            </MainLayout>
-          }
-        />
-        <Route
-          path="/about"
-          element={
-            <MainLayout>
-              <About />
-            </MainLayout>
-          }
-        />
-        <Route
-          path="/contact"
-          element={
-            <MainLayout>
-              <Contact />
-            </MainLayout>
-          }
-        />
+      <Suspense
+        fallback={
+          <div className="min-h-screen flex items-center justify-center text-white bg-black">
+            Cargando vista...
+          </div>
+        }
+      >
+        <Routes>
+          {/* 🌐 Rutas públicas con layout institucional */}
+          <Route
+            path="/"
+            element={
+              <MainLayout>
+                <Home />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <MainLayout>
+                <About />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/contact"
+            element={
+              <MainLayout>
+                <Contact />
+              </MainLayout>
+            }
+          />
 
-        {/* 🔓 Ruta pública para login */}
-        <Route path="/auth" element={<AuthPage />} />
+          {/* 🔓 Ruta pública para login */}
+          <Route path="/auth" element={<AuthPage />} />
 
-        {/* 🔐 Rutas protegidas */}
-        <Route path="/admin/dashboard" element={proteger(<AdminDashboard />)} />
-        <Route
-          path="/estudiante/dashboard"
-          element={proteger(<EstudianteDashboard />)}
-        />
-        <Route
-          path="/docente/dashboard"
-          element={proteger(<DocenteDashboard />)}
-        />
-        <Route
-          path="/estudiante/mensajes"
-          element={proteger(<BandejaNotificaciones />)}
-        />
-        <Route path="/estudiante/entregas" element={proteger(<Entregas />)} />
-        <Route
-          path="/estudiante/actividades"
-          element={proteger(<ActividadesEstudiante />)}
-        />
-        <Route path="/docente/notas" element={proteger(<NotasPage />)} />
-        <Route
-          path="/docente/actividades"
-          element={proteger(<ActividadesPage />)}
-        />
-      </Routes>
+          {/* 🔐 Rutas protegidas por rol */}
+          <Route
+            path="/admin/dashboard"
+            element={proteger(<AdminDashboard />, "admin")}
+          />
+          <Route
+            path="/docente/dashboard"
+            element={proteger(<DocenteDashboard />, "docente")}
+          />
+          <Route
+            path="/estudiante/dashboard"
+            element={proteger(<EstudianteDashboard />, "estudiante")}
+          />
+          <Route
+            path="/estudiante/mensajes"
+            element={proteger(<BandejaNotificaciones />, "estudiante")}
+          />
+          <Route
+            path="/estudiante/entregas"
+            element={proteger(<Entregas />, "estudiante")}
+          />
+          <Route
+            path="/estudiante/actividades"
+            element={proteger(<ActividadesEstudiante />, "estudiante")}
+          />
+          <Route
+            path="/docente/notas"
+            element={proteger(<NotasPage />, "docente")}
+          />
+          <Route
+            path="/docente/actividades"
+            element={proteger(<ActividadesPage />, "docente")}
+          />
+        </Routes>
+      </Suspense>
     </Router>
   );
 }

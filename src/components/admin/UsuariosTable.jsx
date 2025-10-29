@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * 🧑‍💼 Tabla institucional para listar y validar usuarios registrados
+ */
 const UsuariosTable = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -23,10 +26,10 @@ const UsuariosTable = () => {
 
   const toggleValidacion = async (id, validado) => {
     const endpoint = validado ? `rechazar/${id}` : `validar/${id}`;
+    const method = validado ? "delete" : "patch";
 
     try {
       const token = localStorage.getItem("token");
-      const method = validado ? "delete" : "patch";
       await axios[method](`http://localhost:3000/api/admin/${endpoint}`, {
         headers: { Authorization: `Bearer ${token}` },
       });

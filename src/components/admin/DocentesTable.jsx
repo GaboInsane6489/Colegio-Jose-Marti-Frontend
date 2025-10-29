@@ -1,14 +1,17 @@
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 
-const DocentesTable = ({ docentes, onEdit, onDelete, loading }) => {
+/**
+ * 🧑‍🏫 Tabla institucional para listar docentes con acciones de edición y eliminación
+ */
+const DocentesTable = ({ docentes = [], onEdit, onDelete, loading }) => {
   if (loading)
     return (
       <p className="text-center text-white animate-pulse">
-        Cargando docentes...
+        🔄 Cargando docentes...
       </p>
     );
 
-  if (docentes.length === 0)
+  if (!Array.isArray(docentes) || docentes.length === 0)
     return (
       <p className="text-center text-white">
         No hay docentes registrados actualmente.
@@ -31,7 +34,9 @@ const DocentesTable = ({ docentes, onEdit, onDelete, loading }) => {
             {docentes.map((docente) => (
               <tr key={docente._id} className="hover:bg-gray-900 transition">
                 <td className="px-4 py-3">{docente.nombre}</td>
-                <td className="px-4 py-3">{docente.email || docente.correo}</td>
+                <td className="px-4 py-3">
+                  {docente.email || docente.correo || "—"}
+                </td>
                 <td className="px-4 py-3">
                   {docente.isValidated ? "Validado" : "Pendiente"}
                 </td>

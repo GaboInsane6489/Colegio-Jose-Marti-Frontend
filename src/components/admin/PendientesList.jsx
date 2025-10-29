@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 
+/**
+ * 🧾 Componente institucional para validar usuarios pendientes
+ */
 const PendientesList = () => {
   const [pendientes, setPendientes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,8 +21,6 @@ const PendientesList = () => {
         setErrorMsg("Sesión inválida. Por favor inicia sesión nuevamente.");
         return;
       }
-
-      console.log("🔐 Token:", token);
 
       const res = await axios.get(
         "http://localhost:3000/api/admin/pendientes",
@@ -49,8 +50,6 @@ const PendientesList = () => {
         return;
       }
 
-      console.log("🔐 Validando usuario con token:", token);
-
       await axios.patch(`http://localhost:3000/api/admin/validar/${id}`, null, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -75,8 +74,6 @@ const PendientesList = () => {
         alert("⚠️ Sesión inválida. Inicia sesión nuevamente.");
         return;
       }
-
-      console.log("🔐 Rechazando usuario con token:", token);
 
       await axios.delete(`http://localhost:3000/api/admin/rechazar/${id}`, {
         headers: { Authorization: `Bearer ${token}` },

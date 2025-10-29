@@ -1,5 +1,8 @@
 import { motion } from "framer-motion";
 
+/**
+ * 🛠️ Panel institucional para configuración administrativa
+ */
 const ConfiguracionPanel = () => {
   return (
     <motion.section
@@ -17,6 +20,7 @@ const ConfiguracionPanel = () => {
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Gestión de roles */}
           <div className="bg-white text-black p-4 rounded shadow hover:shadow-md transition">
             <h3 className="font-semibold mb-2">Gestión de roles</h3>
             <p className="text-sm text-gray-600">
@@ -27,6 +31,7 @@ const ConfiguracionPanel = () => {
             </button>
           </div>
 
+          {/* Preferencias visuales */}
           <div className="bg-white text-black p-4 rounded shadow hover:shadow-md transition">
             <h3 className="font-semibold mb-2">Preferencias visuales</h3>
             <p className="text-sm text-gray-600">

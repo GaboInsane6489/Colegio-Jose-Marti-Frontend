@@ -1,5 +1,8 @@
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 
+/**
+ * 🧑‍🏫 Componente institucional para mostrar perfil del docente
+ */
 const PerfilDocente = () => {
   const docente = {
     nombre: "Deglis García",

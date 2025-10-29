@@ -1,8 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import axios from "axios";
+import axiosInstancia from "@/services/axiosInstancia";
 import isActividadValida from "@/utils/isActividadValida.js";
-
-const API_URL = import.meta.env.VITE_API_URL?.trim() || "http://localhost:3000";
 
 // 🧠 Validación ligera de ObjectId (24 caracteres hexadecimales)
 const esObjectIdValido = (id) =>
@@ -50,8 +48,7 @@ const useActividades = (tokenProp, filtros = {}) => {
       if (filtros.lapso && filtros.lapso !== "todos")
         params.lapso = filtros.lapso;
 
-      const { data } = await axios.get(`${API_URL}/api/actividades`, {
-        headers: { Authorization: `Bearer ${token}` },
+      const { data } = await axiosInstancia.get("/api/actividades", {
         params,
       });
 
@@ -82,7 +79,7 @@ const useActividades = (tokenProp, filtros = {}) => {
     filtros.tipo,
     filtros.estado,
     filtros.materia,
-    filtros.lapso, // ✅ nuevo filtro incluido
+    filtros.lapso,
   ]);
 
   useEffect(() => {

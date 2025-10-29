@@ -1,5 +1,8 @@
 import { BellAlertIcon, InboxIcon } from "@heroicons/react/24/outline";
 
+/**
+ * 🔔 Componente institucional para mostrar notificaciones del docente
+ */
 const NotificacionesDocente = () => {
   const notificaciones = [
     "Reunión institucional el viernes a las 10am.",

@@ -12,7 +12,7 @@ import {
  * Permite acceso universal por correo y contraseña.
  * Redirige según rol: admin, docente, estudiante.
  */
-const LoginForm = ({ setRole }) => {
+const LoginForm = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -42,7 +42,6 @@ const LoginForm = ({ setRole }) => {
 
       localStorage.setItem("userRole", role);
       document.cookie = `userRole=${role}; path=/`;
-      setRole(role);
 
       // Redirigir según rol
       navigate(`/${role}/dashboard`);

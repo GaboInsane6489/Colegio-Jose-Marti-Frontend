@@ -8,12 +8,8 @@ import {
 } from "react-icons/fa";
 
 /**
- * EstadisticasPanel
- * Muestra métricas clave del sistema académico en tiempo real.
- * Datos obtenidos desde /api/estadisticas.
- * Incluye iconografía, animaciones, accesibilidad y actualización automática.
+ * 📊 Panel institucional para mostrar métricas clave del sistema académico
  */
-
 const EstadisticasPanel = () => {
   const [estadisticas, setEstadisticas] = useState(null);
 

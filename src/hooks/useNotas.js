@@ -1,16 +1,15 @@
 import { useState, useEffect, useCallback } from "react";
-import axios from "axios";
+import axiosInstancia from "@/services/axiosInstancia";
 
-const API_URL = import.meta.env.VITE_API_URL?.trim() || "http://localhost:3000";
-
-const useNotas = (token, filtros = {}) => {
+/**
+ * 🧠 Hook institucional para obtener entregas (notas) con filtros académicos
+ */
+const useNotas = (filtros = {}) => {
   const [entregas, setEntregas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   const fetchNotas = useCallback(async () => {
-    if (!token) return;
-
     setLoading(true);
     setError("");
 
@@ -23,8 +22,7 @@ const useNotas = (token, filtros = {}) => {
         }
       });
 
-      const { data } = await axios.get(`${API_URL}/api/entregas`, {
-        headers: { Authorization: `Bearer ${token}` },
+      const { data } = await axiosInstancia.get("/api/entregas", {
         params,
       });
 
@@ -40,7 +38,7 @@ const useNotas = (token, filtros = {}) => {
     } finally {
       setLoading(false);
     }
-  }, [token, filtros]);
+  }, [filtros]);
 
   useEffect(() => {
     fetchNotas();

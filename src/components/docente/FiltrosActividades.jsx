@@ -1,3 +1,7 @@
+/**
+ * 🧠 Filtros institucionales para actividades académicas
+ * Permite ordenar y filtrar por tipo, estado y materia
+ */
 const FiltrosActividades = ({
   orden,
   setOrden,
@@ -24,6 +28,7 @@ const FiltrosActividades = ({
 
   return (
     <div className="flex flex-wrap justify-center gap-4 py-4">
+      {/* Orden */}
       <select
         value={orden}
         onChange={(e) => setOrden(e.target.value)}
@@ -35,6 +40,7 @@ const FiltrosActividades = ({
         <option value="ponderacionDesc">📊 Ponderación ↓</option>
       </select>
 
+      {/* Tipo */}
       <select
         value={filtroTipo}
         onChange={(e) => setFiltroTipo(e.target.value)}
@@ -47,6 +53,7 @@ const FiltrosActividades = ({
         ))}
       </select>
 
+      {/* Estado */}
       <select
         value={filtroEstado}
         onChange={(e) => setFiltroEstado(e.target.value)}
@@ -59,6 +66,7 @@ const FiltrosActividades = ({
         ))}
       </select>
 
+      {/* Materia */}
       <select
         value={filtroMateria}
         onChange={(e) => setFiltroMateria(e.target.value)}

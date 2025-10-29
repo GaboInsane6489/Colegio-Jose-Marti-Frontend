@@ -4,6 +4,9 @@ import DocenteForm from "./DocenteForm";
 import ConfirmDialog from "./ConfirmDialog";
 import useDocentes from "../../hooks/useDocentes";
 
+/**
+ * 🧑‍🏫 Componente institucional para gestionar docentes: crear, editar y eliminar
+ */
 const DocentesManager = () => {
   const {
     docentes,

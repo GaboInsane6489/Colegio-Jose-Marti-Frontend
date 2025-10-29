@@ -2,10 +2,13 @@ import { FaCheckCircle, FaClock, FaCommentDots, FaEdit } from "react-icons/fa";
 import { useState } from "react";
 import NotaForm from "./NotaForm.jsx";
 
+/**
+ * 🧾 Componente institucional para mostrar y editar una nota entregada
+ */
 const NotaCard = ({ entrega, onEdit }) => {
   const [modoEdicion, setModoEdicion] = useState(false);
 
-  if (!entrega) return null;
+  if (!entrega || typeof entrega !== "object") return null;
 
   const {
     estudianteId,
@@ -17,10 +20,12 @@ const NotaCard = ({ entrega, onEdit }) => {
   } = entrega;
 
   const nombreEstudiante = estudianteId?.nombre || "Estudiante";
-  const fechaFormateada = new Date(fechaEntrega).toLocaleString("es-VE", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  });
+  const fechaFormateada = fechaEntrega
+    ? new Date(fechaEntrega).toLocaleString("es-VE", {
+        dateStyle: "medium",
+        timeStyle: "short",
+      })
+    : "Sin fecha";
 
   return (
     <div className="bg-white/90 text-gray-900 rounded-xl shadow-lg p-5 space-y-4">
@@ -45,7 +50,9 @@ const NotaCard = ({ entrega, onEdit }) => {
           <span>
             Calificación:{" "}
             <strong>
-              {calificacion !== undefined ? `${calificacion}/20` : "Sin nota"}
+              {typeof calificacion === "number"
+                ? `${calificacion}/20`
+                : "Sin nota"}
             </strong>
           </span>
         </div>

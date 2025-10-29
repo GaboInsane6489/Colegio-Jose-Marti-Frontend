@@ -1,3 +1,6 @@
+/**
+ * 🎥 Componente institucional para mostrar video de fondo en el panel del docente
+ */
 const VideoFondoDocente = () => {
   return (
     <div className="fixed top-0 left-0 w-full h-full z-0 pointer-events-none">

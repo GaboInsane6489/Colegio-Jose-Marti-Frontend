@@ -3,6 +3,9 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import { FaPaperPlane } from "react-icons/fa";
 
+/**
+ * 📤 Formulario institucional para registrar entrega de actividad
+ */
 const EntregasForm = ({ actividad, actualizarEntregas }) => {
   const [archivoUrl, setArchivoUrl] = useState("");
   const [enviando, setEnviando] = useState(false);

@@ -5,7 +5,12 @@ import {
   FaUserCircle,
 } from "react-icons/fa";
 
-const ResumenEstudiante = ({ estudiante, entregas }) => {
+/**
+ * 🎓 Componente institucional para mostrar resumen de rendimiento de un estudiante
+ */
+const ResumenEstudiante = ({ estudiante, entregas = [] }) => {
+  if (!estudiante || !estudiante._id) return null;
+
   const entregasEstudiante = entregas.filter(
     (e) => e.estudianteId?._id === estudiante._id
   );
@@ -19,7 +24,7 @@ const ResumenEstudiante = ({ estudiante, entregas }) => {
       {/* Encabezado */}
       <div className="flex items-center gap-3 text-lg font-bold text-gray-800">
         <FaUserCircle className="text-blue-600 text-xl" />
-        <span>{estudiante.nombre}</span>
+        <span>{estudiante.nombre || "Estudiante"}</span>
       </div>
 
       {/* Métricas */}

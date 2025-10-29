@@ -12,7 +12,7 @@ const MainLayout = ({ children }) => {
 
   return (
     <div className="flex flex-col min-h-screen w-full bg-[var(--color-primary)] text-[var(--color-text)] overflow-x-hidden">
-      {/* Navbar fijo con animación institucional */}
+      {/* 🧭 Navbar fijo con animación institucional */}
       <motion.div
         initial={{ y: -60, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -22,7 +22,7 @@ const MainLayout = ({ children }) => {
         <Navbar />
       </motion.div>
 
-      {/* Contenido principal con animación de entrada */}
+      {/* 🧠 Contenido principal con animación de entrada */}
       <motion.main
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -32,7 +32,7 @@ const MainLayout = ({ children }) => {
         {children}
       </motion.main>
 
-      {/* Footer institucional con animación al entrar en vista */}
+      {/* 🦶 Footer institucional con animación al entrar en vista */}
       <motion.div
         ref={footerRef}
         initial={{ opacity: 0, y: 40 }}

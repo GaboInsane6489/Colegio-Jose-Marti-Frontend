@@ -11,6 +11,9 @@ import { FaChartBar } from "react-icons/fa";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
+/**
+ * 📊 Componente institucional para mostrar gráfico de rendimiento por actividad
+ */
 const GraficoActividad = ({ entregas = [], titulo = "Actividad" }) => {
   const labels = entregas.map((e) => e.estudianteId?.nombre || "Estudiante");
   const data = entregas.map((e) =>

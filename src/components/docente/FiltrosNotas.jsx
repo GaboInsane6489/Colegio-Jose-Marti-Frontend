@@ -17,6 +17,9 @@ const estudiantes = [
   { id: "est3", nombre: "Carlos Ruiz" },
 ];
 
+/**
+ * 🎯 Filtros institucionales para gestión de notas académicas
+ */
 const FiltrosNotas = ({
   filtroMateria,
   setFiltroMateria,

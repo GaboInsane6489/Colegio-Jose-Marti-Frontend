@@ -10,14 +10,19 @@ import Footer from "@/components/Footer.jsx";
 // 🧩 UI académica
 import SeccionActividadesEstudiante from "@/components/estudiante/SeccionActividadesEstudiante.jsx";
 
+/**
+ * 📚 Vista institucional para mostrar actividades asignadas al estudiante
+ */
 const ActividadesEstudiante = () => {
   return (
     <div className="min-h-screen flex flex-col bg-black text-white overflow-hidden">
       <VideoFondoEstudiante />
+
       <div className="relative z-10 flex-1">
         <NavbarEstudiante />
 
         <main className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-10">
+          {/* Encabezado emocional */}
           <motion.section
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -33,6 +38,7 @@ const ActividadesEstudiante = () => {
             </p>
           </motion.section>
 
+          {/* Sección de actividades */}
           <motion.section
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

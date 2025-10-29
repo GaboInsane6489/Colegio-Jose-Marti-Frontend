@@ -1,10 +1,17 @@
-export const exportNotasCSV = (notas) => {
+/**
+ * 📤 Exporta notas académicas como archivo CSV descargable
+ * @param {Array} notas - Arreglo de objetos con datos de entrega
+ */
+export const exportNotasCSV = (notas = []) => {
+  if (!Array.isArray(notas) || notas.length === 0) return;
+
   const encabezado = ["Estudiante", "Actividad", "Calificación", "Comentario"];
+
   const filas = notas.map((n) => [
     n.estudianteId?.nombre || "—",
     n.actividad?.titulo || "—",
     n.calificacion ?? "—",
-    `"${n.comentarioDocente || ""}"`,
+    `"${(n.comentarioDocente || "").replace(/"/g, '""')}"`, // Escapa comillas internas
   ]);
 
   const contenido = [encabezado, ...filas]

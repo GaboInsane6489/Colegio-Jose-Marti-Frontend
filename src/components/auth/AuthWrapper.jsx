@@ -12,7 +12,6 @@ import RegisterForm from "./RegisterForm";
  */
 const AuthWrapper = () => {
   const navigate = useNavigate();
-  const [role, setRole] = useState(null);
   const [mostrarRegistro, setMostrarRegistro] = useState(false);
   const [verificando, setVerificando] = useState(false);
 
@@ -22,7 +21,6 @@ const AuthWrapper = () => {
     const storedRole =
       localStorage.getItem("userRole") || getCookie("userRole");
 
-    if (storedRole) setRole(storedRole);
     if (!token) return;
 
     setVerificando(true);
@@ -34,7 +32,6 @@ const AuthWrapper = () => {
 
         localStorage.setItem("userRole", userRole);
         document.cookie = `userRole=${userRole}; path=/`;
-        setRole(userRole);
 
         navigate(`/${userRole}/dashboard`);
       } catch (error) {
@@ -43,6 +40,8 @@ const AuthWrapper = () => {
         if (error.response?.status === 401) {
           localStorage.removeItem("token");
           localStorage.removeItem("userRole");
+          document.cookie =
+            "userRole=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         }
       } finally {
         setVerificando(false);
@@ -78,7 +77,7 @@ const AuthWrapper = () => {
         {mostrarRegistro ? (
           <RegisterForm onRegistroExitoso={() => setMostrarRegistro(false)} />
         ) : (
-          <LoginForm setRole={setRole} />
+          <LoginForm />
         )}
       </div>
 

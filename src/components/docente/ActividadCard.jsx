@@ -11,6 +11,9 @@ import {
   MegaphoneIcon,
 } from "@heroicons/react/24/solid";
 
+/**
+ * 📚 Tarjeta institucional para mostrar actividad académica
+ */
 const ActividadCard = ({ actividad, onEditar, onEliminar, onNotificar }) => {
   if (!actividad || typeof actividad !== "object") {
     console.warn("⚠️ ActividadCard recibió actividad inválida:", actividad);

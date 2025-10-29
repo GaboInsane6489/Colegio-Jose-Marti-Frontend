@@ -14,6 +14,9 @@ import SeccionActividadesEstudiante from "@/components/estudiante/SeccionActivid
 import SeccionEntregasEstudiante from "@/components/estudiante/SeccionEntregasEstudiante.jsx";
 import EntregasForm from "@/components/estudiante/EntregasForm.jsx";
 
+/**
+ * 📤 Vista institucional para gestionar entregas académicas del estudiante
+ */
 const Entregas = () => {
   const [actividades, setActividades] = useState([]);
   const [entregas, setEntregas] = useState([]);
@@ -56,11 +59,9 @@ const Entregas = () => {
     fetchEntregas();
   }, [token]);
 
-  const entregasFiltradas = entregas.filter((e) => {
-    return actividadSeleccionada
-      ? e.actividadId === actividadSeleccionada._id
-      : true;
-  });
+  const entregasFiltradas = entregas.filter((e) =>
+    actividadSeleccionada ? e.actividadId === actividadSeleccionada._id : true
+  );
 
   return (
     <div className="min-h-screen flex flex-col bg-black text-white overflow-hidden">
@@ -68,6 +69,7 @@ const Entregas = () => {
       <div className="relative z-10 flex-1">
         <NavbarEstudiante />
         <main className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-10">
+          {/* Actividades disponibles */}
           <motion.section
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -80,6 +82,7 @@ const Entregas = () => {
             />
           </motion.section>
 
+          {/* Formulario de entrega */}
           {actividadSeleccionada && (
             <motion.section
               initial={{ opacity: 0, y: 20 }}
@@ -93,6 +96,7 @@ const Entregas = () => {
             </motion.section>
           )}
 
+          {/* Entregas realizadas */}
           <motion.section
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

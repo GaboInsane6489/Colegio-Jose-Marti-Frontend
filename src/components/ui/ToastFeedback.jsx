@@ -1,5 +1,8 @@
 import { useEffect } from "react";
 
+/**
+ * 🔔 Componente institucional para mostrar mensajes tipo toast
+ */
 const ToastFeedback = ({ mensaje, tipo = "info", onClose }) => {
   useEffect(() => {
     const timer = setTimeout(() => {

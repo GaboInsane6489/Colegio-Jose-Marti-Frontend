@@ -1,8 +1,12 @@
 import { FaChalkboardTeacher } from "react-icons/fa";
 import ClasesList from "./ClasesList";
 
-const SeccionClases = ({ clases, loading }) => (
+/**
+ * 🧑‍🏫 Sección institucional para mostrar clases activas del estudiante
+ */
+const SeccionClases = ({ clases = [], loading = false }) => (
   <section className="bg-white/90 text-gray-900 rounded-xl shadow-lg p-6 space-y-6 scroll-mt-24">
+    {/* Título emocional */}
     <div className="text-center mb-6">
       <FaChalkboardTeacher className="text-gray-800 text-4xl mb-2 mx-auto" />
       <h2 className="text-lg sm:text-2xl font-semibold text-gray-900">
@@ -10,6 +14,7 @@ const SeccionClases = ({ clases, loading }) => (
       </h2>
     </div>
 
+    {/* Contenido dinámico */}
     {loading ? (
       <p className="text-gray-500 animate-pulse">Cargando clases...</p>
     ) : clases.length === 0 ? (

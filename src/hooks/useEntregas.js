@@ -1,26 +1,22 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstancia from "@/services/axiosInstancia";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
-
-const useEntregas = (actividadId, token) => {
+/**
+ * 📦 Hook institucional para obtener entregas de una actividad específica
+ */
+const useEntregas = (actividadId) => {
   const [entregas, setEntregas] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!actividadId || !token) return;
+    if (!actividadId) return;
 
     const fetchEntregas = async () => {
       setLoading(true);
       try {
-        const { data } = await axios.get(
-          `${API_URL}/api/entregas/${actividadId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+        const { data } = await axiosInstancia.get(
+          `/api/entregas/${actividadId}`
         );
 
         if (data?.ok) {
@@ -38,7 +34,7 @@ const useEntregas = (actividadId, token) => {
     };
 
     fetchEntregas();
-  }, [actividadId, token]);
+  }, [actividadId]);
 
   return { entregas, loading, error };
 };

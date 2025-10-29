@@ -1,33 +1,18 @@
 import { useState, useEffect, useCallback } from "react";
-import axios from "axios";
+import axiosInstancia from "@/services/axiosInstancia";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
-
+/**
+ * 🧑‍🏫 Hook institucional para gestionar docentes desde el panel administrativo
+ */
 const useDocentes = () => {
   const [docentes, setDocentes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const getToken = () =>
-    localStorage.getItem("token") || sessionStorage.getItem("token");
-
-  const getHeaders = useCallback(() => {
-    const token = getToken();
-    return token ? { Authorization: `Bearer ${token}` } : {};
-  }, []);
-
   const fetchDocentes = useCallback(async () => {
-    const headers = getHeaders();
-    if (!headers.Authorization) {
-      console.warn("🔒 No hay token disponible para obtener docentes");
-      return;
-    }
-
     setLoading(true);
     try {
-      const { data } = await axios.get(`${API_URL}/api/admin/docentes`, {
-        headers,
-      });
+      const { data } = await axiosInstancia.get("/api/admin/docentes");
 
       if (data?.docentes) {
         setDocentes(data.docentes);
@@ -41,14 +26,13 @@ const useDocentes = () => {
     } finally {
       setLoading(false);
     }
-  }, [getHeaders]);
+  }, []);
 
   useEffect(() => {
     fetchDocentes();
   }, [fetchDocentes]);
 
   const crearDocente = async (nuevo) => {
-    const headers = getHeaders();
     try {
       const payload = {
         nombre: nuevo.nombre,
@@ -57,9 +41,7 @@ const useDocentes = () => {
         role: "docente",
       };
 
-      const { data } = await axios.post(`${API_URL}/api/auth/crear`, payload, {
-        headers,
-      });
+      const { data } = await axiosInstancia.post("/api/auth/crear", payload);
 
       if (data?.usuario) {
         setDocentes((prev) => [...prev, data.usuario]);
@@ -74,12 +56,10 @@ const useDocentes = () => {
   };
 
   const actualizarDocente = async (id, actualizado) => {
-    const headers = getHeaders();
     try {
-      const { data } = await axios.put(
-        `${API_URL}/api/admin/actualizar/${id}`,
-        actualizado,
-        { headers }
+      const { data } = await axiosInstancia.put(
+        `/api/admin/actualizar/${id}`,
+        actualizado
       );
 
       if (data?.usuarioActualizado) {
@@ -97,9 +77,8 @@ const useDocentes = () => {
   };
 
   const eliminarDocente = async (id) => {
-    const headers = getHeaders();
     try {
-      await axios.delete(`${API_URL}/api/admin/rechazar/${id}`, { headers });
+      await axiosInstancia.delete(`/api/admin/rechazar/${id}`);
       setDocentes((prev) => prev.filter((doc) => doc._id !== id));
       setError(null);
     } catch (err) {

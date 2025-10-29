@@ -1,30 +1,25 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstancia from "@/services/axiosInstancia";
 
-const API_URL = import.meta.env.VITE_API_URL?.trim() || "http://localhost:3000";
-
-const EntregasList = ({ actividadId, token }) => {
+/**
+ * 📦 Componente institucional para listar entregas de una actividad
+ */
+const EntregasList = ({ actividadId }) => {
   const [entregas, setEntregas] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!actividadId || !token) {
-      console.warn("⚠️ actividadId o token no definidos:", {
-        actividadId,
-        token,
-      });
+    if (!actividadId) {
+      console.warn("⚠️ actividadId no definido:", actividadId);
       return;
     }
 
     const fetchEntregas = async () => {
       setLoading(true);
       try {
-        const { data } = await axios.get(
-          `${API_URL}/api/entregas/${actividadId}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
+        const { data } = await axiosInstancia.get(
+          `/api/entregas/${actividadId}`
         );
 
         if (Array.isArray(data.entregas)) {
@@ -47,7 +42,7 @@ const EntregasList = ({ actividadId, token }) => {
     };
 
     fetchEntregas();
-  }, [actividadId, token]);
+  }, [actividadId]);
 
   if (loading) return <p className="text-white">🔄 Cargando entregas...</p>;
   if (error) return <p className="text-red-400">❌ {error}</p>;

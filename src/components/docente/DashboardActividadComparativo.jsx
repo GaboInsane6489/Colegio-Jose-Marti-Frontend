@@ -5,7 +5,10 @@ import {
   FaEquals,
 } from "react-icons/fa";
 
-const calcularEstadisticas = (entregas) => {
+/**
+ * 📊 Calcula estadísticas institucionales para entregas de una actividad
+ */
+const calcularEstadisticas = (entregas = []) => {
   const calificaciones = entregas
     .map((e) => e.calificacion)
     .filter((n) => typeof n === "number");
@@ -29,12 +32,15 @@ const calcularEstadisticas = (entregas) => {
   };
 };
 
+/**
+ * 📈 Componente institucional para mostrar estadísticas comparativas de una actividad
+ */
 const DashboardActividadComparativo = ({ actividad, entregas }) => {
   const { promedio, desviacion, top3, total } = calcularEstadisticas(entregas);
 
   return (
     <div className="bg-white/90 text-gray-900 rounded-xl shadow-md p-6 space-y-4">
-      <h3 className="text-lg font-bold">{actividad.titulo}</h3>
+      <h3 className="text-lg font-bold">{actividad?.titulo || "Actividad"}</h3>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
         <div className="flex items-center gap-2">

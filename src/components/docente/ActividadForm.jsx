@@ -1,9 +1,10 @@
 import { useState } from "react";
-import axios from "axios";
+import axiosInstancia from "@/services/axiosInstancia";
 import { jwtDecode } from "jwt-decode";
 
-const API_URL = import.meta.env.VITE_API_URL?.trim() || "http://localhost:3000";
-
+/**
+ * 📝 Formulario institucional para crear actividad académica
+ */
 const ActividadForm = ({ cursoId, onActividadCreada }) => {
   const [formData, setFormData] = useState({
     titulo: "",
@@ -80,11 +81,7 @@ const ActividadForm = ({ cursoId, onActividadCreada }) => {
     console.log("📤 Enviando actividad al backend:", payload);
 
     try {
-      const { data } = await axios.post(`${API_URL}/api/actividades`, payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const { data } = await axiosInstancia.post("/api/actividades", payload);
 
       console.log("📥 Respuesta del backend:", data);
 

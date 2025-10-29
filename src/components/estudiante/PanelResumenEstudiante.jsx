@@ -1,11 +1,15 @@
 import { FaTasks, FaChartLine, FaEnvelopeOpenText } from "react-icons/fa";
 
+/**
+ * 📊 Panel institucional de resumen académico del estudiante
+ */
 const PanelResumenEstudiante = ({
   promedio,
-  tareasPendientes,
-  loadingEntregas,
+  tareasPendientes = [],
+  loadingEntregas = false,
 }) => (
   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    {/* Tareas pendientes */}
     <div className="bg-white/90 text-gray-900 rounded-xl p-5 shadow-lg text-center">
       <FaTasks className="text-gray-800 text-3xl mb-2 mx-auto" />
       <h3 className="text-base sm:text-lg font-semibold mb-2">
@@ -20,6 +24,7 @@ const PanelResumenEstudiante = ({
       </p>
     </div>
 
+    {/* Progreso académico */}
     <div className="bg-white/90 text-gray-900 rounded-xl p-5 shadow-lg text-center">
       <FaChartLine className="text-gray-800 text-3xl mb-2 mx-auto" />
       <h3 className="text-base sm:text-lg font-semibold mb-2">
@@ -34,6 +39,7 @@ const PanelResumenEstudiante = ({
       </p>
     </div>
 
+    {/* Mensajes recientes */}
     <div className="bg-white/90 text-gray-900 rounded-xl p-5 shadow-lg text-center">
       <FaEnvelopeOpenText className="text-gray-800 text-3xl mb-2 mx-auto" />
       <h3 className="text-base sm:text-lg font-semibold mb-2">

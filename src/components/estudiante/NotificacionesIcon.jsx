@@ -3,8 +3,7 @@ import { BellIcon } from "@heroicons/react/24/outline";
 import useNotificaciones from "@/hooks/useNotificaciones.js";
 
 /**
- * 🔔 Ícono de notificaciones institucionales
- * Muestra contador de no leídas y dropdown interactivo.
+ * 🔔 Ícono institucional para mostrar notificaciones del estudiante
  */
 const NotificacionesIcon = ({ token, usuarioId }) => {
   const [abierto, setAbierto] = useState(false);

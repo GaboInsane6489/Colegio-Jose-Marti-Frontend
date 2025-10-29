@@ -1,13 +1,21 @@
 import { FaClipboardCheck } from "react-icons/fa";
 import ActividadDetalleEstudiante from "./ActividadDetalleEstudiante";
 
-const SeccionEntregasEstudiante = ({ entregasFiltradas, loadingEntregas }) => (
+/**
+ * 📋 Sección institucional para mostrar entregas realizadas por el estudiante
+ */
+const SeccionEntregasEstudiante = ({
+  entregasFiltradas = [],
+  loadingEntregas = false,
+}) => (
   <section className="space-y-6 pt-8">
+    {/* Título emocional */}
     <h2 className="text-xl font-bold text-white text-center flex items-center justify-center gap-2">
       <FaClipboardCheck className="text-yellow-400" />
       Detalle de tus entregas
     </h2>
 
+    {/* Contenido dinámico */}
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
       {loadingEntregas ? (
         <p className="text-white/70 col-span-full">Cargando entregas...</p>

@@ -5,7 +5,12 @@ import {
   FaTasks,
 } from "react-icons/fa";
 
-const ResumenActividad = ({ actividad, entregas }) => {
+/**
+ * 📊 Componente institucional para mostrar resumen de entregas por actividad
+ */
+const ResumenActividad = ({ actividad, entregas = [] }) => {
+  if (!actividad || !actividad._id) return null;
+
   const entregasActividad = entregas.filter(
     (e) => e.actividadId?._id === actividad._id
   );
@@ -14,18 +19,19 @@ const ResumenActividad = ({ actividad, entregas }) => {
   const revisadas = entregasActividad.filter(
     (e) => e.estado === "revisado"
   ).length;
+
   const promedio =
     entregasActividad.reduce((acc, e) => acc + (e.calificacion || 0), 0) /
     Math.max(total, 1);
 
-  const porcentajeRevisado = Math.round((revisadas / total) * 100);
+  const porcentajeRevisado = Math.round((revisadas / Math.max(total, 1)) * 100);
 
   return (
     <div className="bg-white/90 text-gray-900 rounded-xl shadow-md p-6 space-y-6">
       {/* Título de actividad */}
       <div className="flex items-center gap-3 text-lg font-bold text-gray-800">
         <FaClipboardCheck className="text-blue-600 text-xl" />
-        <span>{actividad.titulo}</span>
+        <span>{actividad.titulo || "Actividad"}</span>
       </div>
 
       {/* Métricas */}

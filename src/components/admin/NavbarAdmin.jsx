@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
+import { getCookie } from "@/utils/cookieUtils";
 
 const NavbarAdmin = () => {
   const [adminName, setAdminName] = useState("Administrador");
@@ -50,9 +51,9 @@ const NavbarAdmin = () => {
     { path: "#configuracion", label: "Configuración general", external: true },
   ];
 
-  const navLinkClass = (path) =>
+  const navLinkClass = (path, external) =>
     `relative px-4 py-2 rounded transition duration-200 ease-in-out ${
-      location.pathname === path
+      !external && location.pathname === path
         ? "text-white font-semibold"
         : "text-white hover:text-white/80"
     }`;
@@ -69,12 +70,12 @@ const NavbarAdmin = () => {
         <div className="hidden md:flex items-center gap-6 text-sm font-medium ml-4">
           {enlaces.map(({ path, label, external }) =>
             external ? (
-              <a key={path} href={path} className={navLinkClass(path)}>
+              <a key={path} href={path} className={navLinkClass(path, true)}>
                 {label}
               </a>
             ) : (
               <div key={path} className="relative group">
-                <Link to={path} className={navLinkClass(path)}>
+                <Link to={path} className={navLinkClass(path, false)}>
                   {label}
                 </Link>
                 {location.pathname === path && (
@@ -155,11 +156,16 @@ const NavbarAdmin = () => {
           >
             {enlaces.map(({ path, label, external }) =>
               external ? (
-                <a key={path} href={path} className={navLinkClass(path)}>
+                <a key={path} href={path} className={navLinkClass(path, true)}>
                   {label}
                 </a>
               ) : (
-                <Link key={path} to={path} className={navLinkClass(path)}>
+                <Link
+                  key={path}
+                  to={path}
+                  onClick={() => setShowMobileNav(false)}
+                  className={navLinkClass(path, false)}
+                >
                   {label}
                 </Link>
               )

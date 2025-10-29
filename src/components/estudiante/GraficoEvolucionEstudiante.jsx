@@ -9,14 +9,19 @@ import {
 } from "recharts";
 import { FaChartLine } from "react-icons/fa";
 
-const GraficoEvolucionEstudiante = ({ datos }) => {
+/**
+ * 📈 Componente institucional para mostrar evolución académica del estudiante por lapso
+ */
+const GraficoEvolucionEstudiante = ({ datos = [] }) => {
   return (
     <div className="bg-white/90 text-gray-900 rounded-xl shadow-md p-6 space-y-4">
+      {/* Título emocional */}
       <div className="flex items-center gap-2 text-lg font-bold text-gray-800">
         <FaChartLine className="text-blue-600" />
         Evolución académica por lapso
       </div>
 
+      {/* Validación de datos */}
       {datos.length === 0 ? (
         <p className="text-sm text-gray-600">
           No hay datos suficientes para mostrar el gráfico.

@@ -9,7 +9,7 @@ import Footer from "../components/Footer";
 
 const AdminDashboard = () => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-black text-white overflow-hidden">
       {/* 🎥 Fondo institucional exclusivo del panel admin */}
       <VideoFondoAdmin />
 

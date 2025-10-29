@@ -4,6 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import { fileURLToPath } from "url";
 
+// 📦 Resolución de ruta absoluta para alias "@"
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -15,10 +16,10 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: "dist",
-    emptyOutDir: true,
+    outDir: "dist", // Carpeta de salida para producción
+    emptyOutDir: true, // Limpia carpeta antes de compilar
   },
-  base: "/", // Recomendado para despliegue en Render: asegura rutas internas correctas
+  base: "/", // ✅ Recomendado para despliegue en Render: asegura rutas internas correctas
   server: {
     proxy: {
       "/api": {

@@ -1,10 +1,13 @@
 import NotaCard from "./NotaCard";
 
-const ListaNotas = ({ notas, loading, error, onEdit }) => {
+/**
+ * 🧾 Componente institucional para listar notas entregadas
+ */
+const ListaNotas = ({ notas = [], loading, error, onEdit }) => {
   if (loading) {
     return (
       <p className="text-center text-white/70 col-span-full">
-        Cargando entregas...
+        🔄 Cargando entregas...
       </p>
     );
   }
@@ -12,12 +15,12 @@ const ListaNotas = ({ notas, loading, error, onEdit }) => {
   if (error) {
     return (
       <p className="text-center text-red-500 col-span-full">
-        Error al cargar notas: {error}
+        ❌ Error al cargar notas: {error}
       </p>
     );
   }
 
-  if (notas.length === 0) {
+  if (!Array.isArray(notas) || notas.length === 0) {
     return (
       <p className="text-center text-white/50 col-span-full">
         No hay entregas que coincidan con los filtros aplicados.
