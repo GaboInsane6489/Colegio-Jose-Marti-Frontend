@@ -1,38 +1,29 @@
-import React, { lazy, Suspense } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import React, { lazy, Suspense } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 // Layout principal
-import MainLayout from "./layouts/MainLayout";
+import MainLayout from './layouts/MainLayout';
 
 // Páginas públicas
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
+import Home from './pages/Home';
+import About from './pages/About';
+import Contact from './pages/Contact';
 
 // Páginas independientes
-import AuthPage from "./pages/AuthPage";
+import AuthPage from './pages/AuthPage';
 
 // Hook institucional
-import usePingUsuario from "./hooks/usePingUsuario";
+import usePingUsuario from './hooks/usePingUsuario';
 
 // Carga diferida de dashboards y vistas protegidas
-const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
-const EstudianteDashboard = lazy(() => import("./pages/EstudianteDashboard"));
-const DocenteDashboard = lazy(() => import("./pages/DocenteDashboard"));
-const Entregas = lazy(() => import("./pages/estudiante/Entregas"));
-const ActividadesEstudiante = lazy(() =>
-  import("./pages/estudiante/ActividadesEstudiante")
-);
-const BandejaNotificaciones = lazy(() =>
-  import("./pages/estudiante/BandejaNotificaciones")
-);
-const NotasPage = lazy(() => import("./pages/docente/NotasPage"));
-const ActividadesPage = lazy(() => import("./pages/docente/ActividadesPage"));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
+const EstudianteDashboard = lazy(() => import('./pages/EstudianteDashboard'));
+const DocenteDashboard = lazy(() => import('./pages/DocenteDashboard'));
+const Entregas = lazy(() => import('./pages/estudiante/Entregas'));
+const ActividadesEstudiante = lazy(() => import('./pages/estudiante/ActividadesEstudiante'));
+const BandejaNotificaciones = lazy(() => import('./pages/estudiante/BandejaNotificaciones'));
+const NotasPage = lazy(() => import('./pages/docente/NotasPage'));
+const ActividadesPage = lazy(() => import('./pages/docente/ActividadesPage'));
 
 function App() {
   const { rol, cargando } = usePingUsuario();
@@ -40,13 +31,12 @@ function App() {
   const proteger = (componente, rolEsperado) => {
     if (cargando)
       return (
-        <div className="min-h-screen flex items-center justify-center text-white bg-black">
+        <div className='min-h-screen flex items-center justify-center text-white bg-black'>
           Verificando sesión...
         </div>
       );
-    if (!rol) return <Navigate to="/auth" replace />;
-    if (rolEsperado && rol !== rolEsperado)
-      return <Navigate to={`/${rol}/dashboard`} replace />;
+    if (!rol) return <Navigate to='/auth' replace />;
+    if (rolEsperado && rol !== rolEsperado) return <Navigate to={`/${rol}/dashboard`} replace />;
     return componente;
   };
 
@@ -54,7 +44,7 @@ function App() {
     <Router>
       <Suspense
         fallback={
-          <div className="min-h-screen flex items-center justify-center text-white bg-black">
+          <div className='min-h-screen flex items-center justify-center text-white bg-black'>
             Cargando vista...
           </div>
         }
@@ -62,7 +52,7 @@ function App() {
         <Routes>
           {/* 🌐 Rutas públicas con layout institucional */}
           <Route
-            path="/"
+            path='/'
             element={
               <MainLayout>
                 <Home />
@@ -70,7 +60,7 @@ function App() {
             }
           />
           <Route
-            path="/about"
+            path='/about'
             element={
               <MainLayout>
                 <About />
@@ -78,7 +68,7 @@ function App() {
             }
           />
           <Route
-            path="/contact"
+            path='/contact'
             element={
               <MainLayout>
                 <Contact />
@@ -87,41 +77,26 @@ function App() {
           />
 
           {/* 🔓 Ruta pública para login */}
-          <Route path="/auth" element={<AuthPage />} />
+          <Route path='/auth' element={<AuthPage />} />
 
           {/* 🔐 Rutas protegidas por rol */}
+          <Route path='/admin/dashboard' element={proteger(<AdminDashboard />, 'admin')} />
+          <Route path='/docente/dashboard' element={proteger(<DocenteDashboard />, 'docente')} />
           <Route
-            path="/admin/dashboard"
-            element={proteger(<AdminDashboard />, "admin")}
+            path='/estudiante/dashboard'
+            element={proteger(<EstudianteDashboard />, 'estudiante')}
           />
           <Route
-            path="/docente/dashboard"
-            element={proteger(<DocenteDashboard />, "docente")}
+            path='/estudiante/mensajes'
+            element={proteger(<BandejaNotificaciones />, 'estudiante')}
           />
+          <Route path='/estudiante/entregas' element={proteger(<Entregas />, 'estudiante')} />
           <Route
-            path="/estudiante/dashboard"
-            element={proteger(<EstudianteDashboard />, "estudiante")}
+            path='/estudiante/actividades'
+            element={proteger(<ActividadesEstudiante />, 'estudiante')}
           />
-          <Route
-            path="/estudiante/mensajes"
-            element={proteger(<BandejaNotificaciones />, "estudiante")}
-          />
-          <Route
-            path="/estudiante/entregas"
-            element={proteger(<Entregas />, "estudiante")}
-          />
-          <Route
-            path="/estudiante/actividades"
-            element={proteger(<ActividadesEstudiante />, "estudiante")}
-          />
-          <Route
-            path="/docente/notas"
-            element={proteger(<NotasPage />, "docente")}
-          />
-          <Route
-            path="/docente/actividades"
-            element={proteger(<ActividadesPage />, "docente")}
-          />
+          <Route path='/docente/notas' element={proteger(<NotasPage />, 'docente')} />
+          <Route path='/docente/actividades' element={proteger(<ActividadesPage />, 'docente')} />
         </Routes>
       </Suspense>
     </Router>
