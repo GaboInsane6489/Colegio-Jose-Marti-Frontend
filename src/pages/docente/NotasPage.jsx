@@ -40,29 +40,44 @@ const NotasPage = () => {
   const { entregas, loading, error } = useNotas(token, { cursoId });
 
   useEffect(() => {
-    if (Array.isArray(entregas)) setNotas(entregas);
+    if (Array.isArray(entregas)) {
+      setNotas(entregas);
+    } else {
+      setNotas([]);
+    }
   }, [entregas]);
 
-  const notasFiltradas = notas.filter((nota) => {
-    const materiaMatch = filtroMateria === 'todos' || nota.materia === filtroMateria;
-    const estadoMatch = filtroEstado === 'todos' || nota.estado === filtroEstado;
-    const estudianteMatch = filtroEstudiante === 'todos' || nota.estudianteId === filtroEstudiante;
-    const actividadMatch =
-      !filtroActividad ||
-      nota.actividad?.titulo?.toLowerCase().includes(filtroActividad.toLowerCase());
-    const notaMatch =
-      (!filtroNotaMin || nota.calificacion >= parseFloat(filtroNotaMin)) &&
-      (!filtroNotaMax || nota.calificacion <= parseFloat(filtroNotaMax));
+  const notasFiltradas = Array.isArray(notas)
+    ? notas.filter((nota) => {
+        const materiaMatch = filtroMateria === 'todos' || nota.materia === filtroMateria;
+        const estadoMatch = filtroEstado === 'todos' || nota.estado === filtroEstado;
+        const estudianteMatch =
+          filtroEstudiante === 'todos' || nota.estudianteId === filtroEstudiante;
+        const actividadMatch =
+          !filtroActividad ||
+          nota.actividad?.titulo?.toLowerCase().includes(filtroActividad.toLowerCase());
+        const notaMatch =
+          (!filtroNotaMin || nota.calificacion >= parseFloat(filtroNotaMin)) &&
+          (!filtroNotaMax || nota.calificacion <= parseFloat(filtroNotaMax));
 
-    return materiaMatch && estadoMatch && estudianteMatch && actividadMatch && notaMatch;
-  });
+        return materiaMatch && estadoMatch && estudianteMatch && actividadMatch && notaMatch;
+      })
+    : [];
 
   const estudiantesUnicos = [
-    ...new Map(notasFiltradas.map((n) => [n.estudianteId?._id, n.estudianteId])).values(),
+    ...new Map(
+      notasFiltradas
+        .filter((n) => n.estudianteId && n.estudianteId._id)
+        .map((n) => [n.estudianteId._id, n.estudianteId])
+    ).values(),
   ];
 
   const actividadesUnicas = [
-    ...new Map(notasFiltradas.map((n) => [n.actividadId?._id, n.actividadId])).values(),
+    ...new Map(
+      notasFiltradas
+        .filter((n) => n.actividadId && n.actividadId._id)
+        .map((n) => [n.actividadId._id, n.actividadId])
+    ).values(),
   ];
 
   const aplicarFiltros = () => {
@@ -106,30 +121,40 @@ const NotasPage = () => {
         />
 
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-6'>
-          <ListaNotas
-            notas={notasFiltradas}
-            loading={loading}
-            error={error}
-            onEdit={(actualizada) => {
-              setNotas((prev) => prev.map((n) => (n._id === actualizada._id ? actualizada : n)));
-              setToast({ mensaje: 'Nota actualizada', tipo: 'success' });
-            }}
-          />
+          {notasFiltradas.length > 0 ? (
+            <ListaNotas
+              notas={notasFiltradas}
+              loading={loading}
+              error={error}
+              onEdit={(actualizada) => {
+                setNotas((prev) => prev.map((n) => (n._id === actualizada._id ? actualizada : n)));
+                setToast({ mensaje: 'Nota actualizada', tipo: 'success' });
+              }}
+            />
+          ) : (
+            <p className='text-center text-white/70 italic col-span-full'>
+              No hay entregas registradas para este curso.
+            </p>
+          )}
         </div>
 
-        <section className='pt-12 space-y-6'>
-          <h2 className='text-2xl font-bold text-center flex justify-center items-center gap-2'>
-            <span className='text-pink-400'>🎓</span>
-            Resumen por estudiante
-          </h2>
-          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
-            {estudiantesUnicos.map((est) => (
-              <ResumenEstudiante key={est._id} estudiante={est} entregas={notasFiltradas} />
-            ))}
-          </div>
-        </section>
+        {estudiantesUnicos.length > 0 && (
+          <section className='pt-12 space-y-6'>
+            <h2 className='text-2xl font-bold text-center flex justify-center items-center gap-2'>
+              <span className='text-pink-400'>🎓</span>
+              Resumen por estudiante
+            </h2>
+            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+              {estudiantesUnicos.map((est) => (
+                <ResumenEstudiante key={est._id} estudiante={est} entregas={notasFiltradas} />
+              ))}
+            </div>
+          </section>
+        )}
 
-        <ResumenPorActividad actividades={actividadesUnicas} entregas={notasFiltradas} />
+        {actividadesUnicas.length > 0 && (
+          <ResumenPorActividad actividades={actividadesUnicas} entregas={notasFiltradas} />
+        )}
       </main>
 
       <div className='relative z-20 mt-10'>

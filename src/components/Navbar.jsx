@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-<img src='/LogoColegio.png' alt='Logo Colegio José Martí' />;
 import { getCookie } from '../utils/cookieUtils';
 
 const Navbar = () => {
@@ -76,7 +75,7 @@ const Navbar = () => {
     >
       <div className='max-w-7xl mx-auto px-4 flex items-center justify-between h-16'>
         <Link to='/' aria-label='Ir al inicio'>
-          <img src={logo} alt='Logo Colegio José Martí' className='h-10' />
+          <img src='/LogoColegio.png' alt='Logo Colegio José Martí' className='h-10' />
         </Link>
 
         {/* 🖥️ Navegación escritorio */}

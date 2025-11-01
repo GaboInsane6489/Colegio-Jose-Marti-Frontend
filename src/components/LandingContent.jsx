@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
-<img src='/LogoColegio.png' alt='Logo Colegio José Martí' />;
 
 const LandingContent = ({ inView }) => {
   const animationProps = useMemo(() => {
@@ -33,7 +32,7 @@ const LandingContent = ({ inView }) => {
         className='relative z-10 text-center w-full max-w-4xl px-4'
       >
         <motion.img
-          src={logo}
+          src='/LogoColegio.png'
           alt='Escudo Colegio José Martí'
           initial={{ opacity: 0, scale: 0.8 }}
           animate={animationProps.logo}

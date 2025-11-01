@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 
 // Layout principal
 import MainLayout from './layouts/MainLayout';
@@ -28,15 +28,31 @@ const ActividadesPage = lazy(() => import('./pages/docente/ActividadesPage'));
 function App() {
   const { rol, cargando } = usePingUsuario();
 
+  /**
+   * 🔐 Protección institucional por rol
+   * Evita rutas mezcladas, redirige según rol, y muestra carga segura.
+   */
   const proteger = (componente, rolEsperado) => {
-    if (cargando)
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+
+    if (cargando || (token && !rol)) {
       return (
         <div className='min-h-screen flex items-center justify-center text-white bg-black'>
           Verificando sesión...
         </div>
       );
-    if (!rol) return <Navigate to='/auth' replace />;
-    if (rolEsperado && rol !== rolEsperado) return <Navigate to={`/${rol}/dashboard`} replace />;
+    }
+
+    if (!token || !rol || typeof rol !== 'string') {
+      console.warn('⚠️ Sesión no válida. Redirigiendo a /auth');
+      return <Navigate to='/auth' replace />;
+    }
+
+    if (rolEsperado && rol !== rolEsperado) {
+      console.warn(`⚠️ Rol "${rol}" no coincide con esperado "${rolEsperado}". Redirigiendo.`);
+      return <Navigate to={`/${rol}/dashboard`} replace />;
+    }
+
     return componente;
   };
 

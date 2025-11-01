@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstancia from '@/services/axiosInstancia';
 import { motion } from 'framer-motion';
 
 // 🎥 Visuales
@@ -18,6 +18,10 @@ import FiltrosEstudiante from '@/components/estudiante/FiltrosEstudiante';
 // 📋 Utilidades
 import { exportNotasCSV } from '@/utils/exportadores/useExportNotas';
 
+/**
+ * 🧠 Dashboard institucional del estudiante
+ * Valida sesión, carga clases y entregas, y protege la vista.
+ */
 const EstudianteDashboard = () => {
   const [clases, setClases] = useState([]);
   const [entregas, setEntregas] = useState([]);
@@ -35,13 +39,22 @@ const EstudianteDashboard = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-    if (!token) return;
+    const role =
+      localStorage.getItem('userRole') ||
+      document.cookie
+        .split('; ')
+        .find((row) => row.startsWith('userRole='))
+        ?.split('=')[1];
+
+    if (!token || role !== 'estudiante') {
+      console.warn('⚠️ Sesión inválida o rol incorrecto. Redirigiendo.');
+      window.location.href = '/auth';
+      return;
+    }
 
     const fetchClases = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/estudiante/clases`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await axiosInstancia.get('/api/estudiante/clases');
         setClases(res.data.clases || []);
       } catch (error) {
         console.error('❌ Error al cargar clases:', error);
@@ -52,9 +65,7 @@ const EstudianteDashboard = () => {
 
     const fetchEntregas = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/estudiante/entregas`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await axiosInstancia.get('/api/estudiante/entregas');
         setEntregas(res.data.entregas || []);
       } catch (error) {
         console.error('❌ Error al cargar entregas:', error);

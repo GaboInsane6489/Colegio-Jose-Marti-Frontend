@@ -11,16 +11,21 @@ const __dirname = path.dirname(__filename);
 export default defineConfig({
   plugins: [
     react(), // Soporte para React
-    tailwindcss(), // Integración con Tailwind CSS
+    tailwindcss(), // Integración con Tailwind CSS v4
   ],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src'), // Permite usar "@/..." para importar desde src/
+      '@': path.resolve(__dirname, 'src'), // Importaciones limpias desde src/
     },
   },
   build: {
     outDir: 'dist', // Carpeta de salida para producción
     emptyOutDir: true, // Limpia carpeta antes de compilar
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'), // 🔑 Entrada explícita para Vite
+      },
+    },
   },
   base: '/', // Ruta base absoluta para Render
 });

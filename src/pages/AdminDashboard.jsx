@@ -1,45 +1,65 @@
-import NavbarAdmin from "../components/admin/NavbarAdmin";
-import PendientesList from "../components/admin/PendientesList";
-import EstadisticasPanel from "../components/admin/EstadisticasPanel";
-import ConfiguracionPanel from "../components/admin/ConfiguracionPanel";
-import UsuariosTable from "../components/admin/UsuariosTable";
-import DocentesManager from "../components/admin/DocentesManager";
-import VideoFondoAdmin from "../components/admin/VideoFondoAdmin";
-import Footer from "../components/Footer";
+import { useEffect } from 'react';
+import NavbarAdmin from '../components/admin/NavbarAdmin';
+import PendientesList from '../components/admin/PendientesList';
+import EstadisticasPanel from '../components/admin/EstadisticasPanel';
+import ConfiguracionPanel from '../components/admin/ConfiguracionPanel';
+import UsuariosTable from '../components/admin/UsuariosTable';
+import DocentesManager from '../components/admin/DocentesManager';
+import VideoFondoAdmin from '../components/admin/VideoFondoAdmin';
+import Footer from '../components/Footer';
 
+/**
+ * 🧠 Dashboard institucional del administrador
+ * Valida sesión y protege la vista contra accesos no autorizados.
+ */
 const AdminDashboard = () => {
+  useEffect(() => {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    const role =
+      localStorage.getItem('userRole') ||
+      document.cookie
+        .split('; ')
+        .find((row) => row.startsWith('userRole='))
+        ?.split('=')[1];
+
+    if (!token || role !== 'admin') {
+      console.warn('⚠️ Sesión inválida o rol incorrecto. Redirigiendo.');
+      window.location.href = '/auth';
+    }
+  }, []);
+
   return (
-    <div className="min-h-screen flex flex-col bg-black text-white overflow-hidden">
+    <div className='min-h-screen flex flex-col bg-black text-white overflow-hidden'>
       {/* 🎥 Fondo institucional exclusivo del panel admin */}
       <VideoFondoAdmin />
 
       {/* 🧠 Overlay de contenido */}
-      <div className="relative z-10 flex-1">
+      <div className='relative z-10 flex-1'>
         <NavbarAdmin />
 
-        <main className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-20">
+        <main className='pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-20'>
           {/* 🔐 Validación de usuarios pendientes */}
-          <section id="validacion" className="scroll-mt-24">
+          <section id='validacion' className='scroll-mt-24'>
             <PendientesList />
           </section>
 
           {/* 📋 Tabla de todos los usuarios */}
-          <section id="usuarios" className="scroll-mt-24">
+          <section id='usuarios' className='scroll-mt-24'>
             <UsuariosTable />
           </section>
 
           {/* 👩‍🏫 Gestión de docentes */}
-          <section id="docentes" className="scroll-mt-24">
+          <section id='docentes' className='scroll-mt-24'>
             <DocentesManager />
           </section>
 
           {/* 📊 Estadísticas generales */}
-          <section id="estadisticas" className="scroll-mt-24">
+          <section id='estadisticas' className='scroll-mt-24'>
             <EstadisticasPanel />
           </section>
 
           {/* ⚙️ Configuración institucional */}
-          <section id="configuracion" className="scroll-mt-24">
+          <section id='configuracion' className='scroll-mt-24'>
             <ConfiguracionPanel />
           </section>
         </main>
