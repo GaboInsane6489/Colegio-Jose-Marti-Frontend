@@ -1,10 +1,9 @@
-import { useState, useEffect, useCallback } from "react";
-import axiosInstancia from "@/services/axiosInstancia";
-import isActividadValida from "@/utils/isActividadValida.js";
+import { useState, useEffect, useCallback } from 'react';
+import axiosInstancia from '@/services/axiosInstancia';
+import isActividadValida from '@/utils/validadores/isActividadValida.js';
 
 // 🧠 Validación ligera de ObjectId (24 caracteres hexadecimales)
-const esObjectIdValido = (id) =>
-  typeof id === "string" && /^[a-f\d]{24}$/i.test(id);
+const esObjectIdValido = (id) => typeof id === 'string' && /^[a-f\d]{24}$/i.test(id);
 
 /**
  * 🎓 Hook institucional para gestionar actividades académicas por curso y filtros.
@@ -16,14 +15,11 @@ const useActividades = (tokenProp, filtros = {}) => {
   const [error, setError] = useState(null);
 
   const fetchActividades = useCallback(async () => {
-    const token =
-      tokenProp ||
-      localStorage.getItem("token") ||
-      sessionStorage.getItem("token");
+    const token = tokenProp || localStorage.getItem('token') || sessionStorage.getItem('token');
 
     if (!token) {
-      console.warn("⚠️ Token no definido en useActividades");
-      setError("Token no proporcionado");
+      console.warn('⚠️ Token no definido en useActividades');
+      setError('Token no proporcionado');
       return;
     }
 
@@ -35,20 +31,17 @@ const useActividades = (tokenProp, filtros = {}) => {
       if (filtros.cursoId && esObjectIdValido(filtros.cursoId)) {
         params.cursoId = filtros.cursoId;
       } else if (filtros.cursoId) {
-        console.warn("⚠️ cursoId inválido:", filtros.cursoId);
-        throw new Error("ID de curso inválido o no proporcionado.");
+        console.warn('⚠️ cursoId inválido:', filtros.cursoId);
+        throw new Error('ID de curso inválido o no proporcionado.');
       }
 
       // ✅ Filtros adicionales
-      if (filtros.tipo && filtros.tipo !== "todos") params.tipo = filtros.tipo;
-      if (filtros.estado && filtros.estado !== "todos")
-        params.estado = filtros.estado;
-      if (filtros.materia && filtros.materia !== "todos")
-        params.materia = filtros.materia;
-      if (filtros.lapso && filtros.lapso !== "todos")
-        params.lapso = filtros.lapso;
+      if (filtros.tipo && filtros.tipo !== 'todos') params.tipo = filtros.tipo;
+      if (filtros.estado && filtros.estado !== 'todos') params.estado = filtros.estado;
+      if (filtros.materia && filtros.materia !== 'todos') params.materia = filtros.materia;
+      if (filtros.lapso && filtros.lapso !== 'todos') params.lapso = filtros.lapso;
 
-      const { data } = await axiosInstancia.get("/api/actividades", {
+      const { data } = await axiosInstancia.get('/api/actividades', {
         params,
       });
 
@@ -57,30 +50,21 @@ const useActividades = (tokenProp, filtros = {}) => {
         setActividades(limpias);
         setError(null);
       } else {
-        console.warn("⚠️ Respuesta inesperada del backend:", data);
+        console.warn('⚠️ Respuesta inesperada del backend:', data);
         setActividades([]);
-        setError(data.msg || "Respuesta inesperada del servidor");
+        setError(data.msg || 'Respuesta inesperada del servidor');
       }
     } catch (err) {
       const mensaje =
-        err.response?.data?.msg ||
-        err.message ||
-        "No se pudieron cargar las actividades";
+        err.response?.data?.msg || err.message || 'No se pudieron cargar las actividades';
 
-      console.error("❌ Error al cargar actividades:", mensaje);
+      console.error('❌ Error al cargar actividades:', mensaje);
       setError(mensaje);
       setActividades([]);
     } finally {
       setLoading(false);
     }
-  }, [
-    tokenProp,
-    filtros.cursoId,
-    filtros.tipo,
-    filtros.estado,
-    filtros.materia,
-    filtros.lapso,
-  ]);
+  }, [tokenProp, filtros.cursoId, filtros.tipo, filtros.estado, filtros.materia, filtros.lapso]);
 
   useEffect(() => {
     fetchActividades();

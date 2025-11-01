@@ -7,10 +7,10 @@
     <!-- 🏫 Título institucional -->
     <title>Colegio José Martí</title>
 
-    <!-- 🖼️ Favicon institucional -->
+    <!-- 🖼️ Favicon institucional (ubicado en /public) -->
     <link rel="icon" type="image/png" href="/LogoColegio.png" />
 
-    <!-- 🔍 Meta descripción para buscadores -->
+    <!-- 🔍 Meta descripción para SEO -->
     <meta
       name="description"
       content="Sitio oficial del Colegio José Martí - La Vega, Caracas. Formación integral, excelencia académica y valores que transforman."
@@ -22,7 +22,10 @@
     <meta name="theme-color" content="#1a1a1a" />
   </head>
   <body>
+    <!-- 🔗 Punto de montaje de React -->
     <div id="root"></div>
-    <!-- ✅ Vite inyectará los scripts y estilos automáticamente -->
+
+    <!-- 🚀 Entrada principal del frontend (Vite + React) -->
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

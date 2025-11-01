@@ -8,8 +8,11 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export default defineConfig(({ command }) => ({
-  plugins: [react(), tailwindcss()],
+export default defineConfig({
+  plugins: [
+    react(), // Soporte para React
+    tailwindcss(), // Integración con Tailwind CSS
+  ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'), // Permite usar "@/..." para importar desde src/
@@ -19,14 +22,5 @@ export default defineConfig(({ command }) => ({
     outDir: 'dist', // Carpeta de salida para producción
     emptyOutDir: true, // Limpia carpeta antes de compilar
   },
-  base: command === 'build' ? '/' : './', // "/" para Render, "./" para preview local
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3000', // Proxy local para desarrollo backend
-        changeOrigin: true,
-        secure: false,
-      },
-    },
-  },
-}));
+  base: '/', // Ruta base absoluta para Render
+});
