@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import NavbarAdmin from '../components/admin/NavbarAdmin';
 import PendientesList from '../components/admin/PendientesList';
 import EstadisticasPanel from '../components/admin/EstadisticasPanel';
@@ -10,24 +9,10 @@ import Footer from '../components/Footer';
 
 /**
  * 🧠 Dashboard institucional del administrador
- * Valida sesión y protege la vista contra accesos no autorizados.
+ * Carga modularizada sin revalidación redundante.
+ * La sesión ya fue verificada por App.jsx.
  */
 const AdminDashboard = () => {
-  useEffect(() => {
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-    const role =
-      localStorage.getItem('userRole') ||
-      document.cookie
-        .split('; ')
-        .find((row) => row.startsWith('userRole='))
-        ?.split('=')[1];
-
-    if (!token || role !== 'admin') {
-      console.warn('⚠️ Sesión inválida o rol incorrecto. Redirigiendo.');
-      window.location.href = '/auth';
-    }
-  }, []);
-
   return (
     <div className='min-h-screen flex flex-col bg-black text-white overflow-hidden'>
       {/* 🎥 Fondo institucional exclusivo del panel admin */}

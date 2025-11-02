@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useNotas from '@/hooks/useNotas.js';
 import { exportNotasCSV } from '@/utils/exportadores/useExportNotas.js';
 
@@ -16,8 +17,31 @@ import ToastFeedback from '@/components/ui/ToastFeedback.jsx';
 import NotaForm from '@/components/docente/NotaForm.jsx';
 
 const NotasPage = () => {
-  const token = localStorage.getItem('token');
+  const navigate = useNavigate();
+  const [evaluando, setEvaluando] = useState(true);
+  const [accesoPermitido, setAccesoPermitido] = useState(false);
+
+  const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+  const role =
+    localStorage.getItem('userRole') ||
+    document.cookie
+      .split('; ')
+      .find((row) => row.startsWith('userRole='))
+      ?.split('=')[1];
+
+  useEffect(() => {
+    if (token && role === 'docente') {
+      setAccesoPermitido(true);
+    } else {
+      console.warn('⚠️ Sesión inválida o rol incorrecto. Redirigiendo.');
+      navigate('/auth', { replace: true });
+    }
+
+    setEvaluando(false);
+  }, [navigate, token, role]);
+
   const cursoId = '652f1a9b3c2e4f0012a4dabc';
+  const { entregas, loading, error } = useNotas(token, { cursoId });
 
   const [notas, setNotas] = useState([]);
   const [notaEditando, setNotaEditando] = useState(null);
@@ -37,8 +61,6 @@ const NotasPage = () => {
   const [filtroNotaMinTemp, setFiltroNotaMinTemp] = useState('');
   const [filtroNotaMaxTemp, setFiltroNotaMaxTemp] = useState('');
 
-  const { entregas, loading, error } = useNotas(token, { cursoId });
-
   useEffect(() => {
     if (Array.isArray(entregas)) {
       setNotas(entregas);
@@ -46,6 +68,18 @@ const NotasPage = () => {
       setNotas([]);
     }
   }, [entregas]);
+
+  if (evaluando) {
+    return (
+      <main className='min-h-screen flex items-center justify-center bg-black text-white'>
+        Verificando sesión docente...
+      </main>
+    );
+  }
+
+  if (!accesoPermitido) {
+    return null;
+  }
 
   const notasFiltradas = Array.isArray(notas)
     ? notas.filter((nota) => {

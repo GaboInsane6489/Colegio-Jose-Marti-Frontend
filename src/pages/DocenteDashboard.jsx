@@ -8,23 +8,10 @@ import VideoFondoDocente from '@/components/docente/VideoFondoDocente';
 
 /**
  * 🧠 Dashboard institucional del docente
- * Carga modularizada con validación defensiva.
+ * Carga modularizada sin revalidación redundante.
+ * La sesión ya fue verificada por App.jsx.
  */
 const DocenteDashboard = () => {
-  const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-  const role =
-    localStorage.getItem('userRole') ||
-    document.cookie
-      .split('; ')
-      .find((row) => row.startsWith('userRole='))
-      ?.split('=')[1];
-
-  if (!token || role !== 'docente') {
-    console.warn('⚠️ Sesión inválida o rol incorrecto. Redirigiendo.');
-    window.location.href = '/auth';
-    return null;
-  }
-
   return (
     <div className='relative min-h-screen bg-black text-white overflow-hidden'>
       {/* 🎥 Video institucional modularizado */}

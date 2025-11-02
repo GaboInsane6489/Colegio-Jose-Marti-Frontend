@@ -20,7 +20,8 @@ import { exportNotasCSV } from '@/utils/exportadores/useExportNotas';
 
 /**
  * 🧠 Dashboard institucional del estudiante
- * Valida sesión, carga clases y entregas, y protege la vista.
+ * Carga clases y entregas sin revalidación redundante.
+ * La sesión ya fue verificada por App.jsx.
  */
 const EstudianteDashboard = () => {
   const [clases, setClases] = useState([]);
@@ -38,20 +39,6 @@ const EstudianteDashboard = () => {
   const normalizar = (valor) => (typeof valor === 'string' ? valor.trim().toLowerCase() : '');
 
   useEffect(() => {
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-    const role =
-      localStorage.getItem('userRole') ||
-      document.cookie
-        .split('; ')
-        .find((row) => row.startsWith('userRole='))
-        ?.split('=')[1];
-
-    if (!token || role !== 'estudiante') {
-      console.warn('⚠️ Sesión inválida o rol incorrecto. Redirigiendo.');
-      window.location.href = '/auth';
-      return;
-    }
-
     const fetchClases = async () => {
       try {
         const res = await axiosInstancia.get('/api/estudiante/clases');

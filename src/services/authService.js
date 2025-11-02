@@ -2,8 +2,8 @@ import axiosInstancia from './axiosInstancia';
 
 /**
  * 🔐 Login universal para estudiantes, docentes y administradores
- * Envia solo email y password, como espera el backend.
- * Devuelve token si las credenciales son válidas.
+ * Envia email y password, recibe token y rol.
+ * Guarda sesión y permite redirección inmediata.
  */
 export const loginUsuario = async (email, password) => {
   if (!email || !password) {
@@ -13,12 +13,19 @@ export const loginUsuario = async (email, password) => {
   try {
     const res = await axiosInstancia.post('/api/auth/login', { email, password });
 
-    if (!res?.data?.token) {
-      console.warn('⚠️ Login sin token recibido:', res.data);
-      throw new Error('No se recibió token en la respuesta.');
+    const { token, role } = res?.data || {};
+
+    if (!token || !role || typeof role !== 'string') {
+      console.warn('⚠️ Login sin token o rol válido:', res.data);
+      throw new Error('No se recibió token o rol válido en la respuesta.');
     }
 
-    return res;
+    // 🧠 Guardar sesión institucional
+    localStorage.setItem('token', token);
+    localStorage.setItem('userRole', role);
+    document.cookie = `userRole=${role}; path=/`;
+
+    return { token, role };
   } catch (err) {
     console.error('❌ Error en loginUsuario:', err);
     throw err;
@@ -30,7 +37,9 @@ export const loginUsuario = async (email, password) => {
  * Crea un usuario con rol "estudiante" por defecto.
  * Queda pendiente de validación por el administrador.
  */
-export const registerUsuario = async (nombre, email, password) => {
+export const registerUsuario = async (payload) => {
+  const { nombre, email, password } = payload;
+
   if (!nombre || !email || !password) {
     throw new Error('Todos los campos son obligatorios.');
   }
@@ -40,7 +49,7 @@ export const registerUsuario = async (nombre, email, password) => {
       nombre,
       email,
       password,
-      role: 'estudiante',
+      role: 'estudiante', // 🔐 Rol forzado desde frontend
     });
 
     return res;
@@ -59,9 +68,9 @@ export const pingUsuario = async () => {
   try {
     const res = await axiosInstancia.get('/api/auth/ping');
 
-    if (!res?.data?.role) {
-      console.warn('⚠️ Ping sin rol recibido:', res.data);
-      throw new Error('No se recibió rol en la verificación.');
+    if (!res?.data?.role || typeof res.data.role !== 'string') {
+      console.warn('⚠️ Ping sin rol válido:', res.data);
+      throw new Error('No se recibió rol válido en la verificación.');
     }
 
     return res;

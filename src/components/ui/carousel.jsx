@@ -1,22 +1,30 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 export const Carousel = ({ children }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const totalItems = React.Children.count(children);
 
   const nextSlide = () => {
-    setCurrentIndex((prev) => Math.min(prev + 1, totalItems - 1));
+    if (currentIndex < totalItems - 1) {
+      setCurrentIndex(currentIndex + 1);
+    }
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => Math.max(prev - 1, 0));
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+    }
   };
 
   return (
-    <div className="overflow-hidden relative w-full">
-      <CarouselContent currentIndex={currentIndex}>{children}</CarouselContent>
-      <CarouselPrevious onClick={prevSlide} />
-      <CarouselNext onClick={nextSlide} />
+    <div className='overflow-hidden relative w-full'>
+      <CarouselContent currentIndex={currentIndex}>
+        {React.Children.map(children, (child, index) => (
+          <CarouselItem key={`carousel-item-${index}`}>{child}</CarouselItem>
+        ))}
+      </CarouselContent>
+      <CarouselPrevious onClick={prevSlide} disabled={currentIndex === 0} />
+      <CarouselNext onClick={nextSlide} disabled={currentIndex === totalItems - 1} />
     </div>
   );
 };
@@ -24,7 +32,7 @@ export const Carousel = ({ children }) => {
 export const CarouselContent = ({ children, currentIndex }) => {
   return (
     <div
-      className="flex transition-transform duration-500 ease-in-out"
+      className='flex transition-transform duration-500 ease-in-out'
       style={{ transform: `translateX(-${currentIndex * 100}%)` }}
     >
       {children}
@@ -33,22 +41,34 @@ export const CarouselContent = ({ children, currentIndex }) => {
 };
 
 export const CarouselItem = ({ children }) => {
-  return <div className="min-w-full flex-shrink-0 px-4">{children}</div>;
+  return <div className='min-w-full flex-shrink-0 px-4'>{children}</div>;
 };
 
-export const CarouselNext = ({ onClick }) => (
+export const CarouselNext = ({ onClick, disabled }) => (
   <button
     onClick={onClick}
-    className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black text-white px-3 py-1 rounded-full z-10"
+    disabled={disabled}
+    className={`absolute right-4 top-1/2 transform -translate-y-1/2 px-3 py-1 rounded-full z-10 ${
+      disabled
+        ? 'bg-gray-500 cursor-not-allowed'
+        : 'bg-black text-white hover:bg-white hover:text-black'
+    }`}
+    aria-label='Siguiente slide'
   >
     →
   </button>
 );
 
-export const CarouselPrevious = ({ onClick }) => (
+export const CarouselPrevious = ({ onClick, disabled }) => (
   <button
     onClick={onClick}
-    className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black text-white px-3 py-1 rounded-full z-10"
+    disabled={disabled}
+    className={`absolute left-4 top-1/2 transform -translate-y-1/2 px-3 py-1 rounded-full z-10 ${
+      disabled
+        ? 'bg-gray-500 cursor-not-allowed'
+        : 'bg-black text-white hover:bg-white hover:text-black'
+    }`}
+    aria-label='Slide anterior'
   >
     ←
   </button>

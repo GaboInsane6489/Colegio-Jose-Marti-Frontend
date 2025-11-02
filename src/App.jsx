@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 // Layout principal
 import MainLayout from './layouts/MainLayout';
@@ -26,7 +26,7 @@ const NotasPage = lazy(() => import('./pages/docente/NotasPage'));
 const ActividadesPage = lazy(() => import('./pages/docente/ActividadesPage'));
 
 function App() {
-  const { rol, cargando } = usePingUsuario();
+  const { rol, cargando } = usePingUsuario(); // eslint-disable-line no-unused-vars
 
   /**
    * 🔐 Protección institucional por rol
@@ -34,23 +34,28 @@ function App() {
    */
   const proteger = (componente, rolEsperado) => {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    const role =
+      localStorage.getItem('userRole') ||
+      document.cookie
+        .split('; ')
+        .find((row) => row.startsWith('userRole='))
+        ?.split('=')[1];
 
-    if (cargando || (token && !rol)) {
-      return (
-        <div className='min-h-screen flex items-center justify-center text-white bg-black'>
-          Verificando sesión...
-        </div>
-      );
-    }
-
-    if (!token || !rol || typeof rol !== 'string') {
-      console.warn('⚠️ Sesión no válida. Redirigiendo a /auth');
+    if (!token || !role || typeof role !== 'string') {
+      if (!window.__warnedNoToken) {
+        console.warn('⚠️ Sesión no válida. Redirigiendo a /auth');
+        window.__warnedNoToken = true;
+      }
       return <Navigate to='/auth' replace />;
     }
 
-    if (rolEsperado && rol !== rolEsperado) {
-      console.warn(`⚠️ Rol "${rol}" no coincide con esperado "${rolEsperado}". Redirigiendo.`);
-      return <Navigate to={`/${rol}/dashboard`} replace />;
+    if (rolEsperado && role !== rolEsperado) {
+      const clave = `__warned_${role}_vs_${rolEsperado}`;
+      if (!window[clave]) {
+        console.warn(`⚠️ Rol "${role}" no coincide con esperado "${rolEsperado}". Redirigiendo.`);
+        window[clave] = true;
+      }
+      return <Navigate to={`/${role}/dashboard`} replace />;
     }
 
     return componente;
