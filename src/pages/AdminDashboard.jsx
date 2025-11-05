@@ -1,3 +1,6 @@
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import NavbarAdmin from '../components/admin/NavbarAdmin';
 import PendientesList from '../components/admin/PendientesList';
 import EstadisticasPanel from '../components/admin/EstadisticasPanel';
@@ -9,10 +12,70 @@ import Footer from '../components/Footer';
 
 /**
  * 🧠 Dashboard institucional del administrador
- * Carga modularizada sin revalidación redundante.
- * La sesión ya fue verificada por App.jsx.
+ * Carga modularizada con validación de rol y sesión
  */
 const AdminDashboard = () => {
+  const [usuario, setUsuario] = useState(null);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [cargando, setCargando] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    const userData = localStorage.getItem('usuario') || sessionStorage.getItem('usuario');
+
+    if (!token || !userData) {
+      console.warn('🔒 Sesión no encontrada. Redirigiendo al login...');
+      setTimeout(() => navigate('/login'), 100);
+      return;
+    }
+
+    try {
+      const parsed = JSON.parse(userData);
+
+      if (!parsed || typeof parsed !== 'object') {
+        throw new Error('Usuario inválido o malformado');
+      }
+
+      if (parsed.role !== 'admin') {
+        console.warn(`⛔ Acceso denegado para rol '${parsed.role}'`);
+        setErrorMsg('Acceso denegado. Este panel es exclusivo para administradores.');
+        return;
+      }
+
+      setUsuario(parsed);
+    } catch (error) {
+      console.error('❌ Error al parsear usuario:', error.message);
+      setTimeout(() => navigate('/login'), 100);
+    } finally {
+      setCargando(false);
+    }
+  }, [navigate]);
+
+  if (cargando) {
+    return (
+      <div className='min-h-screen flex items-center justify-center bg-black text-white'>
+        <p className='text-gray-400 text-lg'>Cargando panel administrativo...</p>
+      </div>
+    );
+  }
+
+  if (errorMsg) {
+    return (
+      <div className='min-h-screen flex items-center justify-center bg-black text-white'>
+        <p className='text-red-400 text-lg font-semibold'>{errorMsg}</p>
+      </div>
+    );
+  }
+
+  if (!usuario) {
+    return (
+      <div className='min-h-screen flex items-center justify-center bg-black text-white'>
+        <p className='text-gray-400 text-lg'>Sesión inválida. Redirigiendo...</p>
+      </div>
+    );
+  }
+
   return (
     <div className='min-h-screen flex flex-col bg-black text-white overflow-hidden'>
       {/* 🎥 Fondo institucional exclusivo del panel admin */}

@@ -13,13 +13,30 @@ const usePingUsuario = () => {
 
   useEffect(() => {
     let cancelado = false;
+    let ejecutado = window.__pingYaEjecutado;
 
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-    if (!token) {
-      console.warn('⚠️ Token no encontrado. No se puede verificar sesión.');
+    const rutaActual = window.location.pathname;
+    const esRutaPublica =
+      rutaActual === '/' ||
+      rutaActual.startsWith('/about') ||
+      rutaActual.startsWith('/contact') ||
+      rutaActual.startsWith('/auth');
+
+    if (esRutaPublica) {
       setCargando(false);
       return;
     }
+
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    if (!token || ejecutado) {
+      if (!token) {
+        console.warn('⚠️ Token no encontrado. No se puede verificar sesión.');
+      }
+      setCargando(false);
+      return;
+    }
+
+    window.__pingYaEjecutado = true;
 
     const verificar = async () => {
       try {
@@ -33,7 +50,14 @@ const usePingUsuario = () => {
 
         if (!cancelado) {
           setRol(role);
-          localStorage.setItem('userRole', role);
+
+          // 🧠 Guardar rol en el mismo lugar que el token
+          if (localStorage.getItem('token')) {
+            localStorage.setItem('userRole', role);
+          } else {
+            sessionStorage.setItem('userRole', role);
+          }
+
           document.cookie = `userRole=${role}; path=/`;
         }
       } catch (err) {
@@ -44,6 +68,7 @@ const usePingUsuario = () => {
         localStorage.removeItem('token');
         sessionStorage.removeItem('token');
         localStorage.removeItem('userRole');
+        sessionStorage.removeItem('userRole');
         document.cookie = 'userRole=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
       } finally {
         if (!cancelado) setCargando(false);

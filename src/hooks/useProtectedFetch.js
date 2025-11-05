@@ -14,6 +14,16 @@ const useProtectedFetch = (endpoint, activar = true) => {
   useEffect(() => {
     if (!activar || !endpoint) return;
 
+    const rutaActual = window.location.pathname;
+    const esRutaPublica =
+      rutaActual === '/' ||
+      rutaActual.startsWith('/about') ||
+      rutaActual.startsWith('/contact') ||
+      rutaActual.startsWith('/auth');
+
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    if (!token && esRutaPublica) return;
+
     const obtenerDatos = async () => {
       setCargando(true);
       try {
@@ -32,8 +42,9 @@ const useProtectedFetch = (endpoint, activar = true) => {
         if (err?.response?.status === 401) {
           console.warn('⚠️ Token inválido o expirado. Limpiando sesión.');
           localStorage.removeItem('token');
-          localStorage.removeItem('userRole');
           sessionStorage.removeItem('token');
+          localStorage.removeItem('userRole');
+          sessionStorage.removeItem('userRole');
           document.cookie = 'userRole=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         }
 

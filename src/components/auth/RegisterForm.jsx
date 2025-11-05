@@ -4,7 +4,7 @@ import { UserIcon, EnvelopeIcon, LockClosedIcon } from '@heroicons/react/24/outl
 
 /**
  * 📝 Formulario de registro institucional
- * Crea usuario con rol "estudiante" y estado pendiente de validación.
+ * Crea usuario con role "estudiante" y estado pendiente de validación.
  */
 const RegisterForm = ({ onRegistroExitoso }) => {
   const [nombre, setNombre] = useState('');
@@ -17,11 +17,18 @@ const RegisterForm = ({ onRegistroExitoso }) => {
     setError('');
 
     try {
+      // 🔄 Limpieza defensiva previa
+      localStorage.removeItem('token');
+      sessionStorage.removeItem('token');
+      localStorage.removeItem('userRole');
+      sessionStorage.removeItem('userRole');
+      document.cookie = 'userRole=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+
       const payload = {
         nombre,
         email,
         password,
-        rol: 'estudiante', // 🔐 Rol forzado desde frontend
+        role: 'estudiante', // 🔐 Corrección: propiedad esperada por backend
       };
 
       await registerUsuario(payload);

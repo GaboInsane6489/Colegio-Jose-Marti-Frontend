@@ -28,4 +28,15 @@ export default defineConfig({
     },
   },
   base: '/', // Ruta base absoluta para Render
+
+  // 🔄 Proxy para redirigir llamadas a /api hacia el backend en desarrollo
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 });

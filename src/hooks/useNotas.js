@@ -1,28 +1,34 @@
-import { useState, useEffect, useCallback } from "react";
-import axiosInstancia from "@/services/axiosInstancia";
+import { useState, useEffect, useCallback } from 'react';
+import axiosInstancia from '@/services/axiosInstancia';
 
 /**
- * 🧠 Hook institucional para obtener entregas (notas) con filtros académicos
+ * 🧠 Hook institucional para obtener entregas (notas) por curso, con filtros académicos
  */
-const useNotas = (filtros = {}) => {
+const useNotas = (cursoId, filtros = {}) => {
   const [entregas, setEntregas] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   const fetchNotas = useCallback(async () => {
+    if (!cursoId) {
+      setError('No se especificó el curso.');
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
-    setError("");
+    setError('');
 
     try {
-      const params = new URLSearchParams();
+      const params = {};
 
       Object.entries(filtros).forEach(([key, value]) => {
-        if (value && value !== "todos") {
-          params.append(key, value);
+        if (value && value !== 'todos') {
+          params[key] = value;
         }
       });
 
-      const { data } = await axiosInstancia.get("/api/entregas", {
+      const { data } = await axiosInstancia.get(`/api/entregas/curso/${cursoId}`, {
         params,
       });
 
@@ -30,15 +36,15 @@ const useNotas = (filtros = {}) => {
         setEntregas(data.entregas);
       } else {
         setEntregas([]);
-        console.warn("⚠️ Respuesta inesperada:", data);
+        console.warn('⚠️ Respuesta inesperada:', data);
       }
     } catch (err) {
-      console.error("❌ Error al obtener entregas:", err.message);
-      setError("No se pudieron cargar las entregas.");
+      console.error('❌ Error al obtener entregas:', err.message);
+      setError('No se pudieron cargar las entregas.');
     } finally {
       setLoading(false);
     }
-  }, [filtros]);
+  }, [cursoId, filtros]);
 
   useEffect(() => {
     fetchNotas();

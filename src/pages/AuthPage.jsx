@@ -6,7 +6,7 @@ import { Particles } from '@tsparticles/react';
 
 /**
  * 🔐 Página institucional de autenticación
- * Redirige si ya hay sesión activa. Limpia sesión corrupta.
+ * Redirige si ya hay sesión completa. Limpia sesión corrupta.
  */
 const AuthPage = () => {
   const navigate = useNavigate();
@@ -20,18 +20,29 @@ const AuthPage = () => {
         .split('; ')
         .find((row) => row.startsWith('userRole='))
         ?.split('=')[1];
+    const usuarioRaw = localStorage.getItem('usuario') || sessionStorage.getItem('usuario');
 
-    if (token && role) {
-      console.info('🔐 Sesión detectada. Redirigiendo a dashboard.');
+    let usuario = null;
+    try {
+      usuario = JSON.parse(usuarioRaw);
+    } catch (e) {
+      console.warn('⚠️ Usuario corrupto o malformado. Ignorando sesión.');
+    }
+
+    if (token && role && usuario) {
+      console.info('🔐 Sesión completa detectada. Redirigiendo a dashboard.');
       navigate(`/${role}/dashboard`, { replace: true });
       return;
     }
 
-    if (token && !role) {
-      console.warn('⚠️ Token presente pero rol ausente. Limpiando sesión.');
+    if (token && (!role || !usuario)) {
+      console.warn('⚠️ Token presente pero sesión incompleta. Limpiando.');
       localStorage.removeItem('token');
       sessionStorage.removeItem('token');
       localStorage.removeItem('userRole');
+      sessionStorage.removeItem('userRole');
+      localStorage.removeItem('usuario');
+      sessionStorage.removeItem('usuario');
       document.cookie = 'userRole=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     }
 

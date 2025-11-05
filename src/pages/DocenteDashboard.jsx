@@ -1,6 +1,6 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import NavbarDocente from '@/components/docente/NavbarDocente';
-import CursosAsignados from '@/components/docente/CursosAsignados';
 import PerfilDocente from '@/components/docente/PerfilDocente';
 import NotificacionesDocente from '@/components/docente/NotificacionesDocente';
 import Footer from '@/components/Footer';
@@ -8,8 +8,7 @@ import VideoFondoDocente from '@/components/docente/VideoFondoDocente';
 
 /**
  * 🧠 Dashboard institucional del docente
- * Carga modularizada sin revalidación redundante.
- * La sesión ya fue verificada por App.jsx.
+ * Carga modularizada sin validación redundante (ya protegida por ProtectedRoute).
  */
 const DocenteDashboard = () => {
   return (
@@ -36,7 +35,7 @@ const DocenteDashboard = () => {
           </p>
         </motion.header>
 
-        {/* 🧩 Secciones protegidas con fallback */}
+        {/* 👤 Perfil del docente */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -45,18 +44,11 @@ const DocenteDashboard = () => {
           <PerfilDocente fallback={<p>⚠️ Error al cargar perfil.</p>} />
         </motion.section>
 
+        {/* 🔔 Notificaciones */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
-        >
-          <CursosAsignados fallback={<p>⚠️ Error al cargar cursos.</p>} />
-        </motion.section>
-
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: 'easeOut', delay: 0.3 }}
         >
           <NotificacionesDocente fallback={<p>⚠️ Error al cargar notificaciones.</p>} />
         </motion.section>

@@ -6,6 +6,7 @@
   "scripts": {
     "prepare": "husky install",
     "dev": "vite",
+    "dev-local": "cross-env VITE_API_URL=http://localhost:3000 vite",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --cache --cache-location node_modules/.eslintcache",
@@ -42,6 +43,7 @@
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react": "^5.0.3",
     "autoprefixer": "^10.4.21",
+    "cross-env": "^10.1.0",
     "eslint": "^9.36.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",

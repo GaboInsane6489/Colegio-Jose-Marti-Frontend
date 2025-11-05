@@ -20,8 +20,7 @@ import { exportNotasCSV } from '@/utils/exportadores/useExportNotas';
 
 /**
  * 🧠 Dashboard institucional del estudiante
- * Carga clases y entregas sin revalidación redundante.
- * La sesión ya fue verificada por App.jsx.
+ * Carga clases y entregas sin validación redundante (ya protegida por ProtectedRoute).
  */
 const EstudianteDashboard = () => {
   const [clases, setClases] = useState([]);

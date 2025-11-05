@@ -1,12 +1,15 @@
 import axios from 'axios';
 
-// 📦 URL base desde entorno institucional
-const API_URL = import.meta.env.VITE_API_URL?.trim();
+// 📦 URL base institucional dinámica
+const API_URL =
+  import.meta.env?.VITE_API_URL?.trim() ||
+  (window.location.hostname === 'localhost'
+    ? 'http://localhost:3000'
+    : 'https://backend-render-url.onrender.com'); // ← fallback seguro para producción
 
 if (!API_URL) {
   console.warn('⚠️ VITE_API_URL no está definido. Verifica tu entorno.');
-  // Opcional: puedes lanzar error si es crítico
-  // throw new Error("VITE_API_URL no definido");
+  // throw new Error("VITE_API_URL no definido"); // ← opcional si quieres bloquear
 }
 
 // 🧠 Instancia institucional de Axios
@@ -21,10 +24,13 @@ const axiosInstancia = axios.create({
 axiosInstancia.interceptors.request.use((config) => {
   const token = localStorage.getItem('token') || sessionStorage.getItem('token');
 
-  if (token) {
+  if (token && typeof token === 'string' && token.length > 10) {
     config.headers.Authorization = `Bearer ${token}`;
   } else {
-    console.warn('⚠️ Token no encontrado en almacenamiento.');
+    if (!window.__axiosTokenWarningShown) {
+      console.warn('⚠️ Token no encontrado o inválido en almacenamiento.');
+      window.__axiosTokenWarningShown = true;
+    }
   }
 
   return config;
@@ -35,16 +41,17 @@ axiosInstancia.interceptors.response.use(
   (response) => response,
   (error) => {
     const status = error.response?.status;
+    const ruta = error.config?.url || 'ruta desconocida';
 
     if (status === 401) {
-      console.warn('🔐 Token inválido o expirado. Considera limpiar sesión.');
-      // Opcional: limpieza defensiva
-      // localStorage.removeItem("token");
-      // sessionStorage.removeItem("token");
+      console.warn(`🔐 Token inválido o expirado → ${ruta}`);
+      // Opcional: limpieza automática
+      // localStorage.clear();
+      // sessionStorage.clear();
     }
 
     if (status === 403) {
-      console.warn('🚫 Acceso denegado. Verifica permisos.');
+      console.warn(`🚫 Acceso denegado por permisos → ${ruta}`);
     }
 
     return Promise.reject(error);

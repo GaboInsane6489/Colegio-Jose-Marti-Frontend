@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useNotas from '@/hooks/useNotas.js';
 import { exportNotasCSV } from '@/utils/exportadores/useExportNotas.js';
@@ -41,11 +41,6 @@ const NotasPage = () => {
   }, [navigate, token, role]);
 
   const cursoId = '652f1a9b3c2e4f0012a4dabc';
-  const { entregas, loading, error } = useNotas(token, { cursoId });
-
-  const [notas, setNotas] = useState([]);
-  const [notaEditando, setNotaEditando] = useState(null);
-  const [toast, setToast] = useState(null);
 
   const [filtroMateria, setFiltroMateria] = useState('todos');
   const [filtroEstado, setFiltroEstado] = useState('todos');
@@ -60,6 +55,24 @@ const NotasPage = () => {
   const [filtroActividadTemp, setFiltroActividadTemp] = useState('');
   const [filtroNotaMinTemp, setFiltroNotaMinTemp] = useState('');
   const [filtroNotaMaxTemp, setFiltroNotaMaxTemp] = useState('');
+
+  const filtros = useMemo(
+    () => ({
+      materia: filtroMateria,
+      estado: filtroEstado,
+      estudianteId: filtroEstudiante,
+      actividad: filtroActividad,
+      notaMin: filtroNotaMin,
+      notaMax: filtroNotaMax,
+    }),
+    [filtroMateria, filtroEstado, filtroEstudiante, filtroActividad, filtroNotaMin, filtroNotaMax]
+  );
+
+  const { entregas, loading, error } = useNotas(cursoId, filtros);
+
+  const [notas, setNotas] = useState([]);
+  const [notaEditando, setNotaEditando] = useState(null);
+  const [toast, setToast] = useState(null);
 
   useEffect(() => {
     if (Array.isArray(entregas)) {
@@ -86,10 +99,12 @@ const NotasPage = () => {
         const materiaMatch = filtroMateria === 'todos' || nota.materia === filtroMateria;
         const estadoMatch = filtroEstado === 'todos' || nota.estado === filtroEstado;
         const estudianteMatch =
-          filtroEstudiante === 'todos' || nota.estudianteId === filtroEstudiante;
+          filtroEstudiante === 'todos' ||
+          nota.estudianteId?._id === filtroEstudiante ||
+          nota.estudianteId === filtroEstudiante;
         const actividadMatch =
           !filtroActividad ||
-          nota.actividad?.titulo?.toLowerCase().includes(filtroActividad.toLowerCase());
+          nota.actividadId?.titulo?.toLowerCase().includes(filtroActividad.toLowerCase());
         const notaMatch =
           (!filtroNotaMin || nota.calificacion >= parseFloat(filtroNotaMin)) &&
           (!filtroNotaMax || nota.calificacion <= parseFloat(filtroNotaMax));
@@ -187,7 +202,17 @@ const NotasPage = () => {
         )}
 
         {actividadesUnicas.length > 0 && (
-          <ResumenPorActividad actividades={actividadesUnicas} entregas={notasFiltradas} />
+          <section className='pt-12 space-y-6'>
+            <h2 className='text-2xl font-bold text-center flex justify-center items-center gap-2'>
+              <span className='text-yellow-400'>📚</span>
+              Resumen por actividad
+            </h2>
+            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+              {actividadesUnicas.map((act) => (
+                <ResumenPorActividad key={act._id} actividad={act} entregas={notasFiltradas} />
+              ))}
+            </div>
+          </section>
         )}
       </main>
 
