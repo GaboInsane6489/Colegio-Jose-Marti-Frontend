@@ -137,3 +137,24 @@ export const obtenerTodasClases = async () => {
     };
   }
 };
+
+export const asignarEstudiantesAClase = async (idClase, estudiantes) => {
+  try {
+    const token = obtenerToken();
+    const res = await axiosInstancia.post(
+      `/api/clases/${idClase}/asignar`,
+      { estudiantes },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    console.log('📌 Estudiantes asignados a clase:', res.data);
+    return { ok: true, msg: res.data.msg };
+  } catch (error) {
+    console.error('❌ Error al asignar estudiantes a clase:', error.message);
+    return {
+      ok: false,
+      msg: error.response?.data?.msg || 'Error al asignar estudiantes',
+    };
+  }
+};
