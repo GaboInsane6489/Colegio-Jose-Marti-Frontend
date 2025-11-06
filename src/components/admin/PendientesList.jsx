@@ -11,7 +11,8 @@ import {
 } from '@heroicons/react/24/solid';
 
 /**
- * Componente institucional para validar usuarios pendientes
+ * 🛡️ Componente institucional para validar usuarios pendientes
+ * Presentación en tabla con semántica, responsive y acciones administrativas.
  */
 const PendientesList = () => {
   const [pendientes, setPendientes] = useState([]);
@@ -106,17 +107,17 @@ const PendientesList = () => {
       initial={{ opacity: 0, y: 30 }}
       transition={{ type: 'spring', bounce: 0.3, duration: 0.6 }}
     >
-      <div className='max-w-5xl mx-auto space-y-8'>
+      <div className='max-w-6xl mx-auto space-y-8'>
         <div className='text-center'>
           <h2 className='text-3xl sm:text-4xl font-bold tracking-wide text-white font-[Orbitron]'>
-            Validación de usuarios registrados
+            Gestión de usuarios pendientes
           </h2>
           <button
             onClick={fetchPendientes}
-            className='mt-4 inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition duration-300'
+            className='mt-4 inline-flex items-center gap-2 bg-white text-white px-4 py-2 rounded shadow hover:bg-gray-200 transition duration-300'
           >
-            <ArrowPathIcon className='h-5 w-5' />
-            Recargar
+            <ArrowPathIcon className='h-5 w-5 text-white' />
+            <span className='text-white'>Recargar</span>
           </button>
         </div>
 
@@ -136,46 +137,51 @@ const PendientesList = () => {
             <p>No hay usuarios pendientes por validar.</p>
           </div>
         ) : (
-          <ul className='space-y-6'>
-            {pendientes.map((user, index) => (
-              <motion.li
-                key={user._id}
-                whileInView={{ opacity: 1, scale: 1 }}
-                initial={{ opacity: 0, scale: 0.95 }}
-                transition={{
-                  delay: index * 0.05,
-                  type: 'spring',
-                  bounce: 0.5,
-                  duration: 0.4,
-                }}
-                className='bg-black p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 text-white text-center'
-              >
-                <div className='flex flex-col items-center space-y-2'>
-                  <EnvelopeIcon className='h-6 w-6 text-white' />
-                  <p className='font-semibold text-lg'>{user.email}</p>
-                  <p className='text-sm text-gray-300'>
-                    Rol solicitado: <span className='font-medium text-white'>{user.role}</span>
-                  </p>
-                  <div className='flex gap-3 pt-4 flex-wrap justify-center'>
-                    <button
-                      onClick={() => validarUsuario(user._id)}
-                      className='flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-300'
-                    >
-                      <CheckCircleIcon className='h-5 w-5' style={{ color: '#107C10' }} />
-                      Validar
-                    </button>
-                    <button
-                      onClick={() => rechazarUsuario(user._id)}
-                      className='flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-300'
-                    >
-                      <XCircleIcon className='h-5 w-5' />
-                      Rechazar
-                    </button>
-                  </div>
-                </div>
-              </motion.li>
-            ))}
-          </ul>
+          <div className='overflow-x-auto'>
+            <table className='min-w-full table-auto border border-white text-sm sm:text-base'>
+              <thead className='bg-black border-b border-white'>
+                <tr>
+                  <th className='px-4 py-3 text-left font-semibold text-white'>Email</th>
+                  <th className='px-4 py-3 text-left font-semibold text-white'>Rol</th>
+                  <th className='px-4 py-3 text-left font-semibold text-white'>Estado</th>
+                  <th className='px-4 py-3 text-center font-semibold text-white'>Acción</th>
+                </tr>
+              </thead>
+              <tbody>
+                {pendientes.map((user, index) => (
+                  <motion.tr
+                    key={user._id}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05, duration: 0.3 }}
+                    className='border-b border-white hover:bg-white/5'
+                  >
+                    <td className='px-4 py-3 whitespace-nowrap'>{user.email}</td>
+                    <td className='px-4 py-3 capitalize'>{user.role}</td>
+                    <td className='px-4 py-3 text-yellow-400'>Pendiente</td>
+                    <td className='px-4 py-3 text-center'>
+                      <div className='flex gap-2 justify-center flex-wrap'>
+                        <button
+                          onClick={() => validarUsuario(user._id)}
+                          className='flex items-center gap-1 bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 transition'
+                        >
+                          <CheckCircleIcon className='h-4 w-4' />
+                          Validar
+                        </button>
+                        <button
+                          onClick={() => rechazarUsuario(user._id)}
+                          className='flex items-center gap-1 bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition'
+                        >
+                          <XCircleIcon className='h-4 w-4' />
+                          Eliminar
+                        </button>
+                      </div>
+                    </td>
+                  </motion.tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
     </motion.section>

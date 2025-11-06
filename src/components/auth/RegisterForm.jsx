@@ -17,7 +17,6 @@ const RegisterForm = ({ onRegistroExitoso }) => {
     setError('');
 
     try {
-      // 🔄 Limpieza defensiva previa
       localStorage.removeItem('token');
       sessionStorage.removeItem('token');
       localStorage.removeItem('userRole');
@@ -28,7 +27,7 @@ const RegisterForm = ({ onRegistroExitoso }) => {
         nombre,
         email,
         password,
-        role: 'estudiante', // 🔐 Corrección: propiedad esperada por backend
+        role: 'estudiante',
       };
 
       await registerUsuario(payload);
@@ -43,13 +42,16 @@ const RegisterForm = ({ onRegistroExitoso }) => {
   return (
     <form
       onSubmit={handleRegistro}
-      className='w-full max-w-xs sm:max-w-sm md:max-w-md bg-white p-5 sm:p-6 md:p-8 shadow-lg rounded-xl space-y-5 border border-black animate-fadeIn mt-6'
+      className='w-full max-w-xs sm:max-w-sm md:max-w-md bg-white p-5 sm:p-6 md:p-8 shadow-lg rounded-xl space-y-6 border border-black animate-fadeIn mt-6'
       aria-label='Formulario de registro de usuario'
     >
-      <h2 className='text-base sm:text-lg font-semibold text-center text-black flex items-center justify-center gap-2'>
-        <UserIcon className='h-5 w-5 text-black' />
+      <h2 className='text-sm sm:text-base font-semibold text-center text-black'>
         Registro de usuario
       </h2>
+
+      <div className='flex justify-center'>
+        <UserIcon className='h-10 w-10 text-black' />
+      </div>
 
       {error && (
         <div

@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { UserGroupIcon, ChartBarIcon, ShieldCheckIcon } from '@heroicons/react/24/solid';
+import {
+  UserGroupIcon,
+  ChartBarIcon,
+  ShieldCheckIcon,
+  ClipboardDocumentListIcon, // ✅ Import corregido
+} from '@heroicons/react/24/solid';
 
 import NavbarAdmin from '../components/admin/NavbarAdmin';
 import PendientesList from '../components/admin/PendientesList';
@@ -174,10 +179,10 @@ const AdminDashboard = () => {
 
           {/* Configuración institucional (comentado para presentación) */}
           {/*
-  <section id='configuracion' className='scroll-mt-24'>
-    <ConfiguracionPanel />
-  </section>
-  */}
+          <section id='configuracion' className='scroll-mt-24'>
+            <ConfiguracionPanel />
+          </section>
+          */}
         </main>
 
         <Footer />
