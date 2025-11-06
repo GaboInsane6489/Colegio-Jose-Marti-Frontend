@@ -19,7 +19,7 @@ const ClasesDocente = () => {
     if (clases?.length > 0) {
       console.log(
         `✅ Clases recibidas (${clases.length}):`,
-        clases.map((c) => `${c.grado}-${c.seccion}`)
+        clases.map((c) => c.nombre)
       );
     } else if (!loading && !error) {
       console.warn('⚠️ No se recibieron clases. Verifica backend o asignación.');
@@ -81,10 +81,9 @@ const ClasesDocente = () => {
               className='bg-black/60 text-white rounded-xl p-6 shadow-xl hover:shadow-2xl transition duration-300 flex flex-col items-center text-center'
             >
               <AcademicCapIcon className='h-6 w-6 text-white mb-2' />
-              <h2 className='text-xl font-semibold mb-1'>
-                {clase.grado} - {clase.seccion}
-              </h2>
-              <p className='text-sm text-white/80 mb-1'>Materia: {clase.materia}</p>
+              <h2 className='text-xl font-semibold mb-1'>{clase.nombre}</h2>
+              <p className='text-sm text-white/80 mb-1'>Horario: {clase.horario}</p>
+              <p className='text-sm text-white/70 mb-1'>Descripción: {clase.descripcion}</p>
               <p className='text-sm text-white/70 flex items-center justify-center gap-1'>
                 <UserGroupIcon className='h-4 w-4 text-white/70' />
                 Estudiantes asignados: {clase.estudiantes?.length ?? 0}

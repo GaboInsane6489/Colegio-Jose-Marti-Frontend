@@ -8,6 +8,7 @@ import { CheckCircleIcon } from '@heroicons/react/24/solid';
  */
 const ClaseFormAdmin = ({ docentes = [], onCrear }) => {
   const [nombre, setNombre] = useState('');
+  const [materia, setMateria] = useState('');
   const [docenteId, setDocenteId] = useState('');
   const [horario, setHorario] = useState('');
   const [descripcion, setDescripcion] = useState('');
@@ -26,13 +27,14 @@ const ClaseFormAdmin = ({ docentes = [], onCrear }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!nombre.trim() || !docenteId || !horario.trim()) {
+    if (!nombre.trim() || !materia.trim() || !docenteId || !horario.trim()) {
       setError('Todos los campos obligatorios deben estar completos.');
       return;
     }
 
     const nuevaClase = {
       nombre: nombre.trim(),
+      materia: materia.trim(),
       docenteId,
       horario: horario.trim(),
       descripcion: descripcion.trim(),
@@ -43,6 +45,7 @@ const ClaseFormAdmin = ({ docentes = [], onCrear }) => {
     onCrear(nuevaClase);
 
     setNombre('');
+    setMateria('');
     setDocenteId('');
     setHorario('');
     setDescripcion('');
@@ -81,6 +84,22 @@ const ClaseFormAdmin = ({ docentes = [], onCrear }) => {
           />
         </div>
 
+        {/* Materia */}
+        <div>
+          <label htmlFor='materia' className='block text-sm text-white mb-1'>
+            Materia *
+          </label>
+          <input
+            id='materia'
+            type='text'
+            value={materia}
+            onChange={(e) => setMateria(e.target.value)}
+            className='w-full bg-gray-900 text-white border border-white rounded-md p-3 text-sm'
+            placeholder='Literatura Venezolana'
+            required
+          />
+        </div>
+
         {/* Horario */}
         <div>
           <label htmlFor='horario' className='block text-sm text-white mb-1'>
@@ -98,7 +117,7 @@ const ClaseFormAdmin = ({ docentes = [], onCrear }) => {
         </div>
 
         {/* Docente */}
-        <div className='md:col-span-2'>
+        <div>
           <label htmlFor='docente' className='block text-sm text-white mb-1'>
             Docente asignado *
           </label>

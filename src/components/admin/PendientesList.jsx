@@ -101,14 +101,14 @@ const PendientesList = () => {
   return (
     <motion.section
       id='validacion'
-      className='bg-gray-50 text-gray-900 py-10 px-4 sm:px-6'
+      className='bg-black text-white py-10 px-4 sm:px-6'
       whileInView={{ opacity: 1, y: 0 }}
       initial={{ opacity: 0, y: 30 }}
       transition={{ type: 'spring', bounce: 0.3, duration: 0.6 }}
     >
       <div className='max-w-5xl mx-auto space-y-8'>
         <div className='text-center'>
-          <h2 className='text-4xl font-serif font-bold tracking-wide text-gray-800'>
+          <h2 className='text-3xl sm:text-4xl font-bold tracking-wide text-white font-[Orbitron]'>
             Validación de usuarios registrados
           </h2>
           <button
@@ -121,7 +121,7 @@ const PendientesList = () => {
         </div>
 
         {loading ? (
-          <div className='flex items-center gap-2 justify-center text-gray-500'>
+          <div className='flex items-center gap-2 justify-center text-gray-400'>
             <ShieldExclamationIcon className='h-5 w-5' />
             <p>Cargando usuarios...</p>
           </div>
@@ -131,8 +131,8 @@ const PendientesList = () => {
             <p>{errorMsg}</p>
           </div>
         ) : pendientes.length === 0 ? (
-          <div className='text-center text-gray-500 flex flex-col items-center'>
-            <CheckCircleIcon className='h-6 w-6 text-green-500 mb-2' />
+          <div className='text-center text-gray-400 flex flex-col items-center'>
+            <CheckCircleIcon className='h-6 w-6 mb-2' style={{ color: '#107C10' }} />
             <p>No hay usuarios pendientes por validar.</p>
           </div>
         ) : (
@@ -156,12 +156,12 @@ const PendientesList = () => {
                   <p className='text-sm text-gray-300'>
                     Rol solicitado: <span className='font-medium text-white'>{user.role}</span>
                   </p>
-                  <div className='flex gap-3 pt-4'>
+                  <div className='flex gap-3 pt-4 flex-wrap justify-center'>
                     <button
                       onClick={() => validarUsuario(user._id)}
                       className='flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-300'
                     >
-                      <CheckCircleIcon className='h-5 w-5' />
+                      <CheckCircleIcon className='h-5 w-5' style={{ color: '#107C10' }} />
                       Validar
                     </button>
                     <button

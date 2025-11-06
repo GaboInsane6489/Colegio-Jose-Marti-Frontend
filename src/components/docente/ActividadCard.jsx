@@ -9,14 +9,15 @@ import {
   PencilIcon,
   TrashIcon,
   MegaphoneIcon,
-} from '@heroicons/react/24/solid';
+  Squares2X2Icon,
+} from '@heroicons/react/24/outline';
 
 /**
- * 📚 Tarjeta institucional para mostrar actividad académica
+ * Tarjeta institucional para mostrar actividad académica
  */
 const ActividadCard = ({ actividad, onEditar, onEliminar, onNotificar }) => {
   if (!actividad || typeof actividad !== 'object') {
-    console.warn('⚠️ ActividadCard recibió actividad inválida:', actividad);
+    console.warn('ActividadCard recibió actividad inválida:', actividad);
     return null;
   }
 
@@ -36,7 +37,7 @@ const ActividadCard = ({ actividad, onEditar, onEliminar, onNotificar }) => {
 
   const actividadId = _id || id;
   if (!actividadId) {
-    console.warn('⚠️ Actividad sin ID válida:', actividad);
+    console.warn('Actividad sin ID válida:', actividad);
     return null;
   }
 
@@ -45,7 +46,7 @@ const ActividadCard = ({ actividad, onEditar, onEliminar, onNotificar }) => {
     try {
       fechaFormateada = format(new Date(fechaEntrega), 'PPP', { locale: es });
     } catch {
-      console.warn('⚠️ Fecha inválida en actividad:', fechaEntrega);
+      console.warn('Fecha inválida en actividad:', fechaEntrega);
     }
   }
 
@@ -58,10 +59,13 @@ const ActividadCard = ({ actividad, onEditar, onEliminar, onNotificar }) => {
   const estadoClase = colorEstado[estado] || 'bg-gray-700 hover:bg-gray-600';
 
   return (
-    <div className='bg-black text-white rounded-lg shadow-md p-6 hover:shadow-lg transition space-y-4 max-w-md mx-auto'>
+    <div className='bg-black text-white rounded-lg shadow-md p-6 hover:shadow-lg transition space-y-4 max-w-md mx-auto border border-white/20'>
       {/* Encabezado */}
       <div className='space-y-2 text-center'>
-        <h2 className='text-xl font-semibold tracking-wide'>{titulo}</h2>
+        <h2 className='text-xl font-semibold tracking-wide flex items-center justify-center gap-2'>
+          <Squares2X2Icon className='w-5 h-5 text-white/70' />
+          {titulo}
+        </h2>
         <span
           className={`text-xs px-3 py-1 rounded-full font-semibold inline-block transition ${estadoClase}`}
         >
@@ -132,7 +136,7 @@ const ActividadCard = ({ actividad, onEditar, onEliminar, onNotificar }) => {
       <div className='pt-4 flex flex-wrap justify-center gap-3'>
         <button
           type='button'
-          className='w-full sm:w-auto bg-yellow-500 text-white px-4 py-2 rounded-full hover:bg-yellow-400 transition font-medium flex justify-center items-center gap-2'
+          className='w-full sm:w-auto bg-yellow-500 text-black px-4 py-2 rounded-full hover:bg-yellow-400 transition font-medium flex justify-center items-center gap-2'
           onClick={() => onEditar?.(actividad)}
           aria-label='Editar actividad'
         >

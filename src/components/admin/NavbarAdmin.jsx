@@ -42,6 +42,7 @@ const NavbarAdmin = () => {
 
   const enlaces = [
     { path: '/', label: 'Inicio' },
+    { path: '/admin/dashboard', label: 'Panel principal' },
     { path: '/admin/clases', label: 'Gestión de clases' },
     { path: '#estadisticas', label: 'Estadísticas académicas', external: true },
   ];

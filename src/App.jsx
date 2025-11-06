@@ -24,6 +24,7 @@ const DocenteDashboard = lazy(() => import('./pages/DocenteDashboard'));
 const Entregas = lazy(() => import('./pages/estudiante/Entregas'));
 const ActividadesEstudiante = lazy(() => import('./pages/estudiante/ActividadesEstudiante'));
 const BandejaNotificaciones = lazy(() => import('./pages/estudiante/BandejaNotificaciones'));
+const ClasesEstudiante = lazy(() => import('./pages/estudiante/ClasesEstudiante')); // ✅ Nueva vista
 const NotasPage = lazy(() => import('./pages/docente/NotasPage'));
 const ActividadesPage = lazy(() => import('./pages/docente/ActividadesPage'));
 const ClasesDocente = lazy(() => import('./pages/docente/ClasesDocente'));
@@ -175,6 +176,14 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={['estudiante']}>
                 <ActividadesEstudiante />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='/estudiante/clases'
+            element={
+              <ProtectedRoute allowedRoles={['estudiante']}>
+                <ClasesEstudiante />
               </ProtectedRoute>
             }
           />

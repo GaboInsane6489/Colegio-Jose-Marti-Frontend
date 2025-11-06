@@ -52,17 +52,17 @@ const NavbarDocente = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userRole');
     document.cookie = 'userRole=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    alert('👋 Sesión cerrada. ¡Gracias por tu dedicación!');
+    alert('Sesión cerrada. ¡Gracias por tu dedicación!');
     navigate('/auth');
   };
 
   const enlaces = [
     { path: '/', label: 'Inicio' },
-    { path: '/docente/notas', label: 'Notas' },
+    // { path: '/docente/notas', label: 'Notas' },
     { path: '/docente/actividades', label: 'Actividades' },
     { path: '/docente/cursos', label: 'Mis cursos' },
     { path: '/docente/clases', label: 'Mis clases' },
-    { path: '/docente/notificaciones', label: 'Notificaciones' },
+    // { path: '/docente/notificaciones', label: 'Notificaciones' },
     { path: '/docente/dashboard', label: 'Perfil' },
   ];
 
@@ -79,7 +79,7 @@ const NavbarDocente = () => {
       className='fixed top-0 left-0 right-0 z-50 bg-black text-white shadow-md border-b border-white'
     >
       <div className='max-w-6xl mx-auto px-4 py-4 flex justify-between items-center'>
-        {/* 🖥️ Navegación escritorio */}
+        {/* Navegación escritorio */}
         <div className='hidden md:flex items-center gap-6 text-sm font-medium ml-4'>
           {enlaces.map(({ path, label }) => (
             <div key={`${path}-${label}`} className='relative group'>
@@ -97,7 +97,7 @@ const NavbarDocente = () => {
           ))}
         </div>
 
-        {/* 📱 Botón menú móvil */}
+        {/* Botón menú móvil */}
         <button
           onClick={() => setShowMobileNav(!showMobileNav)}
           className='md:hidden text-white hover:text-white transition'
@@ -106,7 +106,7 @@ const NavbarDocente = () => {
           ☰
         </button>
 
-        {/* 👤 Menú usuario */}
+        {/* Menú usuario */}
         <div className='relative'>
           <button
             onClick={() => setShowMenu(!showMenu)}
@@ -148,7 +148,7 @@ const NavbarDocente = () => {
         </div>
       </div>
 
-      {/* 📱 Menú móvil */}
+      {/* Menú móvil */}
       <AnimatePresence>
         {showMobileNav && (
           <motion.nav

@@ -1,6 +1,21 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import {
+  ClipboardDocumentListIcon,
+  CheckCircleIcon,
+  ExclamationCircleIcon,
+  TrashIcon,
+  MegaphoneIcon,
+  FunnelIcon,
+  PlusCircleIcon,
+  XCircleIcon,
+  ArrowPathIcon,
+  FolderOpenIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from '@heroicons/react/24/outline';
+
 import ActividadCard from '@/components/docente/ActividadCard.jsx';
 import ActividadForm from '@/components/docente/ActividadForm.jsx';
 import FiltrosActividades from '@/components/docente/FiltrosActividades.jsx';
@@ -17,6 +32,7 @@ const API_URL = import.meta.env.VITE_API_URL?.trim() || 'http://localhost:3000';
 const ActividadesPage = () => {
   const token = localStorage.getItem('token');
   const cursoId = '652f1a9b3c2e4f0012a4dabc';
+  const claseId = '652f1a9b3c2e4f0012a4dabc';
 
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [toast, setToast] = useState(null);
@@ -47,7 +63,7 @@ const ActividadesPage = () => {
 
   useEffect(() => {
     if (!token) {
-      console.warn('⚠️ Token no definido en ActividadesPage');
+      console.warn('Token no definido en ActividadesPage');
     }
   }, [token]);
 
@@ -69,11 +85,24 @@ const ActividadesPage = () => {
       setActividades((prev) =>
         prev.map((act) => (act._id === actividadFinal._id ? actividadFinal : act))
       );
-      setToast({ mensaje: '✏️ Actividad actualizada', tipo: 'success' });
+      setToast({
+        mensaje: (
+          <span className='inline-flex items-center gap-2'>
+            <CheckCircleIcon className='w-5 h-5 text-green-400' />
+            Actividad actualizada
+          </span>
+        ),
+        tipo: 'success',
+      });
     } else {
       setActividades((prev) => [actividadFinal, ...prev]);
       setToast({
-        mensaje: '✅ Actividad creada correctamente',
+        mensaje: (
+          <span className='inline-flex items-center gap-2'>
+            <ClipboardDocumentListIcon className='w-5 h-5 text-blue-400' />
+            Actividad creada correctamente
+          </span>
+        ),
         tipo: 'success',
       });
     }
@@ -88,10 +117,26 @@ const ActividadesPage = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setActividades((prev) => prev.filter((act) => act._id !== id));
-      setToast({ mensaje: '🗑️ Actividad eliminada', tipo: 'success' });
+      setToast({
+        mensaje: (
+          <span className='inline-flex items-center gap-2'>
+            <TrashIcon className='w-5 h-5 text-red-400' />
+            Actividad eliminada
+          </span>
+        ),
+        tipo: 'success',
+      });
     } catch (err) {
-      console.error('❌ Error al eliminar:', err.message);
-      setToast({ mensaje: '❌ No se pudo eliminar', tipo: 'error' });
+      console.error('Error al eliminar:', err.message);
+      setToast({
+        mensaje: (
+          <span className='inline-flex items-center gap-2'>
+            <ExclamationCircleIcon className='w-5 h-5 text-red-400' />
+            No se pudo eliminar
+          </span>
+        ),
+        tipo: 'error',
+      });
     }
   };
 
@@ -108,10 +153,26 @@ const ActividadesPage = () => {
       setActividades((prev) =>
         prev.map((act) => (act._id === id ? { ...act, notificada: true } : act))
       );
-      setToast({ mensaje: '📣 Estudiantes notificados', tipo: 'success' });
+      setToast({
+        mensaje: (
+          <span className='inline-flex items-center gap-2'>
+            <MegaphoneIcon className='w-5 h-5 text-blue-400' />
+            Estudiantes notificados
+          </span>
+        ),
+        tipo: 'success',
+      });
     } catch (err) {
-      console.error('❌ Error al notificar:', err.message);
-      setToast({ mensaje: '❌ No se pudo notificar', tipo: 'error' });
+      console.error('Error al notificar:', err.message);
+      setToast({
+        mensaje: (
+          <span className='inline-flex items-center gap-2'>
+            <ExclamationCircleIcon className='w-5 h-5 text-red-400' />
+            No se pudo notificar
+          </span>
+        ),
+        tipo: 'error',
+      });
     }
   };
 
@@ -160,7 +221,10 @@ const ActividadesPage = () => {
 
       <main className='relative z-20 px-6 py-24 max-w-6xl mx-auto space-y-10'>
         <div className='text-center'>
-          <h1 className='text-4xl font-bold mb-4'>📚 Actividades Académicas</h1>
+          <h1 className='text-4xl font-bold mb-4 inline-flex items-center justify-center gap-2'>
+            <ClipboardDocumentListIcon className='w-6 h-6 text-white/80' />
+            Actividades Académicas
+          </h1>
           <p className='text-white/70 text-lg'>
             Crea, organiza y publica actividades para tus cursos. Puedes incluir fechas, recursos,
             materia y criterios de evaluación.
@@ -184,12 +248,13 @@ const ActividadesPage = () => {
               setFiltroTipo(filtroTipoTemp);
               setFiltroEstado(filtroEstadoTemp);
               setFiltroMateria(filtroMateriaTemp);
-              setPaginaActual(1); // Reinicia paginación
-              setToast({ mensaje: '✅ Filtros aplicados', tipo: 'success' });
+              setPaginaActual(1);
+              setToast({ mensaje: 'Filtros aplicados', tipo: 'success' });
             }}
-            className='bg-blue-600 text-white px-5 py-2 rounded-full font-medium hover:bg-blue-500 transition'
+            className='inline-flex items-center gap-2 bg-blue-600 text-white px-5 py-2 rounded-full font-medium hover:bg-blue-500 transition'
           >
-            🔍 Aplicar filtros
+            <FunnelIcon className='w-5 h-5' />
+            Aplicar filtros
           </button>
         </div>
 
@@ -199,18 +264,27 @@ const ActividadesPage = () => {
               setMostrarFormulario((prev) => !prev);
               setActividadEditando(null);
             }}
-            className='bg-black text-white px-6 py-2 rounded-full transition font-medium hover:text-white/90'
+            className='inline-flex items-center gap-2 bg-black text-white px-6 py-2 rounded-full transition font-medium hover:text-white/90'
           >
-            <span className='tracking-wide'>
-              {mostrarFormulario ? '✖️ Cancelar' : '➕ Nueva Actividad'}
-            </span>
+            {mostrarFormulario ? (
+              <>
+                <XCircleIcon className='w-5 h-5' />
+                Cancelar
+              </>
+            ) : (
+              <>
+                <PlusCircleIcon className='w-5 h-5' />
+                Nueva Actividad
+              </>
+            )}
           </button>
         </div>
 
         {mostrarFormulario && (
           <div className='bg-white/10 backdrop-blur-md p-6 rounded-lg border border-white/20'>
             <ActividadForm
-              cursoId={'652f1a9b3c2e4f0012a4dabc'}
+              cursoId={cursoId}
+              claseId={claseId}
               onActividadCreada={handleNuevaActividad}
               actividadInicial={actividadEditando}
             />
@@ -218,12 +292,18 @@ const ActividadesPage = () => {
         )}
 
         {loading ? (
-          <p className='text-white/50 text-center'>⏳ Cargando actividades...</p>
+          <p className='text-white/50 text-center inline-flex items-center gap-2 justify-center'>
+            <ArrowPathIcon className='w-5 h-5 animate-spin' />
+            Cargando actividades...
+          </p>
         ) : error ? (
-          <p className='text-red-400 text-center'>❌ {error}</p>
+          <p className='text-red-400 text-center'>Error: {error}</p>
         ) : actividadesFiltradas.length === 0 ? (
           <div className='text-center text-white/60 space-y-4'>
-            <p className='text-2xl'>🗂️ No hay actividades que coincidan</p>
+            <p className='text-2xl inline-flex items-center gap-2 justify-center'>
+              <FolderOpenIcon className='w-6 h-6' />
+              No hay actividades que coincidan
+            </p>
             <p className='text-sm'>Ajusta los filtros o crea una nueva actividad.</p>
           </div>
         ) : (
@@ -232,7 +312,7 @@ const ActividadesPage = () => {
               <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-2'>
                 {actividadesPaginadas.map((actividad, index) => {
                   if (!isActividadValida(actividad)) {
-                    console.warn('⚠️ Actividad inválida detectada:', actividad);
+                    console.warn('Actividad inválida detectada:', actividad);
                     return null;
                   }
 
@@ -255,9 +335,10 @@ const ActividadesPage = () => {
               <button
                 onClick={() => setPaginaActual((prev) => Math.max(prev - 1, 1))}
                 disabled={paginaActual === 1}
-                className='px-4 py-2 bg-white text-black rounded-full font-medium disabled:opacity-40'
+                className='inline-flex items-center gap-2 px-4 py-2 bg-white text-black rounded-full font-medium disabled:opacity-40'
               >
-                ← Anterior
+                <ChevronLeftIcon className='w-5 h-5' />
+                Anterior
               </button>
               <span className='text-white/70 font-medium'>
                 Página {paginaActual} de {totalPaginas}
@@ -265,9 +346,10 @@ const ActividadesPage = () => {
               <button
                 onClick={() => setPaginaActual((prev) => Math.min(prev + 1, totalPaginas))}
                 disabled={paginaActual === totalPaginas}
-                className='px-4 py-2 bg-white text-black rounded-full font-medium disabled:opacity-40'
+                className='inline-flex items-center gap-2 px-4 py-2 bg-white text-black rounded-full font-medium disabled:opacity-40'
               >
-                Siguiente →
+                Siguiente
+                <ChevronRightIcon className='w-5 h-5' />
               </button>
             </div>
           </>

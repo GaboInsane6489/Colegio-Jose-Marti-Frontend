@@ -1,10 +1,16 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import {
+  FaTrashAlt,
+  FaUserShield,
+  FaUsers,
+  FaEnvelope,
+  FaUserTag,
+  FaCheckCircle,
+  FaTools,
+} from 'react-icons/fa';
 
-/**
- * 🧑‍💼 Tabla institucional para listar y validar usuarios registrados
- */
 const UsuariosTable = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -27,19 +33,16 @@ const UsuariosTable = () => {
     }
   };
 
-  const toggleValidacion = async (id, validado) => {
-    const endpoint = validado ? `rechazar/${id}` : `validar/${id}`;
-    const method = validado ? 'delete' : 'patch';
-
+  const eliminarUsuario = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      await axios[method](`http://localhost:3000/api/admin/${endpoint}`, {
+      await axios.delete(`http://localhost:3000/api/admin/rechazar/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      setUsuarios((prev) => prev.map((u) => (u._id === id ? { ...u, validado: !validado } : u)));
+      setUsuarios((prev) => prev.filter((u) => u._id !== id));
     } catch (error) {
-      console.error('❌ Error al actualizar usuario:', error);
+      console.error('❌ Error al eliminar usuario:', error);
     }
   };
 
@@ -48,56 +51,82 @@ const UsuariosTable = () => {
   }, []);
 
   return (
-    <section className='bg-[#121212] text-white py-10 px-4 sm:px-6'>
+    <section className='bg-black text-white py-6 px-4 sm:px-6'>
       <div className='max-w-6xl mx-auto space-y-6'>
-        <div className='flex justify-between items-center'>
-          <h2 className='text-2xl font-bold'>Todos los usuarios</h2>
+        <div className='flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left'>
+          <div className='flex flex-col items-center sm:items-start'>
+            <h2 className='text-lg sm:text-2xl font-semibold'>Gestión de usuarios</h2>
+            <FaUsers className='text-blue-400 text-xl sm:hidden mt-2' />
+          </div>
           <button
-            onClick={() => navigate('/admin/pendientes')}
-            className='bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition'
+            onClick={() => navigate('/admin/dashboard')}
+            className='bg-gray-700 text-white px-3 py-1.5 rounded hover:bg-gray-800 transition text-sm flex items-center gap-2'
           >
-            🔙 Volver a pendientes
+            <FaUserShield />
+            Volver al panel
           </button>
         </div>
 
         {loading ? (
-          <p className='text-gray-400'>Cargando usuarios...</p>
+          <p className='text-gray-400 text-sm text-center'>Cargando usuarios...</p>
         ) : usuarios.length === 0 ? (
-          <p className='text-gray-400'>No hay usuarios registrados.</p>
+          <p className='text-gray-400 text-sm text-center'>No hay usuarios registrados.</p>
         ) : (
           <div className='overflow-x-auto'>
-            <table className='min-w-full bg-white text-black rounded shadow'>
-              <thead className='bg-gray-100 text-left'>
-                <tr>
-                  <th className='px-4 py-2'>Email</th>
-                  <th className='px-4 py-2'>Rol</th>
-                  <th className='px-4 py-2'>Estado</th>
-                  <th className='px-4 py-2'>Acción</th>
+            <table className='min-w-full bg-black text-white text-xs sm:text-sm rounded shadow-lg'>
+              <thead className='bg-gray-900'>
+                <tr className='text-center'>
+                  <th className='px-2 sm:px-4 py-2'>
+                    <div className='flex justify-center items-center gap-2'>
+                      <FaEnvelope />
+                      <span>Email</span>
+                    </div>
+                  </th>
+                  <th className='px-2 sm:px-4 py-2'>
+                    <div className='flex justify-center items-center gap-2'>
+                      <FaUserTag />
+                      <span>Rol</span>
+                    </div>
+                  </th>
+                  <th className='px-2 sm:px-4 py-2'>
+                    <div className='flex justify-center items-center gap-2'>
+                      <FaCheckCircle style={{ color: '#107C10' }} />
+                      <span>Estado</span>
+                    </div>
+                  </th>
+                  <th className='px-2 sm:px-4 py-2 min-w-[120px]'>
+                    <div className='flex justify-center items-center gap-2'>
+                      <FaTools />
+                      <span>Acción</span>
+                    </div>
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {usuarios.map((user) => (
-                  <tr key={user._id} className='border-t'>
-                    <td className='px-4 py-2'>{user.email}</td>
-                    <td className='px-4 py-2 capitalize'>{user.role}</td>
-                    <td className='px-4 py-2'>
-                      {user.validado ? (
-                        <span className='text-green-600 font-semibold'>Validado</span>
-                      ) : (
-                        <span className='text-yellow-600 font-semibold'>Pendiente</span>
-                      )}
-                    </td>
-                    <td className='px-4 py-2'>
-                      <button
-                        onClick={() => toggleValidacion(user._id, user.validado)}
-                        className={`px-4 py-2 rounded text-white ${
-                          user.validado
-                            ? 'bg-red-600 hover:bg-red-700'
-                            : 'bg-green-600 hover:bg-green-700'
-                        } transition`}
+                  <tr key={user._id} className='border-t border-gray-800 text-center'>
+                    <td className='px-2 sm:px-4 py-2 break-words'>{user.email}</td>
+                    <td className='px-2 sm:px-4 py-2 capitalize'>{user.role}</td>
+                    <td className='px-2 sm:px-4 py-2'>
+                      <span
+                        className={`font-medium ${
+                          user.validado ? 'text-green-400' : 'text-yellow-400'
+                        }`}
+                        style={user.validado ? { color: '#107C10' } : {}}
                       >
-                        {user.validado ? '❌ Cancelar' : '✅ Validar'}
-                      </button>
+                        {user.validado ? 'Validado' : 'Pendiente'}
+                      </span>
+                    </td>
+                    <td className='px-2 sm:px-4 py-2'>
+                      <div className='flex justify-center'>
+                        <button
+                          onClick={() => eliminarUsuario(user._id)}
+                          className='bg-red-600 hover:bg-red-700 text-white px-2 sm:px-3 py-1 rounded flex items-center gap-2 justify-center transition'
+                        >
+                          <FaTrashAlt className='text-xs sm:text-sm' />
+                          <span className='hidden sm:inline'>Eliminar</span>
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}

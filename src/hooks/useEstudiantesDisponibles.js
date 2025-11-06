@@ -11,16 +11,28 @@ const useEstudiantesDisponibles = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    console.log('📡 Iniciando carga de estudiantes disponibles...');
+
     const fetchEstudiantes = async () => {
       try {
-        const res = await axiosInstancia.get('/api/admin/estudiantes');
-        console.log('✅ Estudiantes disponibles:', res.data);
-        setEstudiantes(res.data.estudiantes || []);
+        const res = await axiosInstancia.get('/api/docente/estudiantes'); // ✅ endpoint corregido
+
+        if (Array.isArray(res.data.estudiantes)) {
+          setEstudiantes(res.data.estudiantes);
+          console.log(
+            `✅ Estudiantes recibidos (${res.data.estudiantes.length}):`,
+            res.data.estudiantes
+          );
+        } else {
+          console.warn('⚠️ Respuesta inesperada al obtener estudiantes:', res.data);
+          setEstudiantes([]);
+        }
       } catch (err) {
-        console.error('❌ Error al obtener estudiantes:', err);
+        console.error('❌ Error al obtener estudiantes:', err.message);
         setError('No se pudieron cargar los estudiantes');
       } finally {
         setLoading(false);
+        console.log('⏹️ Finalizó la carga de estudiantes.');
       }
     };
 

@@ -18,7 +18,7 @@ const useClasesDocente = () => {
       try {
         const res = await axiosInstancia.get('/api/docente/clases');
 
-        if (res.data?.ok && Array.isArray(res.data.clases)) {
+        if (Array.isArray(res.data.clases)) {
           setClases(res.data.clases);
           console.log(`✅ Clases recibidas (${res.data.clases.length}):`, res.data.clases);
         } else {

@@ -1,7 +1,14 @@
 import { useState } from 'react';
 import useEstudiantesDisponibles from '@/hooks/useEstudiantesDisponibles';
 import useClasesDocente from '@/hooks/useClasesDocente';
-import { UserIcon, CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
+import VideoFondoDocente from '@/components/docente/VideoFondoDocente';
+import {
+  UserIcon,
+  CheckCircleIcon,
+  XCircleIcon,
+  AcademicCapIcon,
+  InformationCircleIcon,
+} from '@heroicons/react/24/solid';
 
 /**
  * Modal institucional para asignar estudiantes a una clase
@@ -28,7 +35,7 @@ const AsignarEstudiantesModal = ({ clase, onClose }) => {
       await asignarEstudiantes(clase._id, seleccionados);
       setFeedback('Estudiantes asignados correctamente');
       console.log(
-        `✅ ${seleccionados.length} estudiantes asignados a ${clase.grado}-${clase.seccion}`
+        `✅ ${seleccionados.length} estudiantes asignados a ${clase.nombre} (${clase.horario})`
       );
       setTimeout(() => onClose(), 1500);
     } catch (err) {
@@ -40,70 +47,105 @@ const AsignarEstudiantesModal = ({ clase, onClose }) => {
   };
 
   return (
-    <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
-      <div className='bg-white rounded-xl shadow-xl p-6 w-full max-w-xl animate-fade-in'>
-        <h2 className='text-2xl font-serif font-bold text-center text-gray-800 mb-4'>
-          Asignar estudiantes a {clase.grado} - {clase.seccion}
-        </h2>
+    <div className='fixed inset-0 z-50'>
+      <VideoFondoDocente />
 
-        {loading && <p className='text-center text-gray-500'>Cargando estudiantes...</p>}
-        {error && <p className='text-center text-red-500'>{error}</p>}
-
-        {!loading && !error && estudiantes.length === 0 && (
-          <div className='text-center text-gray-400 flex flex-col items-center space-y-2'>
-            <UserIcon className='h-6 w-6 text-gray-300' />
-            <p>No hay estudiantes disponibles para asignar.</p>
+      <div className='absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center px-4 sm:px-6'>
+        <div className='bg-black text-white rounded-2xl shadow-2xl p-6 w-full max-w-xl animate-fade-in-fast border border-yellow-700'>
+          <div className='flex flex-col items-center mb-4'>
+            <AcademicCapIcon className='h-10 w-10 text-yellow-500 mb-2' />
+            <h2 className='text-2xl font-serif font-bold text-center'>
+              Asignar estudiantes a <span className='text-yellow-400'>{clase.nombre}</span>
+            </h2>
+            <p className='text-sm text-white/70 text-center'>Jornada: {clase.horario}</p>
           </div>
-        )}
 
-        <div className='max-h-64 overflow-y-auto space-y-3 mt-2'>
-          {estudiantes.map((est) => (
-            <label
-              key={est._id}
-              className='flex items-center justify-between bg-gray-100 px-4 py-2 rounded hover:bg-gray-200 transition'
-            >
-              <span className='text-gray-800 font-medium'>{est.nombre}</span>
-              <input
-                type='checkbox'
-                checked={seleccionados.includes(est._id)}
-                onChange={() => toggleSeleccion(est._id)}
-                className='form-checkbox h-4 w-4 text-blue-600'
-              />
-            </label>
-          ))}
-        </div>
+          {loading && <p className='text-center text-white/60'>Cargando estudiantes...</p>}
+          {error && <p className='text-center text-red-400'>{error}</p>}
 
-        {feedback && (
-          <div className='mt-4 text-center flex items-center justify-center gap-2'>
-            {feedback.includes('correctamente') ? (
-              <CheckCircleIcon className='h-5 w-5 text-green-600' />
-            ) : (
-              <XCircleIcon className='h-5 w-5 text-red-600' />
-            )}
-            <p
-              className={`text-sm ${
-                feedback.includes('correctamente') ? 'text-green-600' : 'text-red-600'
-              }`}
+          {!loading && !error && estudiantes.length === 0 && (
+            <div className='text-center text-white/40 flex flex-col items-center space-y-2'>
+              <UserIcon className='h-6 w-6 text-white/30' />
+              <p>No hay estudiantes disponibles para asignar.</p>
+            </div>
+          )}
+
+          <div className='max-h-64 overflow-y-auto divide-y divide-white/10 scrollbar-thin scrollbar-thumb-yellow-600 scrollbar-track-transparent'>
+            {estudiantes.map((est) => {
+              const seleccionado = seleccionados.includes(est._id);
+              return (
+                <label
+                  key={est._id}
+                  className='flex items-center justify-between px-4 py-3 hover:bg-white/10 transition duration-150'
+                >
+                  <div className='flex flex-col'>
+                    <span className='text-white font-medium'>{est.nombre}</span>
+                    <span className='text-sm text-white/60'>{est.email}</span>
+                  </div>
+                  <div className='relative'>
+                    <input
+                      type='checkbox'
+                      checked={seleccionado}
+                      onChange={() => toggleSeleccion(est._id)}
+                      className={`appearance-none h-5 w-5 rounded border-2 transition duration-150 cursor-pointer ${
+                        seleccionado ? 'bg-yellow-500 border-black' : 'bg-black border-yellow-500'
+                      }`}
+                    />
+                    <span
+                      className={`absolute inset-0 flex items-center justify-center pointer-events-none ${
+                        seleccionado ? 'text-black' : 'text-yellow-500'
+                      }`}
+                    >
+                      <CheckCircleIcon className='h-4 w-4' />
+                    </span>
+                  </div>
+                </label>
+              );
+            })}
+          </div>
+
+          {feedback && (
+            <div className='mt-4 text-center flex items-center justify-center gap-2'>
+              {feedback.includes('correctamente') ? (
+                <CheckCircleIcon className='h-5 w-5 text-green-400' />
+              ) : (
+                <XCircleIcon className='h-5 w-5 text-red-400' />
+              )}
+              <p
+                className={`text-sm ${
+                  feedback.includes('correctamente') ? 'text-green-400' : 'text-red-400'
+                }`}
+              >
+                {feedback}
+              </p>
+            </div>
+          )}
+
+          <div className='mt-6 flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3'>
+            <button
+              onClick={onClose}
+              className='px-4 py-2 bg-yellow-700 text-white rounded hover:bg-yellow-600 transition duration-150 w-full sm:w-auto'
             >
-              {feedback}
+              Cancelar
+            </button>
+            <button
+              onClick={handleAsignar}
+              disabled={asignando || seleccionados.length === 0}
+              className='px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-400 transition duration-150 disabled:opacity-50 w-full sm:w-auto'
+            >
+              {asignando ? 'Asignando...' : 'Asignar'}
+            </button>
+          </div>
+
+          {/* 🧠 Información institucional */}
+          <div className='mt-8 flex items-start gap-3 text-white/70 text-sm'>
+            <InformationCircleIcon className='h-6 w-6 text-yellow-500 mt-0.5 flex-shrink-0' />
+            <p>
+              Este componente permite al docente asignar estudiantes a una clase específica dentro
+              de su jornada académica. Al seleccionar estudiantes, se actualiza el backend
+              institucional y se refleja el estado actual de la clase.
             </p>
           </div>
-        )}
-
-        <div className='mt-6 flex justify-end space-x-3'>
-          <button
-            onClick={onClose}
-            className='px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition duration-200'
-          >
-            Cancelar
-          </button>
-          <button
-            onClick={handleAsignar}
-            disabled={asignando || seleccionados.length === 0}
-            className='px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-500 transition duration-200 disabled:opacity-50'
-          >
-            {asignando ? 'Asignando...' : 'Asignar'}
-          </button>
         </div>
       </div>
     </div>
