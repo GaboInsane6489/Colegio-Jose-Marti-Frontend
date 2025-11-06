@@ -15,7 +15,6 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-<<<<<<< Updated upstream
       '@': path.resolve(__dirname, 'src'), // Importaciones limpias desde src/
     },
   },
@@ -35,20 +34,6 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: 'http://localhost:3000',
-=======
-      "@": path.resolve(__dirname, "src"),
-    },
-  },
-  build: {
-    outDir: "dist",
-    emptyOutDir: true,
-  },
-  base: "/", // Local: rutas internas funcionan bien en localhost
-  server: {
-    proxy: {
-      "/api": {
-        target: "http://localhost:3000",
->>>>>>> Stashed changes
         changeOrigin: true,
         secure: false,
       },
