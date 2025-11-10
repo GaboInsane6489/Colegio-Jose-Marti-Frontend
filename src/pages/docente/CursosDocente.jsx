@@ -1,16 +1,29 @@
+import { useState } from 'react';
 import NavbarDocente from '@/components/docente/NavbarDocente';
 import Footer from '@/components/Footer';
 import CursosAsignados from '@/components/docente/CursosAsignados';
 import CursoForm from '@/components/docente/CursoForm';
 import VideoFondoDocente from '@/components/docente/VideoFondoDocente';
 import { BookOpenIcon } from '@heroicons/react/24/solid';
+import { motion } from 'framer-motion';
 
 /**
- * Página institucional para gestión de cursos del docente
+ * 🏫 Página institucional para gestión de cursos del docente
  */
 const CursosDocente = () => {
+  const [cursoCreado, setCursoCreado] = useState(null);
+
+  const handleCursoCreado = (curso) => {
+    if (!curso || !Array.isArray(curso.estudiantes) || curso.estudiantes.length === 0) {
+      console.warn('⚠️ Curso sin estudiantes asignados. No se actualizará la tabla.');
+      return;
+    }
+    console.log('📦 Curso recibido en CursosDocente:', curso);
+    setCursoCreado(curso);
+  };
+
   return (
-    <div className='min-h-screen flex flex-col bg-white text-white relative overflow-hidden'>
+    <div className='min-h-screen flex flex-col bg-black text-white relative overflow-hidden'>
       {/* 🎥 Fondo institucional */}
       <VideoFondoDocente />
 
@@ -20,27 +33,51 @@ const CursosDocente = () => {
       </div>
 
       {/* 📚 Contenido principal */}
-      <main className='relative z-20 pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-10'>
-        <header className='text-center'>
-          <BookOpenIcon className='h-12 w-12 mx-auto text-white mb-4' />
-          <h1 className='text-4xl font-serif font-bold text-white tracking-wide'>Mis Cursos</h1>
-          <p className='mt-2 text-sm text-gray-200'>
-            Crea, organiza y visualiza tus cursos asignados.
+      <main className='relative z-20 pt-24 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16'>
+        {/* 🧠 Encabezado institucional */}
+        <motion.header
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
+          className='text-center space-y-4'
+        >
+          <BookOpenIcon className='h-12 w-12 mx-auto text-blue-400' />
+          <h1 className='text-4xl font-serif font-bold tracking-wide'>Mis Cursos</h1>
+          <p className='text-sm text-gray-300 max-w-xl mx-auto'>
+            Crea, organiza y visualiza tus cursos asignados como docente institucional.
           </p>
-        </header>
+        </motion.header>
 
         {/* 📝 Formulario para crear cursos */}
-        <section className='rounded-xl shadow-xl'>
-          <CursoForm />
-        </section>
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
+          className='rounded-2xl shadow-2xl'
+        >
+          <CursoForm onCursoCreado={handleCursoCreado} />
+        </motion.section>
 
         {/* 📦 Cursos asignados */}
-        <section className='space-y-4'>
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
+          className='space-y-6'
+        >
           <h2 className='text-xl font-semibold text-white text-center'>Cursos asignados</h2>
+
+          {!cursoCreado && (
+            <p className='text-center text-yellow-300'>
+              Crea un curso para visualizarlo aquí. Asegúrate de asignar estudiantes.
+            </p>
+          )}
+
           <CursosAsignados
+            nuevoCurso={cursoCreado}
             fallback={<p className='text-center text-red-300'>Error al cargar cursos.</p>}
           />
-        </section>
+        </motion.section>
       </main>
 
       {/* 📦 Footer institucional */}

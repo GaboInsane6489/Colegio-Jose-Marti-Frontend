@@ -7,8 +7,8 @@ const LandingContent = ({ inView }) => {
       ? {
           section: { opacity: 1, scale: 1 },
           content: { opacity: 1, y: 0 },
-          logo: { opacity: 1, scale: 1.1 },
-          h1: { opacity: 1, scale: 1 },
+          logo: { opacity: 1, scale: 1.05 },
+          h1: { opacity: 1, y: 0 },
           p1: { opacity: 1, y: 0 },
           p2: { opacity: 1, y: 0 },
           line: { scaleX: 1 },
@@ -24,12 +24,11 @@ const LandingContent = ({ inView }) => {
       transition={{ type: 'spring', bounce: 0.3, duration: 1 }}
       className='relative w-full h-screen flex items-center justify-center text-white overflow-hidden'
     >
-      {/* 🧠 Contenido institucional centrado */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={animationProps.content}
         transition={{ type: 'spring', bounce: 0.3, duration: 0.8 }}
-        className='relative z-10 text-center w-full max-w-4xl px-4'
+        className='relative z-10 text-center w-full max-w-4xl px-4 sm:px-6 md:px-8'
       >
         <motion.img
           src='/LogoColegio.png'
@@ -37,19 +36,14 @@ const LandingContent = ({ inView }) => {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={animationProps.logo}
           transition={{ type: 'spring', bounce: 0.4, duration: 0.6 }}
-          className='mx-auto mb-6 h-40 w-auto object-contain drop-shadow-[0_0_12px_rgba(0,0,0,0.3)]'
+          className='mx-auto mb-6 h-36 sm:h-40 w-auto object-contain drop-shadow-[0_0_12px_#00FFF7]'
         />
 
         <motion.h1
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={animationProps.h1}
-          transition={{
-            delay: 0.2,
-            type: 'spring',
-            bounce: 0.3,
-            duration: 0.6,
-          }}
-          className='text-4xl md:text-5xl font-bold mb-2 tracking-tight leading-tight drop-shadow-lg'
+          transition={{ delay: 0.2, duration: 0.6, ease: 'easeOut' }}
+          className='text-3xl sm:text-4xl md:text-5xl font-semibold mb-2 tracking-tight leading-tight drop-shadow-lg'
         >
           Colegio José Martí
         </motion.h1>
@@ -58,7 +52,7 @@ const LandingContent = ({ inView }) => {
           initial={{ opacity: 0, y: 10 }}
           animate={animationProps.p1}
           transition={{ delay: 0.3, duration: 0.6 }}
-          className='text-xl italic mb-4 drop-shadow'
+          className='text-lg sm:text-xl italic mb-4 drop-shadow text-white/90'
         >
           “Aquí no solo se aprende, se transforma.”
         </motion.p>
@@ -67,7 +61,7 @@ const LandingContent = ({ inView }) => {
           initial={{ opacity: 0, y: 20 }}
           animate={animationProps.p2}
           transition={{ delay: 0.4, duration: 0.8, ease: 'easeOut' }}
-          className='text-lg md:text-xl max-w-2xl mx-auto drop-shadow'
+          className='text-[15px] sm:text-base md:text-lg max-w-2xl mx-auto drop-shadow text-white/80 leading-relaxed'
         >
           Formamos de forma integral, excelencia académica y valores que transforman.
         </motion.p>
@@ -76,7 +70,7 @@ const LandingContent = ({ inView }) => {
           initial={{ scaleX: 0 }}
           animate={animationProps.line}
           transition={{ delay: 0.6, duration: 0.6, ease: 'easeOut' }}
-          className='mt-6 h-[2px] w-24 mx-auto bg-[#FFD700] origin-left'
+          className='mt-6 h-[2px] w-24 mx-auto bg-[#00FFF7]/40 origin-left'
         />
 
         <motion.div
@@ -87,7 +81,7 @@ const LandingContent = ({ inView }) => {
         >
           <a
             href='/admisiones'
-            className='inline-block bg-[#1a1a1a] text-white px-6 py-2 rounded-full font-medium transition-all duration-300 hover:shadow-[0_0_12px_#ffffff] hover:text-[#ffffff] drop-shadow-[0_0_6px_#ffffff]'
+            className='inline-block bg-[#00FFF7] text-black px-6 py-2 rounded-full font-medium backdrop-blur-md transition-all duration-300 hover:drop-shadow-[0_0_12px_#00FFF7] hover:translate-y-[2px]'
           >
             Conoce nuestra propuesta
           </a>

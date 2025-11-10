@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 import { FaHistory } from 'react-icons/fa';
 
 const hitos = [
@@ -31,51 +32,58 @@ const hitos = [
 ];
 
 const LineaTiempoInstitucional = () => {
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
+
   return (
     <section
-      className='py-20 px-6 text-white flex justify-center bg-[#0d0d0d] relative overflow-hidden'
+      ref={ref}
+      className='py-16 px-4 sm:px-6 md:px-8 text-white flex justify-center bg-[#0d0d0d] relative overflow-hidden'
       style={{
         backgroundImage:
-          'repeating-linear-gradient(45deg, rgba(255,255,255,0.06) 0px, rgba(255,255,255,0.06) 1px, transparent 1px, transparent 12px)',
+          'repeating-linear-gradient(45deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 1px, transparent 1px, transparent 12px)',
       }}
     >
-      <div className='max-w-5xl w-full bg-[#1a1a1a] p-8 rounded-2xl shadow-2xl space-y-10'>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ type: 'spring', bounce: 0.3, duration: 0.6 }}
-          className='text-center space-y-4'
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ type: 'spring', bounce: 0.3, duration: 0.6 }}
+        className='max-w-5xl w-full bg-[#1a1a1a] p-6 sm:p-8 rounded-2xl shadow-2xl space-y-10'
+      >
+        <motion.header
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.1, duration: 0.6 }}
+          className='text-center space-y-3'
         >
-          <FaHistory className='text-yellow-400 text-4xl mx-auto' />
-          <h2 className='text-3xl md:text-4xl font-bold text-white'>
+          <FaHistory className='text-[#00f0ff] text-3xl mx-auto drop-shadow-[0_0_6px_#00f0ff]' />
+          <h2 className='text-2xl sm:text-3xl md:text-4xl font-semibold text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.3)] pt-2'>
             Línea de Tiempo Institucional
           </h2>
-        </motion.div>
+        </motion.header>
 
-        <div className='relative border-l-4 border-white/30 pl-6 space-y-10'>
+        <div className='relative border-l-[3px] border-white/80 pl-5 space-y-8'>
           {hitos.map((hito, index) => (
-            <motion.div
+            <motion.article
               key={index}
               initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{
                 delay: index * 0.1,
                 type: 'spring',
                 bounce: 0.3,
                 duration: 0.6,
               }}
-              className='bg-black rounded-xl p-6 shadow-xl border border-white/20 hover:shadow-[0_0_12px_#ffffff] transition-shadow duration-300'
+              className='relative bg-[#111] rounded-xl p-5 shadow-md border border-white/60 hover:shadow-[0_0_16px_rgba(255,255,255,0.4)] transition-shadow duration-300'
             >
-              <h3 className='text-xl font-semibold mb-2 text-white drop-shadow-[0_0_4px_#ffffff]'>
-                {hito.año}
-              </h3>
-              <p className='text-white leading-relaxed'>{hito.evento}</p>
-            </motion.div>
+              {/* Punto de la línea */}
+              <div className='absolute -left-[13px] top-6 w-4 h-4 rounded-full bg-[#00f0ff] shadow-[0_0_6px_#00f0ff]' />
+
+              <h3 className='text-lg font-semibold mb-2 text-white drop-shadow-sm'>{hito.año}</h3>
+              <p className='text-[15px] text-white/90 leading-relaxed'>{hito.evento}</p>
+            </motion.article>
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

@@ -1,12 +1,7 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import {
-  FaMapMarkerAlt,
-  FaPhoneAlt,
-  FaEnvelope,
-  FaClock,
-} from "react-icons/fa";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaClock } from 'react-icons/fa';
 
 const Contact = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.3 });
@@ -14,48 +9,51 @@ const Contact = () => {
   return (
     <section
       ref={ref}
-      className="w-full min-h-screen flex items-center justify-center bg-white text-black px-6 py-20"
+      className='w-full min-h-screen flex items-center justify-center bg-white text-black px-4 sm:px-6 md:px-8 py-16'
     >
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ type: "spring", bounce: 0.3, duration: 0.8 }}
-        className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-start"
+        transition={{ type: 'spring', bounce: 0.3, duration: 0.8 }}
+        className='max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-start'
       >
         {/* Información institucional */}
-        <div className="text-left">
-          <h2 className="text-4xl font-bold mb-6 drop-shadow-[0_0_6px_rgba(0,0,0,0.3)]">
+        <div className='text-left'>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.1, duration: 0.6 }}
+            className='text-3xl sm:text-4xl font-semibold mb-6 tracking-tight drop-shadow-[0_0_6px_rgba(0,0,0,0.3)]'
+          >
             Contáctanos
-          </h2>
+          </motion.h2>
 
-          <p className="text-lg text-black/90 leading-relaxed mb-6 drop-shadow-sm">
-            ¿Tienes preguntas sobre inscripciones, programas académicos o
-            colaboraciones? Estamos aquí para ayudarte. Tu mensaje es el primer
-            paso para construir juntos.
+          <p className='text-[15px] text-black/90 leading-relaxed mb-6 drop-shadow-sm'>
+            ¿Tienes preguntas sobre inscripciones, programas académicos o colaboraciones? Estamos
+            aquí para ayudarte. Tu mensaje es el primer paso para construir juntos.
           </p>
 
-          <div className="space-y-5 text-black/80 text-sm">
-            <div className="flex items-center gap-3">
-              <FaMapMarkerAlt className="text-[#1a1a1a]" />
+          <div className='space-y-5 text-black/80 text-sm'>
+            <div className='flex items-center gap-3'>
+              <FaMapMarkerAlt className='text-[#00FFF7] drop-shadow-[0_0_6px_#00FFF7]' />
               <span>
-                <strong>Dirección:</strong> Av. Principal El Cafetal, Colegio
-                José Martí, Caracas
+                <strong>Dirección:</strong> Av. Principal El Cafetal, Colegio José Martí, Caracas
               </span>
             </div>
-            <div className="flex items-center gap-3">
-              <FaPhoneAlt className="text-[#1a1a1a]" />
+            <div className='flex items-center gap-3'>
+              <FaPhoneAlt className='text-[#00FFF7] drop-shadow-[0_0_6px_#00FFF7]' />
               <span>
                 <strong>Teléfono:</strong> +58 212-9852724
               </span>
             </div>
-            <div className="flex items-center gap-3">
-              <FaEnvelope className="text-[#1a1a1a]" />
+            <div className='flex items-center gap-3'>
+              <FaEnvelope className='text-[#00FFF7] drop-shadow-[0_0_6px_#00FFF7]' />
               <span>
                 <strong>Email:</strong> colegiojmarti.uvec@gmail.com
               </span>
             </div>
-            <div className="flex items-center gap-3">
-              <FaClock className="text-[#1a1a1a]" />
+            <div className='flex items-center gap-3'>
+              <FaClock className='text-[#00FFF7] drop-shadow-[0_0_6px_#00FFF7]' />
               <span>
                 <strong>Horario:</strong> Lunes a Viernes, 8:00am – 4:00pm
               </span>
@@ -67,23 +65,23 @@ const Contact = () => {
         <motion.form
           initial={{ opacity: 0, scale: 0.95 }}
           animate={inView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ type: "spring", bounce: 0.3, duration: 0.8 }}
-          className="bg-[#1a1a1a] text-white rounded-xl p-6 space-y-6 shadow-lg border border-white/10"
+          transition={{ type: 'spring', bounce: 0.3, duration: 0.8 }}
+          className='bg-[#1a1a1a] text-white p-6 space-y-6 shadow-xl border border-white/10'
         >
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.2, duration: 0.6 }}
           >
-            <label className="block text-sm font-medium mb-1" htmlFor="name">
+            <label className='block text-sm font-medium mb-1' htmlFor='name'>
               Nombre completo
             </label>
             <input
-              id="name"
-              type="text"
-              autoComplete="name"
-              className="w-full px-4 py-2 bg-black border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white"
-              placeholder="Tu nombre"
+              id='name'
+              type='text'
+              autoComplete='name'
+              className='w-full px-4 py-2 bg-black border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#00FFF7]'
+              placeholder='Tu nombre'
             />
           </motion.div>
 
@@ -92,15 +90,15 @@ const Contact = () => {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.3, duration: 0.6 }}
           >
-            <label className="block text-sm font-medium mb-1" htmlFor="email">
+            <label className='block text-sm font-medium mb-1' htmlFor='email'>
               Correo electrónico
             </label>
             <input
-              id="email"
-              type="email"
-              autoComplete="email"
-              className="w-full px-4 py-2 bg-black border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white"
-              placeholder="tucorreo@ejemplo.com"
+              id='email'
+              type='email'
+              autoComplete='email'
+              className='w-full px-4 py-2 bg-black border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#00FFF7]'
+              placeholder='tucorreo@ejemplo.com'
             />
           </motion.div>
 
@@ -109,14 +107,14 @@ const Contact = () => {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.4, duration: 0.6 }}
           >
-            <label className="block text-sm font-medium mb-1" htmlFor="message">
+            <label className='block text-sm font-medium mb-1' htmlFor='message'>
               Mensaje
             </label>
             <textarea
-              id="message"
-              rows="4"
-              className="w-full px-4 py-2 bg-black border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white"
-              placeholder="Escribe tu consulta aquí..."
+              id='message'
+              rows='4'
+              className='w-full px-4 py-2 bg-black border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#00FFF7]'
+              placeholder='Escribe tu consulta aquí...'
             />
           </motion.div>
 
@@ -126,9 +124,9 @@ const Contact = () => {
             transition={{ delay: 0.5, duration: 0.5 }}
           >
             <button
-              type="submit"
-              aria-label="Enviar mensaje de contacto"
-              className="w-full bg-[#1a1a1a] text-white py-2 rounded-full font-semibold hover:bg-[#d1d5db] hover:text-black transition-all duration-300"
+              type='submit'
+              aria-label='Enviar mensaje de contacto'
+              className='w-full bg-[#1a1a1a] text-[#00FFF7] py-2 rounded-full font-semibold hover:translate-y-[2px] hover:drop-shadow-[0_0_8px_#00FFF7] transition-all duration-300 border border-[#00FFF7]/40'
             >
               Enviar mensaje
             </button>

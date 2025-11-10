@@ -58,10 +58,10 @@ const Navbar = () => {
   };
 
   const navLinkClass = (path) =>
-    `transition px-2 py-1 rounded ${
+    `transition px-2 py-1 rounded text-sm ${
       location.pathname === path
-        ? 'text-white font-semibold border-b-2 border-white'
-        : 'text-white/80 hover:text-white'
+        ? 'text-white font-semibold border-b-2 border-white drop-shadow-[0_0_6px_#00FFF7]'
+        : 'text-white/80 hover:text-white hover:translate-y-[2px]'
     }`;
 
   return (
@@ -88,7 +88,7 @@ const Navbar = () => {
           <button
             onClick={handleUserIconClick}
             aria-label='Acceder al sistema'
-            className='relative'
+            className='relative hover:translate-y-[2px] transition-transform duration-300'
           >
             <FaUserCircle className='text-2xl' />
             {userRole && (
@@ -102,7 +102,7 @@ const Navbar = () => {
         {/* 📱 Botón menú móvil */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className='md:hidden text-xl'
+          className='md:hidden text-xl hover:translate-y-[2px] transition-transform duration-300'
           aria-label='Abrir menú'
         >
           ☰
@@ -130,7 +130,7 @@ const Navbar = () => {
               setIsOpen(false);
               handleUserIconClick();
             }}
-            className='flex items-center gap-2 text-white/80 hover:text-white'
+            className='flex items-center gap-2 text-white/80 hover:text-white hover:translate-y-[2px] transition-all duration-300'
           >
             <FaUserCircle className='text-xl' /> <span>Acceder</span>
           </button>

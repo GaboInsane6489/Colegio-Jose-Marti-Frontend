@@ -5,11 +5,6 @@ import { getCookie } from '../../utils/cookieUtils';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 
-/**
- * 🧭 Componente envolvente para login y registro
- * Verifica sesión activa solo si el token ya existe.
- * Alterna entre formulario de login y registro.
- */
 const AuthWrapper = () => {
   const navigate = useNavigate();
   const [mostrarRegistro, setMostrarRegistro] = useState(false);
@@ -35,7 +30,6 @@ const AuthWrapper = () => {
           throw new Error('Rol o usuario no recibido. Sesión inválida.');
         }
 
-        // 🧠 Guardar rol y usuario en el mismo lugar que el token
         const storage = localStorage.getItem('token') ? localStorage : sessionStorage;
         storage.setItem('userRole', userRole);
         storage.setItem('usuario', JSON.stringify(usuario));
@@ -44,8 +38,6 @@ const AuthWrapper = () => {
         navigate(`/${userRole}/dashboard`);
       } catch (error) {
         console.error('❌ Error al verificar sesión:', error);
-
-        // 🧼 Limpieza completa en todos los casos
         localStorage.removeItem('token');
         sessionStorage.removeItem('token');
         localStorage.removeItem('userRole');
@@ -67,7 +59,7 @@ const AuthWrapper = () => {
       <div className='mb-4 sm:mb-6'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
-          className='h-8 w-8 sm:h-10 sm:w-10 text-white mx-auto'
+          className='h-8 w-8 sm:h-10 sm:w-10 text-[#00FFF7] drop-shadow-[0_0_6px_#00FFF7] mx-auto'
           fill='none'
           viewBox='0 0 24 24'
           stroke='currentColor'
@@ -95,14 +87,14 @@ const AuthWrapper = () => {
       <button
         type='button'
         onClick={() => setMostrarRegistro(!mostrarRegistro)}
-        className='mt-6 text-blue-300 hover:text-white text-sm sm:text-base font-medium transition duration-200'
+        className='mt-6 text-[#00FFF7] hover:brightness-125 text-sm sm:text-base font-medium transition duration-200 drop-shadow-[0_0_4px_#00FFF7]'
       >
         {mostrarRegistro
           ? '¿Ya tienes cuenta? Inicia sesión'
           : '¿Eres estudiante nuevo? Regístrate aquí'}
       </button>
 
-      {/* ⏳ Estado de carga solo si hay token y está verificando */}
+      {/* ⏳ Estado de carga */}
       {verificando && (
         <p className='text-white/60 mt-4 text-xs sm:text-sm text-center'>
           Verificando sesión activa...

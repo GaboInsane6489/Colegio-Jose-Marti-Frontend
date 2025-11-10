@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axiosInstancia from '@/services/axiosInstancia';
 import useNotas from '@/hooks/useNotas.js';
 import { exportNotasCSV } from '@/utils/exportadores/useExportNotas.js';
 
@@ -40,8 +41,8 @@ const NotasPage = () => {
     setEvaluando(false);
   }, [navigate, token, role]);
 
-  const cursoId = '652f1a9b3c2e4f0012a4dabc';
-
+  const [cursos, setCursos] = useState([]);
+  const [filtroCursoId, setFiltroCursoId] = useState('');
   const [filtroMateria, setFiltroMateria] = useState('todos');
   const [filtroEstado, setFiltroEstado] = useState('todos');
   const [filtroEstudiante, setFiltroEstudiante] = useState('todos');
@@ -49,12 +50,26 @@ const NotasPage = () => {
   const [filtroNotaMin, setFiltroNotaMin] = useState('');
   const [filtroNotaMax, setFiltroNotaMax] = useState('');
 
+  const [filtroCursoTemp, setFiltroCursoTemp] = useState('');
   const [filtroMateriaTemp, setFiltroMateriaTemp] = useState('todos');
   const [filtroEstadoTemp, setFiltroEstadoTemp] = useState('todos');
   const [filtroEstudianteTemp, setFiltroEstudianteTemp] = useState('todos');
   const [filtroActividadTemp, setFiltroActividadTemp] = useState('');
   const [filtroNotaMinTemp, setFiltroNotaMinTemp] = useState('');
   const [filtroNotaMaxTemp, setFiltroNotaMaxTemp] = useState('');
+
+  useEffect(() => {
+    const cargarCursos = async () => {
+      try {
+        const { data } = await axiosInstancia.get('/api/cursos/docente');
+        setCursos(data.cursos || []);
+      } catch (error) {
+        console.error('❌ Error al cargar cursos del docente:', error.message);
+        setCursos([]);
+      }
+    };
+    cargarCursos();
+  }, []);
 
   const filtros = useMemo(
     () => ({
@@ -68,7 +83,7 @@ const NotasPage = () => {
     [filtroMateria, filtroEstado, filtroEstudiante, filtroActividad, filtroNotaMin, filtroNotaMax]
   );
 
-  const { entregas, loading, error } = useNotas(cursoId, filtros);
+  const { entregas, loading, error } = useNotas(filtroCursoId, filtros);
 
   const [notas, setNotas] = useState([]);
   const [notaEditando, setNotaEditando] = useState(null);
@@ -130,6 +145,7 @@ const NotasPage = () => {
   ];
 
   const aplicarFiltros = () => {
+    setFiltroCursoId(filtroCursoTemp);
     setFiltroMateria(filtroMateriaTemp);
     setFiltroEstado(filtroEstadoTemp);
     setFiltroEstudiante(filtroEstudianteTemp);
@@ -148,6 +164,22 @@ const NotasPage = () => {
 
       <main className='relative z-20 px-4 sm:px-6 py-16 sm:py-24 max-w-6xl mx-auto space-y-12'>
         <EncabezadoNotas />
+
+        {/* Filtro por curso */}
+        <div className='flex justify-center items-center gap-4'>
+          <select
+            value={filtroCursoTemp}
+            onChange={(e) => setFiltroCursoTemp(e.target.value)}
+            className='bg-black border border-white/30 px-4 py-2 rounded text-white'
+          >
+            <option value=''>Selecciona un curso</option>
+            {cursos.map((curso) => (
+              <option key={curso.id} value={curso.id}>
+                {curso.nombre} ({curso.anio} - {curso.seccion})
+              </option>
+            ))}
+          </select>
+        </div>
 
         <FiltrosNotas
           filtroMateria={filtroMateriaTemp}
@@ -169,8 +201,12 @@ const NotasPage = () => {
           onExportar={() => exportNotasCSV(notasFiltradas)}
         />
 
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-6'>
-          {notasFiltradas.length > 0 ? (
+        {!filtroCursoId ? (
+          <p className='text-center text-white/70 italic pt-6'>
+            Selecciona un curso para visualizar las entregas y notas.
+          </p>
+        ) : notasFiltradas.length > 0 ? (
+          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-6'>
             <ListaNotas
               notas={notasFiltradas}
               loading={loading}
@@ -180,14 +216,14 @@ const NotasPage = () => {
                 setToast({ mensaje: 'Nota actualizada', tipo: 'success' });
               }}
             />
-          ) : (
-            <p className='text-center text-white/70 italic col-span-full'>
-              No hay entregas registradas para este curso.
-            </p>
-          )}
-        </div>
+          </div>
+        ) : (
+          <p className='text-center text-white/70 italic pt-6'>
+            No hay entregas registradas para este curso.
+          </p>
+        )}
 
-        {estudiantesUnicos.length > 0 && (
+        {filtroCursoId && estudiantesUnicos.length > 0 && (
           <section className='pt-12 space-y-6'>
             <h2 className='text-2xl font-bold text-center flex justify-center items-center gap-2'>
               <span className='text-pink-400'>🎓</span>
@@ -201,7 +237,7 @@ const NotasPage = () => {
           </section>
         )}
 
-        {actividadesUnicas.length > 0 && (
+        {filtroCursoId && actividadesUnicas.length > 0 && (
           <section className='pt-12 space-y-6'>
             <h2 className='text-2xl font-bold text-center flex justify-center items-center gap-2'>
               <span className='text-yellow-400'>📚</span>

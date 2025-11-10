@@ -1,9 +1,9 @@
-import { FaCalendarCheck, FaClipboardList, FaBookOpen } from 'react-icons/fa';
+import { FaCalendarCheck, FaClipboardList } from 'react-icons/fa';
 
 /**
  * 📦 Card institucional para mostrar entrega del estudiante
  */
-const EntregaCard = ({ entrega }) => {
+const EntregaCard = ({ entrega, onClick }) => {
   if (!entrega || typeof entrega !== 'object') return null;
 
   const { estado = 'pendiente', calificacion, fechaEntrega, actividad = {} } = entrega;
@@ -27,8 +27,13 @@ const EntregaCard = ({ entrega }) => {
     vencida: 'text-red-600',
   };
 
+  const estadoTexto = estado.charAt(0).toUpperCase() + estado.slice(1).toLowerCase();
+
   return (
-    <div className='bg-white/90 text-gray-900 rounded-xl shadow-md p-5 space-y-3 hover:shadow-lg transition-shadow duration-200'>
+    <div
+      className='bg-white/90 text-gray-900 rounded-xl shadow-md p-5 space-y-3 hover:shadow-lg transition-shadow duration-200 cursor-pointer'
+      onClick={() => onClick?.(entrega)}
+    >
       {/* Título de la actividad */}
       <h3 className='text-lg font-bold text-gray-800 flex items-center gap-2'>
         <FaClipboardList className='text-blue-600' />
@@ -37,7 +42,7 @@ const EntregaCard = ({ entrega }) => {
 
       {/* Estado de la entrega */}
       <p className={`text-sm font-semibold ${estadoColor[estado] || 'text-gray-600'}`}>
-        Estado: {estado.charAt(0).toUpperCase() + estado.slice(1)}
+        Estado: {estadoTexto}
       </p>
 
       {/* Fecha límite */}

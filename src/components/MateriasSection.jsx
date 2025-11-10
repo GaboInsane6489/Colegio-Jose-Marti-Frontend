@@ -23,37 +23,39 @@ const materias = [
 ];
 
 const MateriasSection = () => {
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <section ref={ref} className='w-full bg-black py-20 px-6 flex justify-center'>
+    <section ref={ref} className='w-full bg-black py-16 px-4 sm:px-6 md:px-8 flex justify-center'>
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ type: 'spring', bounce: 0.3, duration: 0.6 }}
-        className='max-w-6xl w-full space-y-10'
+        className='max-w-6xl w-full space-y-8'
       >
-        <h2 className='text-3xl md:text-4xl font-bold text-center text-white'>Materias por Año</h2>
+        <h2 className='text-2xl sm:text-3xl md:text-4xl font-semibold text-center text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.4)] pt-2'>
+          📚 Materias por Año
+        </h2>
 
-        <div className='overflow-x-auto rounded-xl border border-white'>
-          <table className='w-full text-white text-sm sm:text-base'>
-            <thead className='bg-[#1a1a1a] text-white'>
+        <div className='overflow-x-auto rounded-xl border border-white/80 shadow-[0_0_12px_rgba(255,255,255,0.3)]'>
+          <table className='w-full text-white text-[15px]'>
+            <thead className='bg-[#1a1a1a] text-white/90'>
               <tr>
-                <th className='px-4 py-3 font-semibold text-center whitespace-nowrap'>
-                  <div className='flex items-center justify-center gap-2'>
-                    <FaBookOpen className='text-blue-400' />
+                <th className='px-4 py-3 font-medium text-center whitespace-nowrap'>
+                  <div className='flex items-center justify-center gap-2 text-[#00f0ff] drop-shadow-[0_0_6px_#00f0ff]'>
+                    <FaBookOpen />
                     Materia
                   </div>
                 </th>
-                <th className='px-4 py-3 font-semibold text-center whitespace-nowrap'>
-                  <div className='flex items-center justify-center gap-2'>
-                    <FaUserGraduate className='text-yellow-400' />
+                <th className='px-4 py-3 font-medium text-center whitespace-nowrap'>
+                  <div className='flex items-center justify-center gap-2 text-[#00ff88] drop-shadow-[0_0_6px_#00ff88]'>
+                    <FaUserGraduate />
                     Rango Académico
                   </div>
                 </th>
-                <th className='px-4 py-3 font-semibold text-center whitespace-nowrap'>
-                  <div className='flex items-center justify-center gap-2'>
-                    <FaChalkboardTeacher className='text-green-400' />
+                <th className='px-4 py-3 font-medium text-center whitespace-nowrap'>
+                  <div className='flex items-center justify-center gap-2 text-[#ff00cc] drop-shadow-[0_0_6px_#ff00cc]'>
+                    <FaChalkboardTeacher />
                     Docente
                   </div>
                 </th>
@@ -71,11 +73,11 @@ const MateriasSection = () => {
                     bounce: 0.2,
                     duration: 0.4,
                   }}
-                  className='border-t border-white text-center hover:bg-[#1f1f1f] transition-colors'
+                  className='border-t border-white/60 text-center hover:bg-[#1f1f1f] transition-colors'
                 >
-                  <td className='px-4 py-3 font-medium'>{materia.nombre}</td>
-                  <td className='px-4 py-3'>{materia.rango}</td>
-                  <td className='px-4 py-3'>{materia.docente}</td>
+                  <td className='px-4 py-3 font-medium text-white/90'>{materia.nombre}</td>
+                  <td className='px-4 py-3 text-white/80'>{materia.rango}</td>
+                  <td className='px-4 py-3 text-white/80'>{materia.docente}</td>
                 </motion.tr>
               ))}
             </tbody>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstancia from '@/services/axiosInstancia';
 import { motion } from 'framer-motion';
 
 // 🧭 Navegación
@@ -14,9 +14,10 @@ import SeccionEntregasEstudiante from '@/components/estudiante/SeccionEntregasEs
 import EntregasForm from '@/components/estudiante/EntregasForm.jsx';
 
 /**
- * 📤 Vista institucional para gestionar entregas académicas del estudiante
+ * 📤 Historial de entregas académicas del estudiante
+ * Muestra solo entregas realizadas, con filtros por materia, lapso y actividad
  */
-const Entregas = () => {
+const HistorialEntregasEstudiante = () => {
   const [actividades, setActividades] = useState([]);
   const [entregas, setEntregas] = useState([]);
   const [loadingActividades, setLoadingActividades] = useState(true);
@@ -25,15 +26,10 @@ const Entregas = () => {
   const [filtroMateria, setFiltroMateria] = useState('');
   const [filtroLapso, setFiltroLapso] = useState('');
 
-  const token = localStorage.getItem('token');
-
   useEffect(() => {
     const fetchActividades = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/estudiante/actividades`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        console.log('✅ Actividades recibidas:', res.data);
+        const res = await axiosInstancia.post('/api/actividades/estudiante');
         setActividades(res.data.actividades || []);
       } catch (error) {
         console.error('❌ Error al cargar actividades:', error);
@@ -44,10 +40,7 @@ const Entregas = () => {
 
     const fetchEntregas = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/estudiante/entregas`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        console.log('✅ Entregas recibidas:', res.data);
+        const res = await axiosInstancia.get('/api/estudiante/entregas');
         setEntregas(res.data.entregas || []);
       } catch (error) {
         console.error('❌ Error al cargar entregas:', error);
@@ -58,10 +51,10 @@ const Entregas = () => {
 
     fetchActividades();
     fetchEntregas();
-  }, [token]);
+  }, []);
 
-  const materiasDisponibles = [...new Set(actividades.map((a) => a.materia))];
-  const lapsosDisponibles = [...new Set(actividades.map((a) => a.lapso))];
+  const materiasDisponibles = [...new Set(actividades.map((a) => a.materia).filter(Boolean))];
+  const lapsosDisponibles = [...new Set(actividades.map((a) => a.lapso).filter(Boolean))];
 
   const entregasFiltradas = entregas.filter((e) => {
     const actividad = e.actividad;
@@ -85,6 +78,13 @@ const Entregas = () => {
       <div className='relative z-10 flex-1'>
         <NavbarEstudiante />
         <main className='pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-10'>
+          <header className='text-center space-y-2'>
+            <h1 className='text-3xl font-bold text-yellow-400'>Historial de Entregas</h1>
+            <p className='text-white/70 text-sm'>
+              Aquí puedes revisar tus entregas académicas por materia y lapso.
+            </p>
+          </header>
+
           {/* Filtros académicos */}
           <div className='flex flex-wrap gap-4 justify-center items-center text-sm text-white'>
             <select
@@ -121,7 +121,7 @@ const Entregas = () => {
             </button>
           </div>
 
-          {/* Formulario de entrega */}
+          {/* Formulario de entrega (opcional) */}
           {actividadSeleccionada && (
             <motion.section
               initial={{ opacity: 0, y: 20 }}
@@ -150,4 +150,4 @@ const Entregas = () => {
   );
 };
 
-export default Entregas;
+export default HistorialEntregasEstudiante;

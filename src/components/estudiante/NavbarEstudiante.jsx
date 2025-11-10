@@ -47,8 +47,8 @@ const NavbarEstudiante = () => {
   const enlaces = [
     { path: '/estudiante/dashboard', label: 'Dashboard' },
     { path: '/estudiante/actividades', label: 'Actividades' },
-    // { path: '/estudiante/entregas', label: 'Entregas' }, // ❌ Vista comentada
-    { path: '/estudiante/clases', label: 'Clases' }, // ✅ Nueva vista institucional
+    { path: '/estudiante/entregas', label: 'Entregas' },
+    { path: '/estudiante/clases', label: 'Clases' },
     { path: '/estudiante/mensajes', label: 'Notificaciones' },
   ];
 

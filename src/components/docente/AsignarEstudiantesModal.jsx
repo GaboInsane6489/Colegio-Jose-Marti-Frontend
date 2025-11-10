@@ -32,7 +32,9 @@ const AsignarEstudiantesModal = ({ clase, onClose }) => {
     setFeedback(null);
 
     try {
-      await asignarEstudiantes(clase._id, seleccionados);
+      const materia = clase.materia || 'Sin materia'; // 🧩 Valor por defecto si falta
+      await asignarEstudiantes(clase._id, seleccionados, materia);
+
       setFeedback('Estudiantes asignados correctamente');
       console.log(
         `✅ ${seleccionados.length} estudiantes asignados a ${clase.nombre} (${clase.horario})`

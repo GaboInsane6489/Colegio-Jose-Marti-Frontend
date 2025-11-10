@@ -104,7 +104,7 @@ const AuthPage = () => {
       <div className='absolute top-4 left-4 md:top-6 md:left-6 z-10'>
         <Link
           to='/'
-          className='text-white font-medium text-xs md:text-sm border border-white px-3 py-1.5 rounded-full transition duration-300 hover:bg-white hover:text-black bg-black shadow-md'
+          className='text-[#00FFF7] font-medium text-xs md:text-sm border border-[#00FFF7] px-3 py-1.5 rounded-full transition duration-300 hover:bg-[#00FFF7] hover:text-black bg-black shadow-md hover:drop-shadow-[0_0_8px_#00FFF7]'
         >
           ← Inicio
         </Link>
@@ -118,10 +118,10 @@ const AuthPage = () => {
         className='relative z-10 w-full max-w-sm sm:max-w-md md:max-w-xl bg-black border border-white rounded-xl shadow-2xl p-6 sm:p-8 md:p-10 space-y-6'
       >
         <div className='flex flex-col items-center space-y-4'>
-          <h1 className='text-2xl sm:text-3xl font-bold text-white font-[Orbitron] text-center'>
+          <h1 className='text-2xl sm:text-3xl font-bold text-white font-[Orbitron] text-center drop-shadow-[0_0_6px_#00FFF7]'>
             Acceso institucional
           </h1>
-          <p className='text-sm sm:text-base text-gray-300 text-center max-w-md'>
+          <p className='text-[15px] text-gray-300 text-center max-w-md leading-relaxed'>
             Ingresa con tus credenciales académicas para acceder al sistema del Colegio José Martí.
           </p>
         </div>

@@ -1,15 +1,15 @@
+import { useEffect, useState } from 'react';
+import axiosInstancia from '@/services/axiosInstancia';
 import {
   CalendarDaysIcon,
-  ChartBarIcon,
   Squares2X2Icon,
   SignalIcon,
   BookOpenIcon,
+  AcademicCapIcon,
+  IdentificationIcon,
+  AcademicCapIcon as CursoIcon,
 } from '@heroicons/react/24/outline';
 
-/**
- * 🧠 Filtros institucionales para actividades académicas
- * Permite ordenar y filtrar por tipo, estado y materia
- */
 const FiltrosActividades = ({
   orden,
   setOrden,
@@ -19,73 +19,107 @@ const FiltrosActividades = ({
   setFiltroEstado,
   filtroMateria,
   setFiltroMateria,
+  filtroAnio,
+  setFiltroAnio,
+  filtroSeccion,
+  setFiltroSeccion,
+  filtroCursoId,
+  setFiltroCursoId,
+  materias = ['todos', 'Matemáticas', 'Lengua', 'Historia', 'Ciencias', 'Arte'],
+  anios = ['todos', '1ero', '2do', '3ero', '4to', '5to'],
+  secciones = ['todos', 'A', 'B', 'C', 'D'],
 }) => {
   const tipos = ['todos', 'tarea', 'proyecto', 'examen', 'otro'];
   const estados = ['todos', 'activa', 'vencida', 'borrador'];
-  const materias = ['todos', 'Matemáticas', 'Lengua', 'Historia', 'Ciencias', 'Arte'];
+  const [cursos, setCursos] = useState([]);
+
+  useEffect(() => {
+    const cargarCursos = async () => {
+      try {
+        const { data } = await axiosInstancia.get('/api/cursos/docente');
+        setCursos(data.cursos || []);
+      } catch (err) {
+        console.error('❌ Error al cargar cursos:', err.message);
+        setCursos([]);
+      }
+    };
+    cargarCursos();
+  }, []);
 
   const selectClass =
     'bg-black text-white px-4 py-2 rounded-full border border-white/20 appearance-none pr-10';
 
+  const SelectFiltro = ({ value, onChange, options, icon: Icon }) => (
+    <div className='relative'>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className={selectClass}
+        aria-label='Filtro'
+      >
+        {options.map((opt) => (
+          <option key={opt} value={opt}>
+            {opt}
+          </option>
+        ))}
+      </select>
+      <Icon className='w-5 h-5 text-white absolute right-3 top-2.5 pointer-events-none' />
+    </div>
+  );
+
   return (
     <div className='flex flex-wrap justify-center gap-4 py-4'>
-      {/* Orden */}
-      <div className='relative'>
-        <select value={orden} onChange={(e) => setOrden(e.target.value)} className={selectClass}>
-          <option value='fechaAsc'>Fecha ↑</option>
-          <option value='fechaDesc'>Fecha ↓</option>
-          <option value='ponderacionAsc'>Ponderación ↑</option>
-          <option value='ponderacionDesc'>Ponderación ↓</option>
-        </select>
-        <CalendarDaysIcon className='w-5 h-5 text-white absolute right-3 top-2.5 pointer-events-none' />
-      </div>
-
-      {/* Tipo */}
+      <SelectFiltro
+        value={orden}
+        onChange={setOrden}
+        options={['fechaAsc', 'fechaDesc', 'ponderacionAsc', 'ponderacionDesc']}
+        icon={CalendarDaysIcon}
+      />
+      <SelectFiltro
+        value={filtroTipo}
+        onChange={setFiltroTipo}
+        options={tipos}
+        icon={Squares2X2Icon}
+      />
+      <SelectFiltro
+        value={filtroEstado}
+        onChange={setFiltroEstado}
+        options={estados}
+        icon={SignalIcon}
+      />
+      <SelectFiltro
+        value={filtroMateria}
+        onChange={setFiltroMateria}
+        options={materias}
+        icon={BookOpenIcon}
+      />
+      <SelectFiltro
+        value={filtroAnio}
+        onChange={setFiltroAnio}
+        options={anios}
+        icon={AcademicCapIcon}
+      />
+      <SelectFiltro
+        value={filtroSeccion}
+        onChange={setFiltroSeccion}
+        options={secciones}
+        icon={IdentificationIcon}
+      />
       <div className='relative'>
         <select
-          value={filtroTipo}
-          onChange={(e) => setFiltroTipo(e.target.value)}
+          value={filtroCursoId}
+          onChange={(e) => setFiltroCursoId(e.target.value)}
           className={selectClass}
+          aria-label='Filtro por curso'
         >
-          {tipos.map((tipo) => (
-            <option key={tipo} value={tipo}>
-              Tipo: {tipo}
+          <option value=''>Todos los cursos</option>
+          {cursos.map((curso) => (
+            <option key={curso._id || curso.id} value={curso._id || curso.id}>
+              {curso.nombre} ({curso.anio} - {curso.seccion})
             </option>
           ))}
         </select>
-        <Squares2X2Icon className='w-5 h-5 text-white absolute right-3 top-2.5 pointer-events-none' />
-      </div>
-
-      {/* Estado */}
-      <div className='relative'>
-        <select
-          value={filtroEstado}
-          onChange={(e) => setFiltroEstado(e.target.value)}
-          className={selectClass}
-        >
-          {estados.map((estado) => (
-            <option key={estado} value={estado}>
-              Estado: {estado}
-            </option>
-          ))}
-        </select>
-        <SignalIcon className='w-5 h-5 text-white absolute right-3 top-2.5 pointer-events-none' />
-      </div>
-
-      {/* Materia */}
-      <div className='relative'>
-        <select
-          value={filtroMateria}
-          onChange={(e) => setFiltroMateria(e.target.value)}
-          className={selectClass}
-        >
-          {materias.map((materia) => (
-            <option key={materia} value={materia}>
-              Materia: {materia}
-            </option>
-          ))}
-        </select>
-        <BookOpenIcon className='w-5 h-5 text-white absolute right-3 top-2.5 pointer-events-none' />
+        <CursoIcon className='w-5 h-5 text-white absolute right-3 top-2.5 pointer-events-none' />
       </div>
     </div>
   );

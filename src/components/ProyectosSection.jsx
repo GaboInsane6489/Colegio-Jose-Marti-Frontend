@@ -1,22 +1,22 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 
 const proyectos = [
   {
-    titulo: "Feria de Ciencias 2023",
-    desc: "Más de 40 proyectos que integraron tecnología, creatividad y trabajo en equipo. Los estudiantes exploraron temas como robótica, energía renovable y biotecnología, presentando soluciones innovadoras con impacto social.",
-    img: "https://sanantoniodepadua.edu.pe/wp-content/uploads/2023/11/DSC_2403-scaled.jpg",
+    titulo: 'Feria de Ciencias 2023',
+    desc: 'Más de 40 proyectos que integraron tecnología, creatividad y trabajo en equipo. Los estudiantes exploraron temas como robótica, energía renovable y biotecnología, presentando soluciones innovadoras con impacto social.',
+    img: 'https://sanantoniodepadua.edu.pe/wp-content/uploads/2023/11/DSC_2403-scaled.jpg',
   },
   {
-    titulo: "Semana de la Lectura",
-    desc: "Actividades que fomentan el amor por los libros y la expresión oral. Se realizaron tertulias literarias, dramatizaciones, concursos de lectura y encuentros con autores.",
-    img: "https://www.comunidadbaratz.com/wp-content/uploads/Leer-es-un-modo-de-entretenimiento-y-conocimiento-que-desde-hace-tiempo-convive-y-compite-contra-otras-formas-de-ocio-e-informacion.jpg",
+    titulo: 'Semana de la Lectura',
+    desc: 'Actividades que fomentan el amor por los libros y la expresión oral. Se realizaron tertulias literarias, dramatizaciones, concursos de lectura y encuentros con autores.',
+    img: 'https://www.comunidadbaratz.com/wp-content/uploads/Leer-es-un-modo-de-entretenimiento-y-conocimiento-que-desde-hace-tiempo-convive-y-compite-contra-otras-formas-de-ocio-e-informacion.jpg',
   },
   {
-    titulo: "Proyecto Verde",
-    desc: "Iniciativas ecológicas lideradas por estudiantes para cuidar el entorno. Se organizaron campañas de reciclaje, reforestación y charlas sobre sostenibilidad.",
-    img: "https://media.istockphoto.com/id/1480279006/es/foto/d%C3%ADa-de-la-tierra-medio-ambiente-green-globe-in-forest-with-moss-and-sunlight.jpg?s=612x612&w=0&k=20&c=1zsKxBfjYlxFyikpaKz-8XZMKUwjLHFDzjHqVag1mFw=",
+    titulo: 'Proyecto Verde',
+    desc: 'Iniciativas ecológicas lideradas por estudiantes para cuidar el entorno. Se organizaron campañas de reciclaje, reforestación y charlas sobre sostenibilidad.',
+    img: 'https://cdn.pixabay.com/photo/2014/10/14/20/14/library-488690_1280.jpg',
   },
 ];
 
@@ -24,47 +24,49 @@ const ProyectosSection = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.3 });
 
   return (
-    <section
-      ref={ref}
-      className="pt-10 pb-16 px-4 sm:px-6 bg-[#0a0a0a] text-white rounded-xl"
-    >
+    <section ref={ref} className='w-full bg-[#0a0a0a] text-white px-2 sm:px-4 py-12 sm:py-16'>
       <motion.h2
         initial={{ opacity: 0, x: -30 }}
         animate={inView ? { opacity: 1, x: 0 } : {}}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="text-xl sm:text-2xl md:text-4xl font-bold text-center mb-8"
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+        className='text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-10 drop-shadow-[0_0_6px_rgba(255,255,255,0.3)]'
       >
         Proyectos que dejan huella
       </motion.h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto px-2">
+      <div className='flex flex-col gap-10'>
         {proyectos.map((proyecto, index) => (
           <motion.div
             key={index}
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{
-              delay: index * 0.2,
-              duration: 0.5,
-              ease: "easeOut",
-            }}
-            className="bg-black rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.1)] overflow-hidden border border-white/10 flex flex-col"
+            transition={{ delay: index * 0.2, duration: 0.6, ease: 'easeOut' }}
+            className='relative w-full h-[360px] sm:h-[420px] md:h-[480px] overflow-hidden'
           >
             <img
               src={proyecto.img}
               alt={proyecto.titulo}
-              className="w-full h-40 sm:h-48 md:h-56 object-cover"
+              className='absolute inset-0 w-full h-full object-cover'
+              onError={(e) => {
+                console.warn(`⚠️ Imagen no cargó: ${proyecto.img}`);
+                e.target.src = 'https://via.placeholder.com/1200x480?text=Imagen+no+disponible';
+              }}
             />
-            <div className="p-5 sm:p-6 flex flex-col justify-between flex-grow">
-              <h3 className="text-base sm:text-lg font-semibold mb-2 text-white">
+            <div
+              className='absolute bottom-0 w-full px-4 sm:px-6 py-6 text-center text-white flex flex-col items-center justify-center'
+              style={{
+                background: 'linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.75))',
+              }}
+            >
+              <h3 className='text-lg sm:text-xl font-semibold mb-2 drop-shadow-[0_0_4px_rgba(255,255,255,0.6)]'>
                 {proyecto.titulo}
               </h3>
-              <p className="text-white/80 mb-4 text-sm sm:text-base leading-relaxed">
+              <p className='text-sm sm:text-base max-w-3xl text-white/90 leading-relaxed mb-3 drop-shadow-[0_0_3px_rgba(0,0,0,0.6)]'>
                 {proyecto.desc}
               </p>
               <a
-                href="/proyectos"
-                className="inline-block text-white font-medium hover:text-[#FFD700] hover:underline transition-colors duration-300 text-sm sm:text-base"
+                href='/proyectos'
+                className='inline-block text-white font-medium hover:text-[#FFD700] hover:underline transition-colors duration-300 text-sm sm:text-base'
               >
                 Ver más
               </a>

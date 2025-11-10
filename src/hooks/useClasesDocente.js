@@ -37,14 +37,15 @@ const useClasesDocente = () => {
     fetchClases();
   }, []);
 
-  // 🧑‍🏫 Asignar estudiantes a una clase
-  const asignarEstudiantes = async (claseId, estudiantesIds) => {
-    console.log(`📤 Asignando estudiantes a la clase ${claseId}...`);
+  // 🧑‍🏫 Asignar estudiantes a una clase (con materia incluida)
+  const asignarEstudiantes = async (claseId, estudiantesIds, materia) => {
+    console.log(`📤 Asignando estudiantes a la clase ${claseId} con materia "${materia}"...`);
 
     try {
       const res = await axiosInstancia.post('/api/clases/asignar-estudiantes', {
         claseId,
         estudiantesIds,
+        materia, // ✅ campo obligatorio para evitar el error 500
       });
 
       if (res.data?.ok) {

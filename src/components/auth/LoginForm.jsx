@@ -3,11 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { loginUsuario } from '../../services/authService';
 import { UserIcon, EnvelopeIcon, LockClosedIcon } from '@heroicons/react/24/outline';
 
-/**
- * 🔐 Formulario de login institucional
- * Permite acceso universal por correo y contraseña.
- * Redirige según rol: admin, docente, estudiante.
- */
 const LoginForm = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -53,12 +48,12 @@ const LoginForm = () => {
         className='w-full max-w-xs sm:max-w-sm md:max-w-md bg-black border border-white p-6 sm:p-7 md:p-8 shadow-2xl rounded-xl space-y-6 animate-fadeIn'
         aria-label='Formulario de inicio de sesión'
       >
-        <h2 className='text-lg sm:text-xl font-bold text-center text-white font-[Orbitron]'>
+        <h2 className='text-lg sm:text-xl font-bold text-center text-white font-[Orbitron] drop-shadow-[0_0_6px_#00FFF7]'>
           Iniciar sesión
         </h2>
 
         <div className='flex justify-center'>
-          <UserIcon className='h-8 w-8 text-white' />
+          <UserIcon className='h-8 w-8 text-[#00FFF7] drop-shadow-[0_0_6px_#00FFF7]' />
         </div>
 
         {error && (
@@ -76,7 +71,7 @@ const LoginForm = () => {
           </label>
           <div className='relative'>
             <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
-              <EnvelopeIcon className='h-5 w-5 text-black' />
+              <EnvelopeIcon className='h-5 w-5 text-[#00FFF7] drop-shadow-[0_0_4px_#00FFF7]' />
             </div>
             <input
               id='email'
@@ -84,7 +79,7 @@ const LoginForm = () => {
               placeholder='Ej. maria@colegio.edu.ve'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className={`w-full pl-10 pr-4 py-2 border rounded-md text-sm sm:text-base bg-black text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white ${
+              className={`w-full pl-10 pr-4 py-2 border rounded-md text-[15px] bg-black text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#00FFF7] ${
                 error ? 'border-red-400' : 'border-white'
               }`}
               aria-invalid={!!error}
@@ -100,7 +95,7 @@ const LoginForm = () => {
           </label>
           <div className='relative'>
             <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
-              <LockClosedIcon className='h-5 w-5 text-black' />
+              <LockClosedIcon className='h-5 w-5 text-[#00FFF7] drop-shadow-[0_0_4px_#00FFF7]' />
             </div>
             <input
               id='password'
@@ -108,7 +103,7 @@ const LoginForm = () => {
               placeholder='••••••••'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className={`w-full pl-10 pr-4 py-2 border rounded-md text-sm sm:text-base bg-black text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white ${
+              className={`w-full pl-10 pr-4 py-2 border rounded-md text-[15px] bg-black text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#00FFF7] ${
                 error ? 'border-red-400' : 'border-white'
               }`}
               aria-invalid={!!error}
@@ -118,24 +113,26 @@ const LoginForm = () => {
           </div>
         </div>
 
-        <div className='flex items-center gap-2 text-xs sm:text-sm text-white/70'>
+        <div className='flex items-center gap-3 text-[13px] sm:text-sm text-white/80'>
           <input
             type='checkbox'
             id='mantenerSesion'
             checked={mantenerSesion}
             onChange={(e) => setMantenerSesion(e.target.checked)}
-            className='accent-white'
+            className='h-4 w-4 rounded-sm bg-[#0f0f0f] border border-[#00FFF7]/40 text-[#00FFF7] focus:ring-[#00FFF7] focus:outline-none drop-shadow-[0_0_4px_#00FFF7]'
           />
-          <label htmlFor='mantenerSesion'>Mantener sesión iniciada</label>
+          <label htmlFor='mantenerSesion' className='cursor-pointer'>
+            Mantener sesión iniciada
+          </label>
         </div>
 
         <button
           type='submit'
           disabled={cargando}
-          className={`w-full py-2 rounded-md font-semibold text-sm sm:text-base border transition ${
+          className={`w-full py-2 rounded-md font-semibold text-[15px] border transition ${
             cargando
               ? 'bg-gray-500 text-white cursor-not-allowed border-gray-500'
-              : 'bg-black text-white border-white hover:bg-white hover:text-black'
+              : 'bg-black text-[#00FFF7] border-[#00FFF7] hover:brightness-125 hover:drop-shadow-[0_0_8px_#00FFF7]'
           }`}
           aria-label='Acceder al sistema'
         >

@@ -2,12 +2,12 @@ import { useState, useEffect, useCallback } from 'react';
 import axiosInstancia from '@/services/axiosInstancia';
 import isActividadValida from '@/utils/validadores/isActividadValida.js';
 
-// 🧠 Validación ligera de ObjectId (24 caracteres hexadecimales)
+// 🧠 Validación básica de ObjectId
 const esObjectIdValido = (id) => typeof id === 'string' && /^[a-f\d]{24}$/i.test(id);
 
 /**
  * 🎓 Hook institucional para gestionar actividades académicas por curso y filtros.
- * Soporta filtros: cursoId, tipo, estado, materia, lapso
+ * Soporta filtros: cursoId, tipo, estado, materia, lapso, anio, seccion
  */
 const useActividades = (tokenProp, filtros = {}) => {
   const [actividades, setActividades] = useState([]);
@@ -18,53 +18,66 @@ const useActividades = (tokenProp, filtros = {}) => {
     const token = tokenProp || localStorage.getItem('token') || sessionStorage.getItem('token');
 
     if (!token) {
-      console.warn('⚠️ Token no definido en useActividades');
-      setError('Token no proporcionado');
+      const msg = 'Token no proporcionado';
+      console.warn('⚠️', msg);
+      setError(msg);
+      return;
+    }
+
+    const cursoIdValido = esObjectIdValido(filtros.cursoId);
+    if (filtros.cursoId && !cursoIdValido) {
+      const msg = `ID de curso inválido: ${filtros.cursoId}`;
+      console.warn('⚠️', msg);
+      setError(msg);
       return;
     }
 
     setLoading(true);
     try {
-      const params = {};
+      const params = Object.entries(filtros).reduce((acc, [key, value]) => {
+        if (value && value !== 'todos') acc[key] = value;
+        return acc;
+      }, {});
 
-      // ✅ Validación de cursoId
-      if (filtros.cursoId && esObjectIdValido(filtros.cursoId)) {
-        params.cursoId = filtros.cursoId;
-      } else if (filtros.cursoId) {
-        console.warn('⚠️ cursoId inválido:', filtros.cursoId);
-        throw new Error('ID de curso inválido o no proporcionado.');
+      if (cursoIdValido) params.cursoId = filtros.cursoId;
+
+      console.log('📤 Enviando filtros al backend:', params);
+
+      const { data } = await axiosInstancia.get('/api/actividades', { params });
+
+      if (data?.ok === false) {
+        const msg = data.msg || 'Acceso denegado por permisos';
+        console.warn('🚫 Backend rechazó la solicitud:', msg);
+        setActividades([]);
+        setError(msg);
+        return;
       }
-
-      // ✅ Filtros adicionales
-      if (filtros.tipo && filtros.tipo !== 'todos') params.tipo = filtros.tipo;
-      if (filtros.estado && filtros.estado !== 'todos') params.estado = filtros.estado;
-      if (filtros.materia && filtros.materia !== 'todos') params.materia = filtros.materia;
-      if (filtros.lapso && filtros.lapso !== 'todos') params.lapso = filtros.lapso;
-
-      const { data } = await axiosInstancia.get('/api/actividades', {
-        params,
-      });
 
       if (Array.isArray(data.actividades)) {
         const limpias = data.actividades.filter(isActividadValida);
         setActividades(limpias);
         setError(null);
+
+        if (limpias.length === 0) {
+          console.log('⚠️ Curso válido pero sin actividades registradas');
+        } else {
+          console.log(`✅ ${limpias.length} actividades válidas recibidas`);
+        }
       } else {
-        console.warn('⚠️ Respuesta inesperada del backend:', data);
+        const msg = data.msg || 'Respuesta inesperada del servidor';
+        console.warn('⚠️', msg);
         setActividades([]);
-        setError(data.msg || 'Respuesta inesperada del servidor');
+        setError(msg);
       }
     } catch (err) {
-      const mensaje =
-        err.response?.data?.msg || err.message || 'No se pudieron cargar las actividades';
-
-      console.error('❌ Error al cargar actividades:', mensaje);
-      setError(mensaje);
+      const msg = err.response?.data?.msg || err.message || 'No se pudieron cargar las actividades';
+      console.error('❌ Error al cargar actividades:', msg);
+      setError(msg);
       setActividades([]);
     } finally {
       setLoading(false);
     }
-  }, [tokenProp, filtros.cursoId, filtros.tipo, filtros.estado, filtros.materia, filtros.lapso]);
+  }, [tokenProp, ...Object.values(filtros)]);
 
   useEffect(() => {
     fetchActividades();

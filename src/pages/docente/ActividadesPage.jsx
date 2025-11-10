@@ -63,7 +63,7 @@ const ActividadesPage = () => {
 
   useEffect(() => {
     if (!token) {
-      console.warn('Token no definido en ActividadesPage');
+      console.warn('⚠️ Token no definido en ActividadesPage');
     }
   }, [token]);
 
@@ -83,7 +83,9 @@ const ActividadesPage = () => {
 
     if (actividadEditando) {
       setActividades((prev) =>
-        prev.map((act) => (act._id === actividadFinal._id ? actividadFinal : act))
+        prev.map((act) =>
+          act._id === actividadFinal._id || act.id === actividadFinal._id ? actividadFinal : act
+        )
       );
       setToast({
         mensaje: (
@@ -116,7 +118,7 @@ const ActividadesPage = () => {
       await axios.delete(`${API_URL}/api/actividades/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setActividades((prev) => prev.filter((act) => act._id !== id));
+      setActividades((prev) => prev.filter((act) => act._id !== id && act.id !== id));
       setToast({
         mensaje: (
           <span className='inline-flex items-center gap-2'>
@@ -127,7 +129,7 @@ const ActividadesPage = () => {
         tipo: 'success',
       });
     } catch (err) {
-      console.error('Error al eliminar:', err.message);
+      console.error('❌ Error al eliminar:', err.message);
       setToast({
         mensaje: (
           <span className='inline-flex items-center gap-2'>
@@ -151,7 +153,7 @@ const ActividadesPage = () => {
       );
 
       setActividades((prev) =>
-        prev.map((act) => (act._id === id ? { ...act, notificada: true } : act))
+        prev.map((act) => (act._id === id || act.id === id ? { ...act, notificada: true } : act))
       );
       setToast({
         mensaje: (
@@ -163,7 +165,7 @@ const ActividadesPage = () => {
         tipo: 'success',
       });
     } catch (err) {
-      console.error('Error al notificar:', err.message);
+      console.error('❌ Error al notificar:', err.message);
       setToast({
         mensaje: (
           <span className='inline-flex items-center gap-2'>
@@ -312,7 +314,7 @@ const ActividadesPage = () => {
               <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-2'>
                 {actividadesPaginadas.map((actividad, index) => {
                   if (!isActividadValida(actividad)) {
-                    console.warn('Actividad inválida detectada:', actividad);
+                    console.warn('⚠️ Actividad inválida detectada:', actividad);
                     return null;
                   }
 

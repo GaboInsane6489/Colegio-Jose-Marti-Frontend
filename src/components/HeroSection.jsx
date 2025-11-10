@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import {
   FaMicroscope,
@@ -8,6 +8,8 @@ import {
   FaLightbulb,
   FaLaptopCode,
 } from 'react-icons/fa';
+import Particles from '@tsparticles/react';
+import { loadSlim } from '@tsparticles/slim';
 
 const beneficios = [
   {
@@ -16,8 +18,8 @@ const beneficios = [
       'Dominamos las ciencias naturales y el pensamiento lógico',
       'Formamos con propósito para el futuro académico',
     ],
-    icono: <FaMicroscope className='text-white text-4xl drop-shadow mb-4 mx-auto' />,
-    imagen: 'https://c.files.bbci.co.uk/6799/production/_96112562_39970406.jpg',
+    icono: <FaMicroscope />,
+    imagen: 'https://cdn.pixabay.com/photo/2023/06/04/20/19/college-student-8040860_1280.jpg',
   },
   {
     titulo: 'Laboratorios que inspiran',
@@ -25,7 +27,7 @@ const beneficios = [
       'Espacios modernos para explorar con seguridad',
       'Biología, química y física desde primaria',
     ],
-    icono: <FaFlask className='text-white text-4xl drop-shadow mb-4 mx-auto' />,
+    icono: <FaFlask />,
     imagen: 'https://observatorio.tec.mx/wp-content/uploads/2022/05/iStock-1141509628.jpeg',
   },
   {
@@ -34,9 +36,8 @@ const beneficios = [
       'Educadores con pasión, empatía y excelencia',
       'Inspiración constante en cada clase',
     ],
-    icono: <FaChalkboardTeacher className='text-white text-4xl drop-shadow mb-4 mx-auto' />,
-    imagen:
-      'https://ca-times.brightspotcdn.com/dims4/default/ecd9ff7/2147483647/strip/true/crop/5760x3840+0+0/resize/1200x800!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2F42%2Fb8%2Fd543d74138f54f7555d530349606%2F9ce9532c3de146148822b1f1c11f5477',
+    icono: <FaChalkboardTeacher />,
+    imagen: 'https://cdn.pixabay.com/photo/2016/05/18/11/25/library-1400312_1280.jpg',
   },
   {
     titulo: 'Investigación desde pequeños',
@@ -44,9 +45,8 @@ const beneficios = [
       'Curiosidad científica activa desde primaria',
       'Ferias, proyectos y pensamiento crítico',
     ],
-    icono: <FaLightbulb className='text-white text-4xl drop-shadow mb-4 mx-auto' />,
-    imagen:
-      'https://resizer.glanacion.com/resizer/v2/mas-de-la-mitad-de-los-estudiantes-argentinos-no-W7FI6NGLNVFLZERPYNK6B4ZE2Y.jpg?auth=da3673a7c5c1537c2c7bd333e5c0918b44b1b078b22e2d519587b27486ad1a9f&width=768&quality=70&smart=false',
+    icono: <FaLightbulb />,
+    imagen: 'https://cdn.pixabay.com/photo/2016/11/20/09/08/books-1842306_1280.jpg',
   },
   {
     titulo: 'Tecnología que transforma',
@@ -54,9 +54,8 @@ const beneficios = [
       'Herramientas digitales y plataformas premium',
       'Aprendizaje interactivo para el mundo real',
     ],
-    icono: <FaLaptopCode className='text-white text-4xl drop-shadow mb-4 mx-auto' />,
-    imagen:
-      'https://www.portafolio.co/files/article_new_multimedia/uploads/2024/01/29/65b848ab6fdf7.jpeg',
+    icono: <FaLaptopCode />,
+    imagen: 'https://cdn.pixabay.com/photo/2020/09/03/05/47/students-5540227_1280.jpg',
   },
   {
     titulo: 'Evaluación y acompañamiento',
@@ -64,7 +63,7 @@ const beneficios = [
       'Seguimiento emocional y académico constante',
       'Evaluación formativa con propósito',
     ],
-    icono: <FaLightbulb className='text-white text-4xl drop-shadow mb-4 mx-auto' />,
+    icono: <FaLightbulb />,
     imagen:
       'https://proctorizer.com/wp-content/uploads/2021/10/Sin-t%C3%ADtulo-800-x-800-px-1400-x-800-px-2.png',
   },
@@ -73,15 +72,6 @@ const beneficios = [
 const HeroSection = () => {
   const [index, setIndex] = useState(0);
   const total = beneficios.length;
-
-  const next = () => {
-    if (index < total - 1) setIndex(index + 1);
-  };
-
-  const prev = () => {
-    if (index > 0) setIndex(index - 1);
-  };
-
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.3 });
 
   useEffect(() => {
@@ -91,80 +81,81 @@ const HeroSection = () => {
     return () => clearInterval(interval);
   }, [total]);
 
+  useEffect(() => {
+    document.body.classList.add('particles-active');
+    return () => document.body.classList.remove('particles-active');
+  }, []);
+
   const beneficioActual = beneficios[index];
 
-  return (
-    <section
-      ref={ref}
-      className='relative w-full bg-[var(--color-primary)] text-[var(--color-text)] pt-10 pb-20 px-4 sm:px-6 overflow-hidden rounded-xl'
-    >
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
-        className='max-w-5xl mx-auto text-center relative'
-      >
-        <h2 className='text-xl sm:text-2xl md:text-4xl font-bold mb-6 sm:mb-10 text-black drop-shadow-sm'>
-          Nuestra esencia académica
-        </h2>
+  const particlesInit = async (engine) => {
+    await loadSlim(engine);
+  };
 
-        <AnimatePresence mode='wait'>
-          <motion.div
-            key={beneficioActual.titulo}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.4 }}
-            className='rounded-xl shadow-lg overflow-hidden mx-auto max-w-[95%] sm:max-w-3xl bg-[#1f1f1f] border border-[#444] text-center'
-          >
+  return (
+    <section ref={ref} className='relative w-full min-h-[600px] text-white overflow-hidden'>
+      <Particles
+        className='absolute inset-0 z-0'
+        init={particlesInit}
+        options={{
+          fullScreen: false,
+          background: { color: 'transparent' },
+          particles: {
+            number: { value: 40 },
+            size: { value: 2 },
+            color: { value: '#ffffff' },
+            move: { enable: true, speed: 0.5 },
+            links: { enable: true, color: '#ffffff', distance: 100 },
+          },
+        }}
+      />
+
+      <motion.div
+        initial={{ opacity: 0, y: 40, scale: 0.98 }}
+        animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+        transition={{ type: 'spring', bounce: 0.4, duration: 0.8 }}
+        className='relative z-10 max-w-6xl mx-auto text-center px-4 sm:px-6 md:px-8 pt-6 pb-6'
+      >
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.1, type: 'spring', bounce: 0.3, duration: 0.6 }}
+          className='text-3xl sm:text-4xl md:text-5xl font-semibold mb-6 tracking-tight leading-tight drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]'
+        >
+          Nuestra esencia académica
+        </motion.h2>
+
+        <div className='relative w-full'>
+          <div className='relative overflow-hidden shadow-xl'>
             <img
               src={beneficioActual.imagen}
               alt={beneficioActual.titulo}
-              className='w-full h-40 sm:h-64 md:h-[280px] object-cover'
+              className='w-full h-[420px] sm:h-[500px] md:h-[580px] object-cover'
               onError={(e) => {
                 console.warn(`⚠️ Imagen no cargó: ${beneficioActual.imagen}`);
-                e.target.src = 'https://via.placeholder.com/800x280?text=Imagen+no+disponible';
+                e.target.src = 'https://via.placeholder.com/800x600?text=Imagen+no+disponible';
               }}
             />
-            <div className='p-4 sm:p-6'>
-              {beneficioActual.icono}
-              <h3 className='text-base sm:text-xl font-semibold mb-3 sm:mb-4 text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.6)]'>
+            <div
+              className='absolute bottom-0 left-0 w-full text-white text-center px-4 py-6 flex flex-col items-center justify-center'
+              style={{
+                background: 'linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7))',
+              }}
+            >
+              <div className='text-4xl mb-2 drop-shadow-[0_0_6px_#00FFF7]'>
+                {beneficioActual.icono}
+              </div>
+              <h3 className='text-base sm:text-lg font-semibold mb-1 text-white/90'>
                 {beneficioActual.titulo}
               </h3>
-              <div className='space-y-2 text-sm text-white'>
+              <div className='space-y-1 text-[15px] text-white/80 leading-relaxed'>
                 {beneficioActual.descripcion.map((linea, i) => (
                   <p key={`desc-${i}`}>{linea}</p>
                 ))}
               </div>
             </div>
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Botones laterales */}
-        <motion.button
-          onClick={prev}
-          whileTap={{ scale: 0.95 }}
-          disabled={index === 0}
-          className={`hidden sm:block absolute top-1/2 left-0 transform -translate-y-1/2 px-3 py-2 rounded-full z-10 transition-all duration-300 ${
-            index === 0
-              ? 'bg-gray-500 cursor-not-allowed'
-              : 'bg-[#1a1a1a] text-white shadow-md hover:shadow-[0_0_16px_#ffffff]'
-          }`}
-        >
-          ←
-        </motion.button>
-        <motion.button
-          onClick={next}
-          whileTap={{ scale: 0.95 }}
-          disabled={index === total - 1}
-          className={`hidden sm:block absolute top-1/2 right-0 transform -translate-y-1/2 px-3 py-2 rounded-full z-10 transition-all duration-300 ${
-            index === total - 1
-              ? 'bg-gray-500 cursor-not-allowed'
-              : 'bg-[#1a1a1a] text-white shadow-md hover:shadow-[0_0_16px_#ffffff]'
-          }`}
-        >
-          →
-        </motion.button>
+          </div>
+        </div>
       </motion.div>
     </section>
   );

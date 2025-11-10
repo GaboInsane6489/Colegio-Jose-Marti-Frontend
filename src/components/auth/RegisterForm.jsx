@@ -2,10 +2,6 @@ import { useState } from 'react';
 import { registerUsuario } from '@/services/authService';
 import { UserIcon, EnvelopeIcon, LockClosedIcon } from '@heroicons/react/24/outline';
 
-/**
- * 📝 Formulario de registro institucional
- * Crea usuario con role "estudiante" y estado pendiente de validación.
- */
 const RegisterForm = ({ onRegistroExitoso }) => {
   const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
@@ -42,7 +38,7 @@ const RegisterForm = ({ onRegistroExitoso }) => {
   return (
     <form
       onSubmit={handleRegistro}
-      className='w-full max-w-xs sm:max-w-sm md:max-w-md bg-white p-5 sm:p-6 md:p-8 shadow-lg rounded-xl space-y-6 border border-black animate-fadeIn mt-6'
+      className='w-full max-w-xs sm:max-w-sm md:max-w-md bg-white p-5 sm:p-6 md:p-8 shadow-xl rounded-xl space-y-6 border border-black animate-fadeIn mt-6'
       aria-label='Formulario de registro de usuario'
     >
       <h2 className='text-sm sm:text-base font-semibold text-center text-black'>
@@ -50,7 +46,7 @@ const RegisterForm = ({ onRegistroExitoso }) => {
       </h2>
 
       <div className='flex justify-center'>
-        <UserIcon className='h-10 w-10 text-black' />
+        <UserIcon className='h-10 w-10 text-[#00FFF7] drop-shadow-[0_0_6px_#00FFF7]' />
       </div>
 
       {error && (
@@ -69,7 +65,7 @@ const RegisterForm = ({ onRegistroExitoso }) => {
         </label>
         <div className='relative'>
           <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
-            <UserIcon className='h-5 w-5 text-gray-500' />
+            <UserIcon className='h-5 w-5 text-[#00FFF7] drop-shadow-[0_0_4px_#00FFF7]' />
           </div>
           <input
             id='nombre'
@@ -77,7 +73,7 @@ const RegisterForm = ({ onRegistroExitoso }) => {
             placeholder='Ej. María González'
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
-            className={`w-full pl-10 pr-4 py-2 border rounded-md text-sm sm:text-base text-black focus:outline-none focus:ring-2 focus:ring-gray-800 ${
+            className={`w-full pl-10 pr-4 py-2 border rounded-md text-[15px] text-black focus:outline-none focus:ring-2 focus:ring-[#00FFF7] ${
               error ? 'border-red-400' : 'border-black'
             }`}
             aria-invalid={!!error}
@@ -94,7 +90,7 @@ const RegisterForm = ({ onRegistroExitoso }) => {
         </label>
         <div className='relative'>
           <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
-            <EnvelopeIcon className='h-5 w-5 text-gray-500' />
+            <EnvelopeIcon className='h-5 w-5 text-[#00FFF7] drop-shadow-[0_0_4px_#00FFF7]' />
           </div>
           <input
             id='email'
@@ -102,7 +98,7 @@ const RegisterForm = ({ onRegistroExitoso }) => {
             placeholder='Ej. maria@colegio.edu.ve'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className={`w-full pl-10 pr-4 py-2 border rounded-md text-sm sm:text-base text-black focus:outline-none focus:ring-2 focus:ring-gray-800 ${
+            className={`w-full pl-10 pr-4 py-2 border rounded-md text-[15px] text-black focus:outline-none focus:ring-2 focus:ring-[#00FFF7] ${
               error ? 'border-red-400' : 'border-black'
             }`}
             aria-invalid={!!error}
@@ -119,7 +115,7 @@ const RegisterForm = ({ onRegistroExitoso }) => {
         </label>
         <div className='relative'>
           <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
-            <LockClosedIcon className='h-5 w-5 text-gray-500' />
+            <LockClosedIcon className='h-5 w-5 text-[#00FFF7] drop-shadow-[0_0_4px_#00FFF7]' />
           </div>
           <input
             id='password'
@@ -127,7 +123,7 @@ const RegisterForm = ({ onRegistroExitoso }) => {
             placeholder='••••••••'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className={`w-full pl-10 pr-4 py-2 border rounded-md text-sm sm:text-base text-black focus:outline-none focus:ring-2 focus:ring-gray-800 ${
+            className={`w-full pl-10 pr-4 py-2 border rounded-md text-[15px] text-black focus:outline-none focus:ring-2 focus:ring-[#00FFF7] ${
               error ? 'border-red-400' : 'border-black'
             }`}
             aria-invalid={!!error}
@@ -139,7 +135,7 @@ const RegisterForm = ({ onRegistroExitoso }) => {
 
       <button
         type='submit'
-        className='w-full bg-gray-900 text-white py-2 rounded-md hover:bg-gray-300 hover:text-black transition font-medium text-sm sm:text-base'
+        className='w-full bg-black text-[#00FFF7] py-2 rounded-md font-semibold hover:brightness-125 hover:drop-shadow-[0_0_8px_#00FFF7] transition text-[15px] border border-[#00FFF7]/40'
         aria-label='Enviar registro'
       >
         Registrarse

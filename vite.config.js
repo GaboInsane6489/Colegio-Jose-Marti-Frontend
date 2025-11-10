@@ -18,6 +18,10 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'), // Importaciones limpias desde src/
     },
   },
+  optimizeDeps: {
+    include: ['react-native-web'], // ✅ Asegura que Vite lo procese
+    exclude: ['react-native-web/dist/apis/StyleSheet/registry'], // ⚠️ Evita error de importación rota
+  },
   build: {
     outDir: 'dist', // Carpeta de salida para producción
     emptyOutDir: true, // Limpia carpeta antes de compilar
@@ -29,11 +33,10 @@ export default defineConfig({
   },
   base: '/', // Ruta base absoluta para Render
 
-  // 🔄 Proxy para redirigir llamadas a /api hacia el backend en desarrollo
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'http://localhost:3000', // 🔄 Redirección al backend local
         changeOrigin: true,
         secure: false,
       },
