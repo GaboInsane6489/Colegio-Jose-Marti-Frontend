@@ -148,7 +148,7 @@ const CursoForm = ({ onCursoCreado }) => {
       className='bg-[#0d0d0d] p-8 rounded-2xl shadow-emerald-900 space-y-8 text-white max-w-6xl mx-auto border border-white/10'
     >
       <div className='text-center space-y-2'>
-        <ClipboardDocumentListIcon className='h-10 w-10 mx-auto text-blue-400' />
+        <ClipboardDocumentListIcon className='h-10 w-10 mx-auto text-[#00FFF7]' />
         <h3 className='text-3xl font-bold tracking-wide'>
           {cursoEnEdicion ? 'Editar curso' : 'Crear nuevo curso'}
         </h3>
@@ -159,7 +159,7 @@ const CursoForm = ({ onCursoCreado }) => {
 
       {!cursoEnEdicion?._id && (
         <p className='text-center text-yellow-300 text-sm'>
-          ⚠️ No se detectó curso en edición. Estás creando uno nuevo.
+          No se detectó curso en edición. Estás creando uno nuevo.
         </p>
       )}
 
@@ -227,10 +227,9 @@ const CursoForm = ({ onCursoCreado }) => {
         </div>
       </div>
 
-      {/* Asignación de estudiantes */}
       <div className='space-y-6'>
         <div className='text-center space-y-2'>
-          <UserGroupIcon className='h-8 w-8 mx-auto text-cyan-400' />
+          <UserGroupIcon className='h-8 w-8 mx-auto text-[#00FFF7]' />
           <h4 className='text-lg font-semibold text-white'>Asignar estudiantes</h4>
           <p className='text-sm text-gray-400'>
             Selecciona los estudiantes que formarán parte del curso.
@@ -264,7 +263,7 @@ const CursoForm = ({ onCursoCreado }) => {
                   className={`relative flex flex-col items-center justify-center text-center px-4 py-6 rounded-xl border transition-all duration-200 ease-out ${
                     seleccionado
                       ? 'bg-green-700 border-green-400 shadow-lg scale-[1.02]'
-                      : 'bg-black border-white/20 hover:border-cyan-400 hover:scale-[1.01] hover:shadow-xl'
+                      : 'bg-black border-white/20 hover:border-[#00FFF7] hover:scale-[1.01] hover:shadow-xl'
                   }`}
                 >
                   <div className='absolute top-2 right-2'>
@@ -279,7 +278,7 @@ const CursoForm = ({ onCursoCreado }) => {
                     )}
                   </div>
 
-                  <UserGroupIcon className='h-10 w-10 text-cyan-400 mb-2' />
+                  <UserGroupIcon className='h-10 w-10 text-[#00FFF7] mb-2' />
                   <span className='font-semibold text-white'>{est.nombre}</span>
                   <span className='text-sm text-white/60'>{est.correo}</span>
                 </button>
@@ -293,7 +292,7 @@ const CursoForm = ({ onCursoCreado }) => {
         type='submit'
         disabled={loading}
         whileTap={{ scale: 0.97 }}
-        className='w-full bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-xl transition duration-200 ease-out disabled:opacity-50 font-semibold text-lg shadow-md hover:shadow-xl'
+        className='w-full bg-gradient-to-r from-[#00FFF7] to-[#00FF33] hover:opacity-90 text-black px-4 py-3 rounded-xl transition duration-200 ease-out disabled:opacity-50 font-semibold text-lg shadow-md hover:shadow-xl'
       >
         {loading ? 'Creando curso...' : cursoEnEdicion ? 'Actualizar curso' : 'Crear curso'}
       </motion.button>

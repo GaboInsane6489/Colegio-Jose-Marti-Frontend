@@ -28,7 +28,10 @@ const ValoresSection = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.3 });
 
   return (
-    <section ref={ref} className='w-full bg-[#fdfdfd] px-2 sm:px-4 py-10 sm:py-14'>
+    <section
+      ref={ref}
+      className='w-full max-w-[100vw] overflow-hidden bg-[#fdfdfd] px-2 sm:px-4 py-10 sm:py-14'
+    >
       <motion.h2
         initial={{ opacity: 0, y: 30 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -45,7 +48,7 @@ const ValoresSection = () => {
             initial={{ opacity: 0, y: 50 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: index * 0.2, duration: 0.6, ease: 'easeOut' }}
-            className='relative w-full h-[360px] sm:h-[420px] md:h-[480px] overflow-hidden'
+            className='relative w-full max-w-full h-[360px] sm:h-[420px] md:h-[480px] overflow-hidden'
           >
             <img
               src={valor.imagen}

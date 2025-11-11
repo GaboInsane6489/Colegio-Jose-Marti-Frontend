@@ -2,12 +2,12 @@
 
 /* 🎨 Variables visuales */
 :root {
-  --color-primary: #fdfdfd; /* Fondo general y navbar */
-  --color-accent: #4b5563; /* Enlaces y botones */
-  --color-contrast: #242424; /* Fondo oscuro si lo usas */
-  --color-soft: #f3f4f6; /* Fondo del footer */
-  --color-text: #1a1a1a; /* Texto principal */
-  --color-hover: #6b7280; /* Hover en enlaces */
+  --color-primary: #fdfdfd;
+  --color-accent: #4b5563;
+  --color-contrast: #242424;
+  --color-soft: #f3f4f6;
+  --color-text: #1a1a1a;
+  --color-hover: #6b7280;
 
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -20,6 +20,13 @@
 
   color: var(--color-text);
   background-color: var(--color-primary);
+}
+
+/* 🧱 Box model defensivo */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 /* 🔗 Enlaces */
@@ -38,8 +45,10 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
+  max-width: 100vw;
   min-width: 320px;
   min-height: 100vh;
+  overflow-x: hidden; /* ✅ Corrección aplicada */
   background-color: var(--color-primary);
   color: var(--color-text);
 }

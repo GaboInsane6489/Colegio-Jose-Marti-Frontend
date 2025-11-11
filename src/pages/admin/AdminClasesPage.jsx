@@ -4,6 +4,7 @@ import NavbarAdmin from '../../components/admin/NavbarAdmin';
 import ClasesManager from '../../components/admin/ClasesManager';
 import Footer from '../../components/Footer';
 import VideoFondoAdmin from '../../components/admin/VideoFondoAdmin';
+import { AcademicCapIcon } from '@heroicons/react/24/solid';
 
 /**
  * 📚 Página institucional para gestión de clases académicas
@@ -55,10 +56,17 @@ const AdminClasesPage = () => {
       <div className='relative z-10 bg-black/70 min-h-screen w-full flex flex-col'>
         <NavbarAdmin />
 
-        <main className='w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-6 space-y-12'>
-          <h2 className='text-2xl font-bold text-white text-center sm:text-left'>
-            📚 Gestión de Clases
-          </h2>
+        <main className='w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-10 space-y-10'>
+          <div className='flex flex-col items-center text-center mt-20 space-y-2'>
+            <AcademicCapIcon className='h-10 w-10 text-[#00FFF7] drop-shadow-[0_0_6px_#00FFF7]' />
+            <h2 className='text-2xl sm:text-3xl font-bold text-white tracking-wide'>
+              Gestión de Clases
+            </h2>
+            <p className='text-sm text-white/70 max-w-xl'>
+              Crea, edita y organiza clases académicas con trazabilidad institucional.
+            </p>
+          </div>
+
           <ClasesManager navigate={navigate} />
         </main>
 

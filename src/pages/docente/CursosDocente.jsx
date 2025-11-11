@@ -26,9 +26,10 @@ const CursosDocente = () => {
     <div className='min-h-screen flex flex-col bg-black text-white relative overflow-hidden'>
       {/* 🎥 Fondo institucional */}
       <VideoFondoDocente />
+      <div className='absolute inset-0 bg-black/40 z-10 pointer-events-none' />
 
       {/* 🧭 Navbar institucional */}
-      <div className='relative z-30'>
+      <div className='relative z-30 drop-shadow-[0_0_12px_#00FFF7]'>
         <NavbarDocente />
       </div>
 
@@ -41,9 +42,11 @@ const CursosDocente = () => {
           transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
           className='text-center space-y-4'
         >
-          <BookOpenIcon className='h-12 w-12 mx-auto text-blue-400' />
-          <h1 className='text-4xl font-serif font-bold tracking-wide'>Mis Cursos</h1>
-          <p className='text-sm text-gray-300 max-w-xl mx-auto'>
+          <BookOpenIcon className='h-12 w-12 mx-auto text-[#00FFF7] drop-shadow-[0_0_6px_#00FFF7]' />
+          <h1 className='text-4xl font-serif font-bold tracking-wide drop-shadow-[0_0_6px_#00FFF7]'>
+            Mis Cursos
+          </h1>
+          <p className='text-sm text-white/80 max-w-xl mx-auto'>
             Crea, organiza y visualiza tus cursos asignados como docente institucional.
           </p>
         </motion.header>
@@ -53,7 +56,7 @@ const CursosDocente = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
-          className='rounded-2xl shadow-2xl'
+          className='rounded-2xl shadow-2xl border border-white/10 hover:border-[#00FFF7] transition duration-300'
         >
           <CursoForm onCursoCreado={handleCursoCreado} />
         </motion.section>
@@ -68,7 +71,7 @@ const CursosDocente = () => {
           <h2 className='text-xl font-semibold text-white text-center'>Cursos asignados</h2>
 
           {!cursoCreado && (
-            <p className='text-center text-yellow-300'>
+            <p className='text-center text-[#FFDD00]'>
               Crea un curso para visualizarlo aquí. Asegúrate de asignar estudiantes.
             </p>
           )}

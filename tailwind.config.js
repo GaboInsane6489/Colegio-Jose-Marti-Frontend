@@ -1,5 +1,5 @@
 import { mtConfig } from '@material-tailwind/react';
-import scrollbar from 'tailwind-scrollbar';
+// import scrollbar from 'tailwind-scrollbar'; // ❌ Temporalmente desactivado
 
 export default {
   content: [
@@ -23,6 +23,6 @@ export default {
   },
   plugins: [
     mtConfig, // 🧩 Componentes de Material Tailwind
-    scrollbar({ nocompatible: true }), // 🧭 Scrollbar estilizado
+    // scrollbar({ nocompatible: true }), // ❌ Scrollbar estilizado desactivado
   ],
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { HiOutlineChatBubbleBottomCenterText } from 'react-icons/hi2';
 
 const testimonios = [
   {
@@ -47,19 +48,19 @@ const TestimoniosSection = () => {
   return (
     <section
       ref={ref}
-      className='w-full bg-gradient-to-b from-[#0a0a0a] via-[#111] to-[#000] text-white px-4 sm:px-6 py-12 sm:py-16'
+      className='w-full bg-gradient-to-b from-[#0a0a0a] via-[#111] to-[#000] text-white py-12 sm:py-16'
     >
-      <motion.h2
-        initial={{ opacity: 0, y: 30 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6, ease: 'easeOut' }}
-        className='text-2xl sm:text-3xl md:text-4xl font-semibold text-center mb-10 drop-shadow-[0_0_6px_rgba(255,255,255,0.3)]'
-      >
-        Historias que nos llenan de orgullo
-      </motion.h2>
+      <div className='max-w-[1400px] mx-auto px-4 sm:px-6'>
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+          className='text-2xl sm:text-3xl md:text-4xl font-semibold text-center mb-10 drop-shadow-[0_0_6px_rgba(255,255,255,0.3)]'
+        >
+          Historias que nos llenan de orgullo
+        </motion.h2>
 
-      <div className='relative'>
-        <div className='flex gap-6 overflow-x-auto scroll-snap-x pb-4 px-2 sm:px-4 max-w-full mx-auto scrollbar-hide'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
           {testimonios.map((testimonio, index) => (
             <motion.article
               key={index}
@@ -70,9 +71,10 @@ const TestimoniosSection = () => {
                 duration: 0.5,
                 ease: 'easeOut',
               }}
-              className='min-w-[280px] sm:min-w-[320px] md:min-w-[360px] scroll-snap-align-start bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] hover:translate-y-[2px] transition-transform duration-300 shadow-[0_0_24px_rgba(0,255,247,0.15)] px-6 py-6 border border-[#00FFF7]/30 rounded-xl flex flex-col justify-between'
+              className='bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] hover:translate-y-[2px] transition-transform duration-300 shadow-[0_0_24px_rgba(0,255,247,0.15)] px-6 py-6 border border-[#00FFF7]/30 rounded-none flex flex-col justify-between w-full'
             >
-              <p className='italic text-white/80 mb-6 text-[15px] leading-relaxed font-serif'>
+              <HiOutlineChatBubbleBottomCenterText className='text-[#00FFF7] w-6 h-6 mb-4 drop-shadow-[0_0_6px_#00FFF7]' />
+              <p className='italic text-white/80 mb-6 text-[14px] leading-relaxed font-serif'>
                 “{testimonio.mensaje}”
               </p>
               <div className='text-left'>
@@ -85,8 +87,8 @@ const TestimoniosSection = () => {
           ))}
         </div>
 
-        <div className='mt-6 text-center text-xs sm:text-sm text-white/60 italic animate-pulse'>
-          Desliza para descubrir más historias →
+        <div className='mt-10 text-center text-xs sm:text-sm text-white/60 italic animate-pulse'>
+          Descubre más historias que nos inspiran →
         </div>
       </div>
     </section>

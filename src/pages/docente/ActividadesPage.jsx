@@ -101,7 +101,7 @@ const ActividadesPage = () => {
       setToast({
         mensaje: (
           <span className='inline-flex items-center gap-2'>
-            <ClipboardDocumentListIcon className='w-5 h-5 text-blue-400' />
+            <ClipboardDocumentListIcon className='w-5 h-5 text-[#00FFF7]' />
             Actividad creada correctamente
           </span>
         ),
@@ -158,7 +158,7 @@ const ActividadesPage = () => {
       setToast({
         mensaje: (
           <span className='inline-flex items-center gap-2'>
-            <MegaphoneIcon className='w-5 h-5 text-blue-400' />
+            <MegaphoneIcon className='w-5 h-5 text-[#00FFF7]' />
             Estudiantes notificados
           </span>
         ),
@@ -200,11 +200,9 @@ const ActividadesPage = () => {
 
   const actividadesFiltradas = actividadesOrdenadas.filter((act) => {
     if (!isActividadValida(act)) return false;
-
     const tipoMatch = filtroTipo === 'todos' || act.tipo === filtroTipo;
     const estadoMatch = filtroEstado === 'todos' || act.estado === filtroEstado;
     const materiaMatch = filtroMateria === 'todos' || act.materia === filtroMateria;
-
     return tipoMatch && estadoMatch && materiaMatch;
   });
 
@@ -215,49 +213,53 @@ const ActividadesPage = () => {
   );
 
   return (
-    <div className='relative min-h-screen text-white overflow-hidden'>
+    <div className='relative min-h-screen text-white overflow-hidden bg-black'>
       <VideoFondoDocente />
-      <div className='relative z-30'>
+      <div className='absolute inset-0 bg-black/40 z-10 pointer-events-none' />
+
+      <div className='relative z-30 drop-shadow-[0_0_12px_#00FFF7]'>
         <NavbarDocente />
       </div>
 
-      <main className='relative z-20 px-6 py-24 max-w-6xl mx-auto space-y-10'>
+      <main className='relative z-20 px-6 py-24 max-w-6xl mx-auto space-y-12'>
         <div className='text-center'>
-          <h1 className='text-4xl font-bold mb-4 inline-flex items-center justify-center gap-2'>
-            <ClipboardDocumentListIcon className='w-6 h-6 text-white/80' />
+          <h1 className='text-4xl font-bold mb-4 inline-flex items-center justify-center gap-2 drop-shadow-[0_0_6px_#00FFF7]'>
+            <ClipboardDocumentListIcon className='w-6 h-6 text-[#00FFF7]' />
             Actividades Académicas
           </h1>
-          <p className='text-white/70 text-lg'>
+          <p className='text-white/80 text-lg max-w-2xl mx-auto'>
             Crea, organiza y publica actividades para tus cursos. Puedes incluir fechas, recursos,
             materia y criterios de evaluación.
           </p>
         </div>
 
-        <FiltrosActividades
-          orden={orden}
-          setOrden={setOrden}
-          filtroTipo={filtroTipoTemp}
-          setFiltroTipo={setFiltroTipoTemp}
-          filtroEstado={filtroEstadoTemp}
-          setFiltroEstado={setFiltroEstadoTemp}
-          filtroMateria={filtroMateriaTemp}
-          setFiltroMateria={setFiltroMateriaTemp}
-        />
+        <div className='bg-white/5 backdrop-blur-md p-4 rounded-xl border border-white/10'>
+          <FiltrosActividades
+            orden={orden}
+            setOrden={setOrden}
+            filtroTipo={filtroTipoTemp}
+            setFiltroTipo={setFiltroTipoTemp}
+            filtroEstado={filtroEstadoTemp}
+            setFiltroEstado={setFiltroEstadoTemp}
+            filtroMateria={filtroMateriaTemp}
+            setFiltroMateria={setFiltroMateriaTemp}
+          />
 
-        <div className='text-center pt-4'>
-          <button
-            onClick={() => {
-              setFiltroTipo(filtroTipoTemp);
-              setFiltroEstado(filtroEstadoTemp);
-              setFiltroMateria(filtroMateriaTemp);
-              setPaginaActual(1);
-              setToast({ mensaje: 'Filtros aplicados', tipo: 'success' });
-            }}
-            className='inline-flex items-center gap-2 bg-blue-600 text-white px-5 py-2 rounded-full font-medium hover:bg-blue-500 transition'
-          >
-            <FunnelIcon className='w-5 h-5' />
-            Aplicar filtros
-          </button>
+          <div className='text-center pt-4'>
+            <button
+              onClick={() => {
+                setFiltroTipo(filtroTipoTemp);
+                setFiltroEstado(filtroEstadoTemp);
+                setFiltroMateria(filtroMateriaTemp);
+                setPaginaActual(1);
+                setToast({ mensaje: 'Filtros aplicados', tipo: 'success' });
+              }}
+              className='inline-flex items-center gap-2 bg-gradient-to-r from-[#00FFF7] to-[#C580FF] text-black px-5 py-2 rounded-full font-medium hover:opacity-90 transition'
+            >
+              <FunnelIcon className='w-5 h-5' />
+              Aplicar filtros
+            </button>
+          </div>
         </div>
 
         <div className='text-center'>
@@ -266,7 +268,7 @@ const ActividadesPage = () => {
               setMostrarFormulario((prev) => !prev);
               setActividadEditando(null);
             }}
-            className='inline-flex items-center gap-2 bg-black text-white px-6 py-2 rounded-full transition font-medium hover:text-white/90'
+            className='inline-flex items-center gap-2 bg-black text-white px-6 py-2 rounded-full transition font-medium hover:text-white/90 border border-white/20'
           >
             {mostrarFormulario ? (
               <>
@@ -310,16 +312,11 @@ const ActividadesPage = () => {
           </div>
         ) : (
           <>
-            <div className='max-h-[80vh] overflow-y-auto px-2 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent rounded-md'>
+            <div className='max-h-[80vh] overflow-y-auto px-2 scrollbar-thin scrollbar-thumb-[#00FFF7] scrollbar-track-transparent rounded-md'>
               <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-2'>
                 {actividadesPaginadas.map((actividad, index) => {
-                  if (!isActividadValida(actividad)) {
-                    console.warn('⚠️ Actividad inválida detectada:', actividad);
-                    return null;
-                  }
-
+                  if (!isActividadValida(actividad)) return null;
                   const clave = `actividad-${actividad._id || actividad.id || index}`;
-
                   return (
                     <ActividadCard
                       key={clave}
@@ -337,7 +334,7 @@ const ActividadesPage = () => {
               <button
                 onClick={() => setPaginaActual((prev) => Math.max(prev - 1, 1))}
                 disabled={paginaActual === 1}
-                className='inline-flex items-center gap-2 px-4 py-2 bg-white text-black rounded-full font-medium disabled:opacity-40'
+                className='inline-flex items-center gap-2 px-4 py-2 bg-[#C580FF] text-white rounded-full font-medium disabled:opacity-40'
               >
                 <ChevronLeftIcon className='w-5 h-5' />
                 Anterior
@@ -348,7 +345,7 @@ const ActividadesPage = () => {
               <button
                 onClick={() => setPaginaActual((prev) => Math.min(prev + 1, totalPaginas))}
                 disabled={paginaActual === totalPaginas}
-                className='inline-flex items-center gap-2 px-4 py-2 bg-white text-black rounded-full font-medium disabled:opacity-40'
+                className='inline-flex items-center gap-2 px-4 py-2 bg-[#C580FF] text-white rounded-full font-medium disabled:opacity-40'
               >
                 Siguiente
                 <ChevronRightIcon className='w-5 h-5' />

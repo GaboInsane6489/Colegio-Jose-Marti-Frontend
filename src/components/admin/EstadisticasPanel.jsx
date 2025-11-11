@@ -62,38 +62,41 @@ const EstadisticasPanel = () => {
     <motion.section
       id='estadisticas'
       aria-labelledby='estadisticas-title'
-      className='bg-[#121212] text-white py-10 px-4 sm:px-6'
-      whileInView={{ opacity: 1, y: 0 }}
+      className='bg-black text-white py-14 px-4 sm:px-6 scroll-mt-24'
       initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
       transition={{ type: 'spring', bounce: 0.3, duration: 0.6 }}
     >
-      <div className='max-w-5xl mx-auto space-y-8'>
-        <h2
-          id='estadisticas-title'
-          className='text-3xl sm:text-4xl font-bold text-center font-[Orbitron] text-white'
-        >
-          Estadísticas institucionales
-        </h2>
+      <div className='max-w-6xl mx-auto space-y-10'>
+        <div className='text-center space-y-4'>
+          <FaInfoCircle className='mx-auto h-8 w-8 text-[#00FFF7] drop-shadow-[0_0_6px_#00FFF7]' />
+          <h2
+            id='estadisticas-title'
+            className='text-5xl font-bold font-[Orbitron] tracking-wide text-white'
+          >
+            Estadísticas institucionales
+          </h2>
+        </div>
 
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center'>
           {estadisticas?.map((item, index) => {
             const Icon = iconMap[item.label];
             return (
               <motion.div
                 key={index}
-                whileHover={{ scale: 1.03 }}
+                whileHover={{ scale: 1.04 }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1, duration: 0.5, ease: 'easeOut' }}
-                className='bg-[#1a1a1a] text-white p-6 rounded-xl shadow-xl hover:shadow-2xl transition duration-500 ease-out flex flex-col items-center text-center gap-3'
+                className='bg-black/80 backdrop-blur-md border border-white/10 text-white p-6 rounded-2xl shadow-xl hover:shadow-[#00FFF7] transition duration-500 ease-out flex flex-col items-center text-center gap-4 max-w-xs mx-auto'
                 role='region'
                 aria-label={item.label}
                 tabIndex={0}
               >
-                <Icon className={`text-4xl ${item.color}`} />
-                <p className='text-sm font-medium text-gray-300'>{item.label}</p>
-                <p className={`text-4xl font-bold ${item.color}`}>{item.valor}</p>
-                <div className='pt-2 flex items-center gap-2 text-gray-400 text-xs max-w-[220px] justify-center'>
+                <Icon className={`text-5xl ${item.color} drop-shadow-[0_0_6px_#00FFF7]`} />
+                <p className='text-sm font-medium text-white/70'>{item.label}</p>
+                <p className={`text-5xl font-extrabold ${item.color}`}>{item.valor}</p>
+                <div className='pt-2 flex items-center gap-2 text-white/50 text-xs max-w-[220px] justify-center'>
                   <FaInfoCircle className='text-sm' />
                   <span>{descripcionMap[item.label]}</span>
                 </div>
@@ -103,7 +106,7 @@ const EstadisticasPanel = () => {
         </div>
 
         {!estadisticas && (
-          <p className='text-sm text-gray-400 text-center'>Cargando estadísticas...</p>
+          <p className='text-sm text-white/50 text-center'>Cargando estadísticas...</p>
         )}
       </div>
     </motion.section>

@@ -10,6 +10,7 @@ import {
   FaCheckCircle,
   FaTools,
 } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
 const UsuariosTable = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -51,51 +52,58 @@ const UsuariosTable = () => {
   }, []);
 
   return (
-    <section className='bg-black text-white py-6 px-4 sm:px-6'>
-      <div className='max-w-6xl mx-auto space-y-6'>
-        <div className='flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left'>
-          <div className='flex flex-col items-center sm:items-start'>
-            <h2 className='text-lg sm:text-2xl font-semibold'>Gestión de usuarios</h2>
-            <FaUsers className='text-blue-400 text-xl sm:hidden mt-2' />
-          </div>
+    <motion.section
+      id='usuarios'
+      className='bg-black text-white py-10 px-4 sm:px-6 scroll-mt-24'
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ type: 'spring', bounce: 0.3, duration: 0.6 }}
+    >
+      <div className='w-full max-w-5xl mx-auto space-y-8'>
+        <div className='text-center space-y-4'>
+          <FaUsers className='mx-auto h-7 w-7 text-[#00FFF7] drop-shadow-[0_0_6px_#00FFF7]' />
+          <h2 className='text-3xl font-bold font-[Orbitron] tracking-wide text-white'>
+            Gestión de usuarios
+          </h2>
           <button
             onClick={() => navigate('/admin/dashboard')}
-            className='bg-gray-700 text-white px-3 py-1.5 rounded hover:bg-gray-800 transition text-sm flex items-center gap-2'
+            className='inline-flex items-center gap-2 bg-gradient-to-r from-[#00FFF7] to-[#00FF33] text-black px-4 py-1.5 rounded-full font-semibold text-xs transition hover:opacity-90 shadow-md hover:shadow-xl'
           >
-            <FaUserShield />
+            <FaUserShield className='text-sm' />
             Volver al panel
           </button>
         </div>
 
         {loading ? (
-          <p className='text-gray-400 text-sm text-center'>Cargando usuarios...</p>
+          <p className='text-white/60 text-sm text-center'>Cargando usuarios...</p>
         ) : usuarios.length === 0 ? (
-          <p className='text-gray-400 text-sm text-center'>No hay usuarios registrados.</p>
+          <p className='text-white/60 text-sm text-center'>No hay usuarios registrados.</p>
         ) : (
-          <div className='overflow-x-auto'>
-            <table className='min-w-full bg-black text-white text-xs sm:text-sm rounded shadow-lg'>
-              <thead className='bg-gray-900'>
+          <div className='w-full'>
+            <table className='w-full table-auto bg-black text-white text-xs sm:text-sm rounded-xl shadow-xl border border-white/10'>
+              <thead className='bg-[#00FFF7]/10 text-[#00FFF7] uppercase tracking-wide'>
                 <tr className='text-center'>
-                  <th className='px-2 sm:px-4 py-2'>
-                    <div className='flex justify-center items-center gap-2'>
+                  <th className='px-3 py-2'>
+                    <div className='flex justify-center items-center gap-1'>
                       <FaEnvelope />
                       <span>Email</span>
                     </div>
                   </th>
-                  <th className='px-2 sm:px-4 py-2'>
-                    <div className='flex justify-center items-center gap-2'>
+                  <th className='px-3 py-2'>
+                    <div className='flex justify-center items-center gap-1'>
                       <FaUserTag />
                       <span>Rol</span>
                     </div>
                   </th>
-                  <th className='px-2 sm:px-4 py-2'>
-                    <div className='flex justify-center items-center gap-2'>
-                      <FaCheckCircle style={{ color: '#107C10' }} />
+                  <th className='px-3 py-2'>
+                    <div className='flex justify-center items-center gap-1'>
+                      <FaCheckCircle className='text-green-400 drop-shadow-[0_0_4px_#00FF33]' />
                       <span>Estado</span>
                     </div>
                   </th>
-                  <th className='px-2 sm:px-4 py-2 min-w-[120px]'>
-                    <div className='flex justify-center items-center gap-2'>
+                  <th className='px-3 py-2'>
+                    <div className='flex justify-center items-center gap-1'>
                       <FaTools />
                       <span>Acción</span>
                     </div>
@@ -103,39 +111,44 @@ const UsuariosTable = () => {
                 </tr>
               </thead>
               <tbody>
-                {usuarios.map((user) => (
-                  <tr key={user._id} className='border-t border-gray-800 text-center'>
-                    <td className='px-2 sm:px-4 py-2 break-words'>{user.email}</td>
-                    <td className='px-2 sm:px-4 py-2 capitalize'>{user.role}</td>
-                    <td className='px-2 sm:px-4 py-2'>
+                {usuarios.map((user, index) => (
+                  <motion.tr
+                    key={user._id}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05, duration: 0.3 }}
+                    className='border-t border-white/10 text-center hover:bg-black/30'
+                  >
+                    <td className='px-3 py-2 break-words'>{user.email}</td>
+                    <td className='px-3 py-2 capitalize'>{user.role}</td>
+                    <td className='px-3 py-2'>
                       <span
-                        className={`font-medium ${
+                        className={`font-semibold ${
                           user.validado ? 'text-green-400' : 'text-yellow-400'
                         }`}
-                        style={user.validado ? { color: '#107C10' } : {}}
                       >
                         {user.validado ? 'Validado' : 'Pendiente'}
                       </span>
                     </td>
-                    <td className='px-2 sm:px-4 py-2'>
+                    <td className='px-3 py-2'>
                       <div className='flex justify-center'>
                         <button
                           onClick={() => eliminarUsuario(user._id)}
-                          className='bg-red-600 hover:bg-red-700 text-white px-2 sm:px-3 py-1 rounded flex items-center gap-2 justify-center transition'
+                          className='bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full flex items-center gap-2 justify-center transition text-xs font-medium'
                         >
-                          <FaTrashAlt className='text-xs sm:text-sm' />
-                          <span className='hidden sm:inline'>Eliminar</span>
+                          <FaTrashAlt className='text-xs' />
+                          <span>Eliminar</span>
                         </button>
                       </div>
                     </td>
-                  </tr>
+                  </motion.tr>
                 ))}
               </tbody>
             </table>
           </div>
         )}
       </div>
-    </section>
+    </motion.section>
   );
 };
 

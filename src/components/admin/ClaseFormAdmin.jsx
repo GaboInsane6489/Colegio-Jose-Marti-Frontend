@@ -40,7 +40,6 @@ const ClaseFormAdmin = ({ docentes = [], onCrear }) => {
       descripcion: descripcion.trim(),
     };
 
-    console.log('📡 Enviando clase al backend:', nuevaClase);
     setError('');
     onCrear(nuevaClase);
 
@@ -54,10 +53,10 @@ const ClaseFormAdmin = ({ docentes = [], onCrear }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className='bg-black border border-white rounded-xl p-6 shadow-lg w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8'
+      className='bg-black border border-white/20 rounded-xl p-6 shadow-2xl w-full max-w-4xl mx-auto'
     >
       <h3 className='text-lg font-semibold text-white flex items-center gap-2 mb-6'>
-        <PlusIcon className='h-5 w-5 text-white' />
+        <PlusIcon className='h-6 w-6 text-[#00FFF7] drop-shadow-[0_0_6px_#00FFF7]' />
         Crear nueva clase
       </h3>
 
@@ -70,7 +69,7 @@ const ClaseFormAdmin = ({ docentes = [], onCrear }) => {
       <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
         {/* Nombre */}
         <div>
-          <label htmlFor='nombre' className='block text-sm text-white mb-1'>
+          <label htmlFor='nombre' className='block text-sm font-medium text-[#00FFF7] mb-1'>
             Nombre de la clase *
           </label>
           <input
@@ -78,7 +77,7 @@ const ClaseFormAdmin = ({ docentes = [], onCrear }) => {
             type='text'
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
-            className='w-full bg-gray-900 text-white border border-white rounded-md p-3 text-sm'
+            className='w-full bg-gray-900 text-white border border-white/20 rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00FFF7]'
             placeholder='Lengua y Literatura'
             required
           />
@@ -86,7 +85,7 @@ const ClaseFormAdmin = ({ docentes = [], onCrear }) => {
 
         {/* Materia */}
         <div>
-          <label htmlFor='materia' className='block text-sm text-white mb-1'>
+          <label htmlFor='materia' className='block text-sm font-medium text-[#00FFF7] mb-1'>
             Materia *
           </label>
           <input
@@ -94,7 +93,7 @@ const ClaseFormAdmin = ({ docentes = [], onCrear }) => {
             type='text'
             value={materia}
             onChange={(e) => setMateria(e.target.value)}
-            className='w-full bg-gray-900 text-white border border-white rounded-md p-3 text-sm'
+            className='w-full bg-gray-900 text-white border border-white/20 rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00FFF7]'
             placeholder='Literatura Venezolana'
             required
           />
@@ -102,7 +101,7 @@ const ClaseFormAdmin = ({ docentes = [], onCrear }) => {
 
         {/* Horario */}
         <div>
-          <label htmlFor='horario' className='block text-sm text-white mb-1'>
+          <label htmlFor='horario' className='block text-sm font-medium text-[#00FFF7] mb-1'>
             Horario *
           </label>
           <input
@@ -110,7 +109,7 @@ const ClaseFormAdmin = ({ docentes = [], onCrear }) => {
             type='text'
             value={horario}
             onChange={(e) => setHorario(e.target.value)}
-            className='w-full bg-gray-900 text-white border border-white rounded-md p-3 text-sm'
+            className='w-full bg-gray-900 text-white border border-white/20 rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00FFF7]'
             placeholder='Martes 10:00am'
             required
           />
@@ -118,14 +117,14 @@ const ClaseFormAdmin = ({ docentes = [], onCrear }) => {
 
         {/* Docente */}
         <div>
-          <label htmlFor='docente' className='block text-sm text-white mb-1'>
+          <label htmlFor='docente' className='block text-sm font-medium text-[#00FFF7] mb-1'>
             Docente asignado *
           </label>
           <select
             id='docente'
             value={docenteId}
             onChange={(e) => setDocenteId(e.target.value)}
-            className='w-full bg-gray-900 text-white border border-white rounded-md p-3 text-sm'
+            className='w-full bg-gray-900 text-white border border-white/20 rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00FFF7]'
             required
           >
             <option value=''>Selecciona un docente</option>
@@ -140,26 +139,26 @@ const ClaseFormAdmin = ({ docentes = [], onCrear }) => {
 
         {/* Descripción */}
         <div className='md:col-span-2'>
-          <label htmlFor='descripcion' className='block text-sm text-white mb-1'>
+          <label htmlFor='descripcion' className='block text-sm font-medium text-[#00FFF7] mb-1'>
             Descripción (opcional)
           </label>
           <textarea
             id='descripcion'
             value={descripcion}
             onChange={(e) => setDescripcion(e.target.value)}
-            className='w-full bg-gray-900 text-white border border-white rounded-md p-3 text-sm'
+            className='w-full bg-gray-900 text-white border border-white/20 rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00FFF7]'
             placeholder='Clase de análisis literario y expresión oral'
             rows={3}
           />
         </div>
       </div>
 
-      <div className='flex justify-end mt-8'>
+      <div className='flex justify-end mt-10'>
         <button
           type='submit'
-          className='inline-flex items-center gap-2 bg-blue-700 hover:bg-blue-600 text-white px-6 py-2 rounded-md font-medium transition duration-200'
+          className='inline-flex items-center gap-2 bg-gradient-to-r from-[#00FFF7] to-[#00FF33] text-black px-6 py-2 rounded-full font-semibold text-sm transition duration-200 hover:opacity-90 shadow-md hover:shadow-xl'
         >
-          <CheckCircleIcon className='h-5 w-5' />
+          <CheckCircleIcon className='h-5 w-5 text-black' />
           Crear clase
         </button>
       </div>

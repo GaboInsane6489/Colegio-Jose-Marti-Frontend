@@ -1,8 +1,8 @@
-import React from "react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+import React from 'react';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 
 const MainLayout = ({ children }) => {
   const { ref: footerRef, inView: footerInView } = useInView({
@@ -11,25 +11,25 @@ const MainLayout = ({ children }) => {
   });
 
   return (
-    <div className="flex flex-col min-h-screen w-full bg-[var(--color-primary)] text-[var(--color-text)] overflow-x-hidden">
+    <div className='flex flex-col min-h-screen w-full max-w-[100vw] overflow-x-hidden overflow-y-auto bg-[var(--color-primary)] text-[var(--color-text)]'>
       {/* 🧭 Navbar fijo con animación institucional */}
       <motion.div
         initial={{ y: -60, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ type: "spring", bounce: 0.3, duration: 0.8 }}
-        className="fixed top-0 left-0 w-full z-[100] shadow-md backdrop-blur-sm bg-[var(--color-primary)]/90"
+        transition={{ type: 'spring', bounce: 0.3, duration: 0.8 }}
+        className='fixed top-0 left-0 w-full z-[100] shadow-md backdrop-blur-sm bg-[var(--color-primary)]/90'
       >
         <Navbar />
       </motion.div>
 
-      {/* 🧠 Contenido principal con animación de entrada */}
+      {/* 🧠 Contenido principal encapsulado y con altura mínima */}
       <motion.main
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="flex-grow w-full px-4 sm:px-6 lg:px-8 pt-[64px] sm:pt-[72px]"
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+        className='flex-grow w-full pt-[64px] sm:pt-[72px]'
       >
-        {children}
+        <div className='w-full max-w-[100vw] min-h-[calc(100vh-64px-64px)]'>{children}</div>
       </motion.main>
 
       {/* 🦶 Footer institucional con animación al entrar en vista */}
@@ -37,8 +37,8 @@ const MainLayout = ({ children }) => {
         ref={footerRef}
         initial={{ opacity: 0, y: 40 }}
         animate={footerInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ type: "spring", bounce: 0.3, duration: 0.8 }}
-        className="relative z-[101]"
+        transition={{ type: 'spring', bounce: 0.3, duration: 0.8 }}
+        className='relative z-[101]'
       >
         <Footer />
       </motion.div>

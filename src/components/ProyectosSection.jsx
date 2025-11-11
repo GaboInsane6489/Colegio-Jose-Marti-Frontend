@@ -24,7 +24,10 @@ const ProyectosSection = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.3 });
 
   return (
-    <section ref={ref} className='w-full bg-[#0a0a0a] text-white px-2 sm:px-4 py-12 sm:py-16'>
+    <section
+      ref={ref}
+      className='w-full max-w-[100vw] overflow-hidden bg-[#0a0a0a] text-white px-2 sm:px-4 py-12 sm:py-16'
+    >
       <motion.h2
         initial={{ opacity: 0, x: -30 }}
         animate={inView ? { opacity: 1, x: 0 } : {}}
@@ -41,7 +44,7 @@ const ProyectosSection = () => {
             initial={{ opacity: 0, y: 50 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: index * 0.2, duration: 0.6, ease: 'easeOut' }}
-            className='relative w-full h-[360px] sm:h-[420px] md:h-[480px] overflow-hidden'
+            className='relative w-full max-w-full h-[360px] sm:h-[420px] md:h-[480px] overflow-hidden'
           >
             <img
               src={proyecto.img}

@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
-import { getCookie } from '@/utils/cookieUtils';
 
 const NavbarAdmin = () => {
   const [adminName, setAdminName] = useState('Administrador');
@@ -15,7 +14,6 @@ const NavbarAdmin = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-
     if (!token || !API_URL) return;
 
     const fetchAdmin = async () => {
@@ -50,8 +48,8 @@ const NavbarAdmin = () => {
   const navLinkClass = (path, external) =>
     `relative px-4 py-2 rounded transition duration-200 ease-in-out ${
       !external && location.pathname === path
-        ? 'text-white font-semibold'
-        : 'text-white hover:text-white/80'
+        ? 'text-[#00FFF7] font-semibold drop-shadow-[0_0_6px_#00FFF7]'
+        : 'text-white hover:text-[#00FFF7] hover:drop-shadow-[0_0_6px_#00FFF7]'
     }`;
 
   return (
@@ -59,11 +57,11 @@ const NavbarAdmin = () => {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
-      className='fixed top-0 left-0 right-0 z-50 bg-black text-white shadow-md border-b border-white'
+      className='fixed top-0 left-0 right-0 z-50 bg-black text-white shadow-xl border-b border-white/20'
     >
       <div className='max-w-6xl mx-auto px-4 py-4 flex justify-between items-center'>
         {/* 🖥️ Navegación escritorio */}
-        <div className='hidden md:flex items-center gap-6 text-sm font-medium ml-4'>
+        <div className='hidden md:flex items-center gap-4 text-sm font-medium'>
           {enlaces.map(({ path, label, external }) =>
             external ? (
               <a key={path} href={path} className={navLinkClass(path, true)}>
@@ -77,7 +75,7 @@ const NavbarAdmin = () => {
                 {location.pathname === path && (
                   <motion.div
                     layoutId='activeIndicator'
-                    className='absolute bottom-0 left-0 w-full h-0.5 bg-white'
+                    className='absolute bottom-0 left-0 w-full h-0.5 bg-[#00FFF7]'
                     transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                   />
                 )}
@@ -89,7 +87,7 @@ const NavbarAdmin = () => {
         {/* 📱 Botón menú móvil */}
         <button
           onClick={() => setShowMobileNav(!showMobileNav)}
-          className='md:hidden text-white hover:text-white transition'
+          className='md:hidden text-white hover:text-[#00FFF7] transition'
           aria-label='Abrir menú de navegación'
         >
           ☰
@@ -99,7 +97,7 @@ const NavbarAdmin = () => {
         <div className='relative'>
           <button
             onClick={() => setShowMenu(!showMenu)}
-            className='flex items-center gap-2 hover:text-white transition'
+            className='flex items-center gap-2 hover:text-[#00FFF7] transition'
             aria-label='Abrir menú de usuario'
             aria-expanded={showMenu}
           >
@@ -117,7 +115,7 @@ const NavbarAdmin = () => {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: -10 }}
                 transition={{ duration: 0.2 }}
-                className='absolute right-0 mt-2 bg-black text-white rounded shadow-lg w-48 border border-white overflow-hidden z-50'
+                className='absolute right-0 mt-2 bg-black text-white rounded-xl shadow-xl w-48 border border-white/20 overflow-hidden z-50'
               >
                 <button className='w-full text-left px-4 py-2 hover:bg-white/10'>
                   Editar perfil
@@ -145,7 +143,7 @@ const NavbarAdmin = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3 }}
-            className='md:hidden bg-black border-t border-white px-4 py-4 text-sm font-medium flex flex-col items-center space-y-2'
+            className='md:hidden bg-black border-t border-white/20 px-4 py-4 text-sm font-medium flex flex-col items-center space-y-2'
           >
             {enlaces.map(({ path, label, external }) =>
               external ? (

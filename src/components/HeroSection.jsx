@@ -8,8 +8,6 @@ import {
   FaLightbulb,
   FaLaptopCode,
 } from 'react-icons/fa';
-import Particles from '@tsparticles/react';
-import { loadSlim } from '@tsparticles/slim';
 
 const beneficios = [
   {
@@ -81,35 +79,13 @@ const HeroSection = () => {
     return () => clearInterval(interval);
   }, [total]);
 
-  useEffect(() => {
-    document.body.classList.add('particles-active');
-    return () => document.body.classList.remove('particles-active');
-  }, []);
-
   const beneficioActual = beneficios[index];
 
-  const particlesInit = async (engine) => {
-    await loadSlim(engine);
-  };
-
   return (
-    <section ref={ref} className='relative w-full min-h-[600px] text-white overflow-hidden'>
-      <Particles
-        className='absolute inset-0 z-0'
-        init={particlesInit}
-        options={{
-          fullScreen: false,
-          background: { color: 'transparent' },
-          particles: {
-            number: { value: 40 },
-            size: { value: 2 },
-            color: { value: '#ffffff' },
-            move: { enable: true, speed: 0.5 },
-            links: { enable: true, color: '#ffffff', distance: 100 },
-          },
-        }}
-      />
-
+    <section
+      ref={ref}
+      className='relative w-full max-w-[100vw] min-h-[600px] text-white overflow-hidden'
+    >
       <motion.div
         initial={{ opacity: 0, y: 40, scale: 0.98 }}
         animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}

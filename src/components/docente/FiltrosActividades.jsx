@@ -47,7 +47,7 @@ const FiltrosActividades = ({
   }, []);
 
   const selectClass =
-    'bg-black text-white px-4 py-2 rounded-full border border-white/20 appearance-none pr-10';
+    'bg-black text-white px-4 py-2 rounded-full border border-white/10 appearance-none pr-10 focus:outline-none focus:ring-2 focus:ring-[#00FFF7]';
 
   const SelectFiltro = ({ value, onChange, options, icon: Icon }) => (
     <div className='relative'>
@@ -63,12 +63,12 @@ const FiltrosActividades = ({
           </option>
         ))}
       </select>
-      <Icon className='w-5 h-5 text-white absolute right-3 top-2.5 pointer-events-none' />
+      <Icon className='w-5 h-5 text-[#00FFF7] absolute right-3 top-2.5 pointer-events-none' />
     </div>
   );
 
   return (
-    <div className='flex flex-wrap justify-center gap-4 py-4'>
+    <div className='flex flex-wrap justify-center gap-4 py-4 bg-white/5 backdrop-blur-md rounded-xl border border-white/10 px-4'>
       <SelectFiltro
         value={orden}
         onChange={setOrden}
@@ -119,7 +119,7 @@ const FiltrosActividades = ({
             </option>
           ))}
         </select>
-        <CursoIcon className='w-5 h-5 text-white absolute right-3 top-2.5 pointer-events-none' />
+        <CursoIcon className='w-5 h-5 text-[#00FFF7] absolute right-3 top-2.5 pointer-events-none' />
       </div>
     </div>
   );

@@ -39,9 +39,9 @@ const Home = () => {
   }, []);
 
   return (
-    <main className='relative z-0 min-h-screen overflow-x-hidden text-white'>
+    <main className='relative z-0 min-h-screen max-w-[100vw] overflow-x-hidden text-white'>
       {/* 🎥 Video institucional como fondo global */}
-      <div className='fixed inset-0 z-0 pointer-events-none'>
+      <div className='fixed inset-0 z-0 pointer-events-none overflow-hidden'>
         <video
           autoPlay
           muted
@@ -49,7 +49,7 @@ const Home = () => {
           playsInline
           aria-hidden='true'
           role='presentation'
-          className='w-full h-full object-cover opacity-50'
+          className='absolute top-0 left-0 w-full h-full object-cover opacity-50'
         >
           <source
             src='https://cdn.pixabay.com/video/2015/09/27/846-140823862_large.mp4'

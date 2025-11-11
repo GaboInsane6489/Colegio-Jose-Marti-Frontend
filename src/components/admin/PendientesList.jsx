@@ -3,17 +3,12 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import {
   ArrowPathIcon,
-  EnvelopeIcon,
   CheckCircleIcon,
   XCircleIcon,
   ExclamationTriangleIcon,
   ShieldExclamationIcon,
 } from '@heroicons/react/24/solid';
 
-/**
- * 🛡️ Componente institucional para validar usuarios pendientes
- * Presentación en tabla con semántica, responsive y acciones administrativas.
- */
 const PendientesList = () => {
   const [pendientes, setPendientes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -102,27 +97,30 @@ const PendientesList = () => {
   return (
     <motion.section
       id='validacion'
-      className='bg-black text-white py-10 px-4 sm:px-6'
-      whileInView={{ opacity: 1, y: 0 }}
+      className='bg-black text-white py-10 px-4 sm:px-6 scroll-mt-24'
       initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
       transition={{ type: 'spring', bounce: 0.3, duration: 0.6 }}
     >
       <div className='max-w-6xl mx-auto space-y-8'>
-        <div className='text-center'>
-          <h2 className='text-3xl sm:text-4xl font-bold tracking-wide text-white font-[Orbitron]'>
+        <div className='text-center space-y-4'>
+          <ShieldExclamationIcon className='h-10 w-10 mx-auto text-[#00FFF7] drop-shadow-[0_0_6px_#00FFF7]' />
+          <h2 className='text-4xl sm:text-5xl font-bold tracking-wide text-white font-[Orbitron]'>
             Gestión de usuarios pendientes
           </h2>
-          <button
-            onClick={fetchPendientes}
-            className='mt-4 inline-flex items-center gap-2 bg-white text-white px-4 py-2 rounded shadow hover:bg-gray-200 transition duration-300'
-          >
-            <ArrowPathIcon className='h-5 w-5 text-white' />
-            <span className='text-white'>Recargar</span>
-          </button>
+          <div className='pb-4'>
+            <button
+              onClick={fetchPendientes}
+              className='inline-flex items-center gap-2 bg-gradient-to-r from-[#00FFF7] to-[#00FF33] text-black px-4 py-2 rounded-full font-semibold text-sm transition hover:opacity-90 shadow-md hover:shadow-xl'
+            >
+              <ArrowPathIcon className='h-5 w-5 text-black' />
+              Recargar
+            </button>
+          </div>
         </div>
 
         {loading ? (
-          <div className='flex items-center gap-2 justify-center text-gray-400'>
+          <div className='flex items-center gap-2 justify-center text-white/60'>
             <ShieldExclamationIcon className='h-5 w-5' />
             <p>Cargando usuarios...</p>
           </div>
@@ -132,19 +130,19 @@ const PendientesList = () => {
             <p>{errorMsg}</p>
           </div>
         ) : pendientes.length === 0 ? (
-          <div className='text-center text-gray-400 flex flex-col items-center'>
-            <CheckCircleIcon className='h-6 w-6 mb-2' style={{ color: '#107C10' }} />
+          <div className='text-center text-white/60 flex flex-col items-center'>
+            <CheckCircleIcon className='h-6 w-6 mb-2 text-green-400 drop-shadow-[0_0_4px_#00FF33]' />
             <p>No hay usuarios pendientes por validar.</p>
           </div>
         ) : (
           <div className='overflow-x-auto'>
-            <table className='min-w-full table-auto border border-white text-sm sm:text-base'>
-              <thead className='bg-black border-b border-white'>
+            <table className='min-w-full table-auto border border-white/20 text-sm sm:text-base'>
+              <thead className='bg-[#00FFF7]/10 text-[#00FFF7] uppercase tracking-wide'>
                 <tr>
-                  <th className='px-4 py-3 text-left font-semibold text-white'>Email</th>
-                  <th className='px-4 py-3 text-left font-semibold text-white'>Rol</th>
-                  <th className='px-4 py-3 text-left font-semibold text-white'>Estado</th>
-                  <th className='px-4 py-3 text-center font-semibold text-white'>Acción</th>
+                  <th className='px-4 py-3 text-left font-semibold'>Email</th>
+                  <th className='px-4 py-3 text-left font-semibold'>Rol</th>
+                  <th className='px-4 py-3 text-left font-semibold'>Estado</th>
+                  <th className='px-4 py-3 text-center font-semibold'>Acción</th>
                 </tr>
               </thead>
               <tbody>
@@ -154,7 +152,7 @@ const PendientesList = () => {
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05, duration: 0.3 }}
-                    className='border-b border-white hover:bg-white/5'
+                    className='border-b border-white/10 hover:bg-black/30'
                   >
                     <td className='px-4 py-3 whitespace-nowrap'>{user.email}</td>
                     <td className='px-4 py-3 capitalize'>{user.role}</td>
@@ -163,14 +161,14 @@ const PendientesList = () => {
                       <div className='flex gap-2 justify-center flex-wrap'>
                         <button
                           onClick={() => validarUsuario(user._id)}
-                          className='flex items-center gap-1 bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 transition'
+                          className='flex items-center gap-1 bg-green-600 text-white px-3 py-1 rounded-full hover:bg-green-700 transition text-sm font-medium'
                         >
                           <CheckCircleIcon className='h-4 w-4' />
                           Validar
                         </button>
                         <button
                           onClick={() => rechazarUsuario(user._id)}
-                          className='flex items-center gap-1 bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition'
+                          className='flex items-center gap-1 bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700 transition text-sm font-medium'
                         >
                           <XCircleIcon className='h-4 w-4' />
                           Eliminar

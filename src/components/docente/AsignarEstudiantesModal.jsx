@@ -32,13 +32,11 @@ const AsignarEstudiantesModal = ({ clase, onClose }) => {
     setFeedback(null);
 
     try {
-      const materia = clase.materia || 'Sin materia'; // 🧩 Valor por defecto si falta
+      const materia = clase.materia || 'Sin materia';
       await asignarEstudiantes(clase._id, seleccionados, materia);
 
       setFeedback('Estudiantes asignados correctamente');
-      console.log(
-        `✅ ${seleccionados.length} estudiantes asignados a ${clase.nombre} (${clase.horario})`
-      );
+      console.log(`✅ ${seleccionados.length} estudiantes asignados a ${clase.nombre}`);
       setTimeout(() => onClose(), 1500);
     } catch (err) {
       console.error('❌ Error al asignar estudiantes:', err.message);
@@ -51,17 +49,18 @@ const AsignarEstudiantesModal = ({ clase, onClose }) => {
   return (
     <div className='fixed inset-0 z-50'>
       <VideoFondoDocente />
-
-      <div className='absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center px-4 sm:px-6'>
-        <div className='bg-black text-white rounded-2xl shadow-2xl p-6 w-full max-w-xl animate-fade-in-fast border border-yellow-700'>
+      <div className='absolute inset-0 bg-black/70 flex items-center justify-center px-4 sm:px-6'>
+        <div className='bg-black text-white rounded-2xl shadow-2xl p-6 w-full max-w-xl border border-[#FFDD00] animate-fade-in-fast'>
+          {/* 🧠 Encabezado */}
           <div className='flex flex-col items-center mb-4'>
-            <AcademicCapIcon className='h-10 w-10 text-yellow-500 mb-2' />
+            <AcademicCapIcon className='h-10 w-10 text-[#FFDD00] drop-shadow-[0_0_6px_#FFDD00] mb-2' />
             <h2 className='text-2xl font-serif font-bold text-center'>
-              Asignar estudiantes a <span className='text-yellow-400'>{clase.nombre}</span>
+              Asignar estudiantes a <span className='text-[#FFDD00]'>{clase.nombre}</span>
             </h2>
             <p className='text-sm text-white/70 text-center'>Jornada: {clase.horario}</p>
           </div>
 
+          {/* 🧠 Estado de carga */}
           {loading && <p className='text-center text-white/60'>Cargando estudiantes...</p>}
           {error && <p className='text-center text-red-400'>{error}</p>}
 
@@ -72,7 +71,8 @@ const AsignarEstudiantesModal = ({ clase, onClose }) => {
             </div>
           )}
 
-          <div className='max-h-64 overflow-y-auto divide-y divide-white/10 scrollbar-thin scrollbar-thumb-yellow-600 scrollbar-track-transparent'>
+          {/* 📋 Lista de estudiantes */}
+          <div className='max-h-64 overflow-y-auto divide-y divide-white/10 scrollbar-thin scrollbar-thumb-[#FFDD00] scrollbar-track-transparent'>
             {estudiantes.map((est) => {
               const seleccionado = seleccionados.includes(est._id);
               return (
@@ -90,12 +90,12 @@ const AsignarEstudiantesModal = ({ clase, onClose }) => {
                       checked={seleccionado}
                       onChange={() => toggleSeleccion(est._id)}
                       className={`appearance-none h-5 w-5 rounded border-2 transition duration-150 cursor-pointer ${
-                        seleccionado ? 'bg-yellow-500 border-black' : 'bg-black border-yellow-500'
+                        seleccionado ? 'bg-[#FFDD00] border-black' : 'bg-black border-[#FFDD00]'
                       }`}
                     />
                     <span
                       className={`absolute inset-0 flex items-center justify-center pointer-events-none ${
-                        seleccionado ? 'text-black' : 'text-yellow-500'
+                        seleccionado ? 'text-black' : 'text-[#FFDD00]'
                       }`}
                     >
                       <CheckCircleIcon className='h-4 w-4' />
@@ -106,6 +106,7 @@ const AsignarEstudiantesModal = ({ clase, onClose }) => {
             })}
           </div>
 
+          {/* ✅ Feedback */}
           {feedback && (
             <div className='mt-4 text-center flex items-center justify-center gap-2'>
               {feedback.includes('correctamente') ? (
@@ -123,17 +124,18 @@ const AsignarEstudiantesModal = ({ clase, onClose }) => {
             </div>
           )}
 
+          {/* 📦 Botones */}
           <div className='mt-6 flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3'>
             <button
               onClick={onClose}
-              className='px-4 py-2 bg-yellow-700 text-white rounded hover:bg-yellow-600 transition duration-150 w-full sm:w-auto'
+              className='px-4 py-2 bg-[#C580FF] text-white rounded hover:bg-[#a45de0] transition duration-150 w-full sm:w-auto'
             >
               Cancelar
             </button>
             <button
               onClick={handleAsignar}
               disabled={asignando || seleccionados.length === 0}
-              className='px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-400 transition duration-150 disabled:opacity-50 w-full sm:w-auto'
+              className='px-4 py-2 bg-gradient-to-r from-[#00FFF7] via-[#FFDD00] to-[#00FF33] text-black font-semibold rounded hover:opacity-90 transition duration-150 disabled:opacity-50 w-full sm:w-auto'
             >
               {asignando ? 'Asignando...' : 'Asignar'}
             </button>
@@ -141,7 +143,7 @@ const AsignarEstudiantesModal = ({ clase, onClose }) => {
 
           {/* 🧠 Información institucional */}
           <div className='mt-8 flex items-start gap-3 text-white/70 text-sm'>
-            <InformationCircleIcon className='h-6 w-6 text-yellow-500 mt-0.5 flex-shrink-0' />
+            <InformationCircleIcon className='h-6 w-6 text-[#FFDD00] mt-0.5 flex-shrink-0' />
             <p>
               Este componente permite al docente asignar estudiantes a una clase específica dentro
               de su jornada académica. Al seleccionar estudiantes, se actualiza el backend

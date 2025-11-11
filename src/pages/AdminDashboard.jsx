@@ -5,13 +5,12 @@ import {
   UserGroupIcon,
   ChartBarIcon,
   ShieldCheckIcon,
-  ClipboardDocumentListIcon, // ✅ Import corregido
+  ClipboardDocumentListIcon,
 } from '@heroicons/react/24/solid';
 
 import NavbarAdmin from '../components/admin/NavbarAdmin';
 import PendientesList from '../components/admin/PendientesList';
 import EstadisticasPanel from '../components/admin/EstadisticasPanel';
-// import ConfiguracionPanel from '../components/admin/ConfiguracionPanel'; // 🔒 Comentado para presentación
 import UsuariosTable from '../components/admin/UsuariosTable';
 import DocentesManager from '../components/admin/DocentesManager';
 import VideoFondoAdmin from '../components/admin/VideoFondoAdmin';
@@ -35,17 +34,12 @@ const AdminDashboard = () => {
 
     try {
       const parsed = JSON.parse(userData);
-
-      if (!parsed || typeof parsed !== 'object') {
-        throw new Error('Usuario inválido o malformado');
-      }
-
+      if (!parsed || typeof parsed !== 'object') throw new Error('Usuario inválido o malformado');
       if (parsed.role !== 'admin') {
         console.warn(`⛔ Acceso denegado para rol '${parsed.role}'`);
         setErrorMsg('Acceso denegado. Este panel es exclusivo para administradores.');
         return;
       }
-
       setUsuario(parsed);
     } catch (error) {
       console.error('❌ Error al parsear usuario:', error.message);
@@ -87,25 +81,22 @@ const AdminDashboard = () => {
         <NavbarAdmin />
 
         <main className='pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-20'>
-          {/* Presentación institucional del dashboard */}
+          {/* 🎓 Presentación institucional */}
           <section id='presentacion' className='scroll-mt-24'>
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ type: 'spring', stiffness: 80, damping: 12 }}
-              className='bg-black rounded-xl shadow-xl p-6 sm:p-10 text-center space-y-10'
+              className='bg-black rounded-xl shadow-xl p-6 sm:p-10 text-center space-y-10 border border-white/20'
             >
               <div className='space-y-4'>
-                <h1
-                  className='text-4xl sm:text-5xl font-bold tracking-wide font-[Orbitron]'
-                  style={{ color: '#b8860b' }}
-                >
+                <h1 className='text-4xl sm:text-5xl font-bold tracking-wide font-[Orbitron] text-[#b8860b] drop-shadow-[0_0_6px_#b8860b]'>
                   Panel Administrativo
                 </h1>
                 <h2 className='text-xl sm:text-2xl font-semibold text-white'>Colegio José Martí</h2>
                 <div className='flex justify-center pt-2'>
-                  <ClipboardDocumentListIcon className='w-16 h-16 text-white/80' />
+                  <ClipboardDocumentListIcon className='w-16 h-16 text-[#00FFF7] drop-shadow-[0_0_6px_#00FFF7]' />
                 </div>
               </div>
 
@@ -118,24 +109,24 @@ const AdminDashboard = () => {
                 <motion.div
                   whileHover={{ scale: 1.04 }}
                   transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-                  className='bg-black border border-gray-800 rounded-xl shadow-lg p-6 text-center space-y-4'
+                  className='bg-black border border-white/20 rounded-xl shadow-lg p-6 text-center space-y-4'
                 >
-                  <ShieldCheckIcon className='h-12 w-12 text-green-500 mx-auto' />
+                  <ShieldCheckIcon className='h-12 w-12 text-green-400 drop-shadow-[0_0_4px_#00FF33] mx-auto' />
                   <h3 className='text-xl font-bold text-white font-[Orbitron]'>Validación</h3>
-                  <p className='text-sm text-white'>
+                  <p className='text-sm text-white/80'>
                     Revisión y aprobación de cuentas institucionales. Control sobre el acceso a la
-                    plataforma institucional.
+                    plataforma.
                   </p>
                 </motion.div>
 
                 <motion.div
                   whileHover={{ scale: 1.04 }}
                   transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-                  className='bg-black border border-gray-800 rounded-xl shadow-lg p-6 text-center space-y-4'
+                  className='bg-black border border-white/20 rounded-xl shadow-lg p-6 text-center space-y-4'
                 >
-                  <UserGroupIcon className='h-12 w-12 text-blue-400 mx-auto' />
+                  <UserGroupIcon className='h-12 w-12 text-blue-400 drop-shadow-[0_0_4px_#00FFF7] mx-auto' />
                   <h3 className='text-xl font-bold text-white font-[Orbitron]'>Usuarios</h3>
-                  <p className='text-sm text-white'>
+                  <p className='text-sm text-white/80'>
                     Visualización y gestión de todos los usuarios institucionales. Roles, estados y
                     acciones administrativas.
                   </p>
@@ -144,11 +135,11 @@ const AdminDashboard = () => {
                 <motion.div
                   whileHover={{ scale: 1.04 }}
                   transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-                  className='bg-black border border-gray-800 rounded-xl shadow-lg p-6 text-center space-y-4'
+                  className='bg-black border border-white/20 rounded-xl shadow-lg p-6 text-center space-y-4'
                 >
-                  <ChartBarIcon className='h-12 w-12 text-purple-400 mx-auto' />
+                  <ChartBarIcon className='h-12 w-12 text-purple-400 drop-shadow-[0_0_4px_#C580FF] mx-auto' />
                   <h3 className='text-xl font-bold text-white font-[Orbitron]'>Estadísticas</h3>
-                  <p className='text-sm text-white'>
+                  <p className='text-sm text-white/80'>
                     Métricas académicas y administrativas en tiempo real. Análisis de desempeño
                     institucional.
                   </p>
@@ -157,32 +148,25 @@ const AdminDashboard = () => {
             </motion.div>
           </section>
 
-          {/* Validación de usuarios pendientes */}
+          {/* 🧾 Validación de usuarios pendientes */}
           <section id='validacion' className='scroll-mt-24'>
             <PendientesList />
           </section>
 
-          {/* Tabla de todos los usuarios */}
+          {/* 👥 Tabla de todos los usuarios */}
           <section id='usuarios' className='scroll-mt-24'>
             <UsuariosTable />
           </section>
 
-          {/* Gestión de docentes */}
+          {/* 🧑‍🏫 Gestión de docentes */}
           <section id='docentes' className='scroll-mt-24'>
             <DocentesManager />
           </section>
 
-          {/* Estadísticas generales */}
+          {/* 📊 Estadísticas generales */}
           <section id='estadisticas' className='scroll-mt-24'>
             <EstadisticasPanel />
           </section>
-
-          {/* Configuración institucional (comentado para presentación) */}
-          {/*
-          <section id='configuracion' className='scroll-mt-24'>
-            <ConfiguracionPanel />
-          </section>
-          */}
         </main>
 
         <Footer />

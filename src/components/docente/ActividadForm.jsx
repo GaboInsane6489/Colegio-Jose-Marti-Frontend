@@ -150,25 +150,27 @@ const ActividadForm = ({ claseId, onActividadCreada }) => {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
-      className='bg-[#0d0d0d] text-white p-10 rounded-2xl shadow-2xl font-[Inter] space-y-8 border border-white/20 max-w-5xl mx-auto'
+      className='bg-[#0d0d0d] text-white px-6 py-8 rounded-2xl shadow-2xl font-[Inter] space-y-6 border border-white/10 max-w-6xl mx-auto'
     >
       <div className='text-center space-y-2'>
-        <Squares2X2Icon className='w-10 h-10 mx-auto text-white' />
-        <h2 className='text-3xl font-bold tracking-wide'>Nueva Actividad</h2>
+        <Squares2X2Icon className='w-10 h-10 mx-auto text-[#00FFF7] drop-shadow-[0_0_6px_#00FFF7]' />
+        <h2 className='text-2xl sm:text-3xl font-bold tracking-wide'>Nueva Actividad</h2>
       </div>
 
       {error && <p className='text-center text-red-400 text-sm'>{error}</p>}
 
       <div className='space-y-2'>
-        <label className='block text-sm font-medium flex items-center gap-2'>
-          <BookOpenIcon className='w-5 h-5 text-white/70' />
-          Curso asociado
-        </label>
+        <div className='flex flex-col items-center text-center'>
+          <BookOpenIcon className='w-5 h-5 text-[#00FFF7] drop-shadow-[0_0_4px_#00FFF7]' />
+          <label className='text-sm font-semibold text-[#00FFF7] tracking-wide'>
+            Curso asociado
+          </label>
+        </div>
         <select
           name='cursoId'
           value={formData.cursoId}
           onChange={handleChange}
-          className='w-full bg-white text-black px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-white'
+          className='w-full bg-white text-black px-4 py-1.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#00FFF7]'
           required
         >
           <option value=''>Selecciona un curso</option>
@@ -182,17 +184,17 @@ const ActividadForm = ({ claseId, onActividadCreada }) => {
 
       {campos.map(({ label, name, type, icon: Icon, ...rest }) => (
         <div key={name} className='space-y-2'>
-          <label className='block text-sm font-medium flex items-center gap-2'>
-            <Icon className='w-5 h-5 text-white/70' />
-            {label}
-          </label>
+          <div className='flex flex-col items-center text-center'>
+            <Icon className='w-5 h-5 text-[#00FFF7] drop-shadow-[0_0_4px_#00FFF7]' />
+            <label className='text-sm font-semibold text-[#00FFF7] tracking-wide'>{label}</label>
+          </div>
 
           {type === 'textarea' ? (
             <textarea
               name={name}
               value={formData[name]}
               onChange={handleChange}
-              className='w-full bg-white text-black px-4 py-2 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-white transition duration-200 ease-out'
+              className='w-full bg-white text-black px-4 py-1.5 rounded-md resize-none text-sm focus:outline-none focus:ring-2 focus:ring-[#00FFF7] transition duration-200 ease-out'
               required
             />
           ) : type === 'select' ? (
@@ -200,7 +202,7 @@ const ActividadForm = ({ claseId, onActividadCreada }) => {
               name={name}
               value={formData[name]}
               onChange={handleChange}
-              className='w-full bg-white text-black px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-white transition duration-200 ease-out'
+              className='w-full bg-white text-black px-4 py-1.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#00FFF7] transition duration-200 ease-out'
               required
             >
               <option value=''>Selecciona una opción</option>
@@ -216,7 +218,7 @@ const ActividadForm = ({ claseId, onActividadCreada }) => {
               name={name}
               value={formData[name]}
               onChange={handleChange}
-              className='w-full bg-white text-black px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-white transition duration-200 ease-out'
+              className='w-full bg-white text-black px-4 py-1.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#00FFF7] transition duration-200 ease-out'
               {...rest}
               required
             />
@@ -224,13 +226,13 @@ const ActividadForm = ({ claseId, onActividadCreada }) => {
         </div>
       ))}
 
-      <motion.div whileTap={{ scale: 0.97 }} className='pt-6 flex justify-center'>
+      <motion.div whileTap={{ scale: 0.97 }} className='pt-4 flex justify-center'>
         <button
           type='submit'
           disabled={loading}
-          className='bg-[#0a0a0a] text-white border border-white px-6 py-3 rounded-full font-semibold flex items-center gap-2 transition duration-200 ease-out hover:bg-white hover:text-black hover:border-black shadow-md hover:shadow-xl disabled:opacity-50'
+          className='bg-gradient-to-r from-[#00FFF7] to-[#00FF33] text-black px-6 py-2 rounded-full font-semibold text-sm flex items-center gap-2 transition duration-200 ease-out hover:opacity-90 shadow-md hover:shadow-xl disabled:opacity-50'
         >
-          <Squares2X2Icon className='w-5 h-5 text-white transition duration-200 ease-out' />
+          <Squares2X2Icon className='w-5 h-5' />
           {loading ? 'Creando...' : 'Crear Actividad'}
         </button>
       </motion.div>

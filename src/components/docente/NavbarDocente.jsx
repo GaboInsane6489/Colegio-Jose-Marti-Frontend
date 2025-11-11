@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
-import { getCookie } from '@/utils/cookieUtils';
 
 const NavbarDocente = () => {
   const [docenteName, setDocenteName] = useState('Docente');
@@ -25,17 +24,10 @@ const NavbarDocente = () => {
 
         const usuario = res.data.usuario;
         const nombre = usuario?.nombre || usuario?.email || 'Docente';
-
-        console.log(`✅ Nombre del docente recibido: ${nombre}`);
         setDocenteName(nombre);
       } catch (error) {
         const status = error.response?.status;
-        const mensaje = error.message || 'Error desconocido';
-
-        console.error('❌ Error al obtener el nombre del docente:', mensaje);
-
         if (status === 403 || status === 401) {
-          console.warn('🔐 Token inválido o expirado. Redirigiendo a /auth');
           localStorage.clear();
           sessionStorage.clear();
           navigate('/auth');
@@ -58,11 +50,9 @@ const NavbarDocente = () => {
 
   const enlaces = [
     { path: '/', label: 'Inicio' },
-    // { path: '/docente/notas', label: 'Notas' },
     { path: '/docente/actividades', label: 'Actividades' },
     { path: '/docente/cursos', label: 'Mis cursos' },
     { path: '/docente/clases', label: 'Mis clases' },
-    // { path: '/docente/notificaciones', label: 'Notificaciones' },
     { path: '/docente/dashboard', label: 'Perfil' },
   ];
 
@@ -76,7 +66,7 @@ const NavbarDocente = () => {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
-      className='fixed top-0 left-0 right-0 z-50 bg-black text-white shadow-md border-b border-white'
+      className='fixed top-0 left-0 right-0 z-50 bg-black text-white border-b border-white drop-shadow-[0_0_12px_#00FFF7]'
     >
       <div className='max-w-6xl mx-auto px-4 py-4 flex justify-between items-center'>
         {/* Navegación escritorio */}
@@ -89,7 +79,7 @@ const NavbarDocente = () => {
               {location.pathname === path && (
                 <motion.div
                   layoutId='activeIndicator'
-                  className='absolute bottom-0 left-0 w-full h-0.5 bg-white'
+                  className='absolute bottom-0 left-0 w-full h-0.5 bg-[#00FFF7]'
                   transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 />
               )}
@@ -115,7 +105,7 @@ const NavbarDocente = () => {
             aria-expanded={showMenu}
           >
             <span className='text-sm font-medium'>{docenteName}</span>
-            <span className='bg-white text-black rounded-full w-7 h-7 flex items-center justify-center font-bold border-2 border-white'>
+            <span className='bg-black text-[#00FFF7] rounded-full w-7 h-7 flex items-center justify-center font-bold border-2 border-[#00FFF7]'>
               D
             </span>
           </button>
@@ -128,7 +118,7 @@ const NavbarDocente = () => {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: -10 }}
                 transition={{ duration: 0.2 }}
-                className='absolute right-0 mt-2 bg-black text-white rounded shadow-lg w-48 border border-white overflow-hidden z-50'
+                className='absolute right-0 mt-2 bg-black text-white rounded shadow-lg w-48 border border-[#00FFF7] overflow-hidden z-50'
               >
                 <button className='w-full text-left px-4 py-2 hover:bg-white/10'>
                   Editar perfil
@@ -156,7 +146,7 @@ const NavbarDocente = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3 }}
-            className='md:hidden bg-black border-t border-white px-4 py-4 text-sm font-medium flex flex-col items-center space-y-2'
+            className='md:hidden bg-black/90 border-t border-[#00FFF7] px-4 py-4 text-sm font-medium flex flex-col items-center space-y-2'
           >
             {enlaces.map(({ path, label }) => (
               <Link

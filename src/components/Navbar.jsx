@@ -71,9 +71,9 @@ const Navbar = () => {
       initial={{ y: -60, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ type: 'spring', bounce: 0.3, duration: 0.8 }}
-      className='fixed top-0 w-full bg-black text-white shadow-md z-50'
+      className='fixed top-0 w-full bg-black text-white shadow-md z-50 overflow-x-hidden' // ✅ encapsulación horizontal
     >
-      <div className='max-w-7xl mx-auto px-4 flex items-center justify-between h-16'>
+      <div className='w-full max-w-[100vw] overflow-hidden px-4 flex items-center justify-between h-16'>
         <Link to='/' aria-label='Ir al inicio'>
           <img src='/LogoColegio.png' alt='Logo Colegio José Martí' className='h-10' />
         </Link>

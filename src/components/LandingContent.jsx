@@ -5,7 +5,7 @@ const LandingContent = ({ inView }) => {
   const animationProps = useMemo(() => {
     return inView
       ? {
-          section: { opacity: 1, scale: 1 },
+          section: { opacity: 1 },
           content: { opacity: 1, y: 0 },
           logo: { opacity: 1, scale: 1.05 },
           h1: { opacity: 1, y: 0 },
@@ -19,10 +19,10 @@ const LandingContent = ({ inView }) => {
 
   return (
     <motion.section
-      initial={{ opacity: 0, scale: 0.95 }}
+      initial={{ opacity: 0 }}
       animate={animationProps.section}
       transition={{ type: 'spring', bounce: 0.3, duration: 1 }}
-      className='relative w-full h-screen flex items-center justify-center text-white overflow-hidden'
+      className='relative w-full max-w-[100vw] h-screen flex items-center justify-center text-white overflow-hidden'
     >
       <motion.div
         initial={{ opacity: 0, y: 40 }}
@@ -30,14 +30,16 @@ const LandingContent = ({ inView }) => {
         transition={{ type: 'spring', bounce: 0.3, duration: 0.8 }}
         className='relative z-10 text-center w-full max-w-4xl px-4 sm:px-6 md:px-8'
       >
-        <motion.img
-          src='/LogoColegio.png'
-          alt='Escudo Colegio José Martí'
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={animationProps.logo}
-          transition={{ type: 'spring', bounce: 0.4, duration: 0.6 }}
-          className='mx-auto mb-6 h-36 sm:h-40 w-auto object-contain drop-shadow-[0_0_12px_#00FFF7]'
-        />
+        <div className='overflow-hidden'>
+          <motion.img
+            src='/LogoColegio.png'
+            alt='Escudo Colegio José Martí'
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={animationProps.logo}
+            transition={{ type: 'spring', bounce: 0.4, duration: 0.6 }}
+            className='mx-auto mb-6 h-36 sm:h-40 w-auto object-contain drop-shadow-[0_0_12px_#00FFF7]'
+          />
+        </div>
 
         <motion.h1
           initial={{ opacity: 0, y: 20 }}

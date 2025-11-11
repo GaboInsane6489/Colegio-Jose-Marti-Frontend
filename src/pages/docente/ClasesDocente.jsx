@@ -6,9 +6,6 @@ import Footer from '@/components/Footer';
 import VideoFondoDocente from '@/components/docente/VideoFondoDocente';
 import { AcademicCapIcon, UserGroupIcon } from '@heroicons/react/24/solid';
 
-/**
- * Página institucional para gestión de clases del docente
- */
 const ClasesDocente = () => {
   const { clases, loading, error } = useClasesDocente();
   const [claseSeleccionada, setClaseSeleccionada] = useState(null);
@@ -36,18 +33,21 @@ const ClasesDocente = () => {
   };
 
   return (
-    <div className='min-h-screen flex flex-col bg-white text-white relative overflow-hidden'>
+    <div className='min-h-screen flex flex-col bg-black text-white relative overflow-hidden'>
       <VideoFondoDocente />
+      <div className='absolute inset-0 bg-black/40 z-10 pointer-events-none' />
 
       <div className='relative z-30'>
         <NavbarDocente />
       </div>
 
-      <main className='relative z-20 pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-10'>
-        <header className='text-center'>
-          <AcademicCapIcon className='h-12 w-12 mx-auto text-white mb-4' />
-          <h1 className='text-4xl font-serif font-bold text-white tracking-wide'>Mis Clases</h1>
-          <p className='mt-2 text-sm text-white/80'>
+      <main className='relative z-20 pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-12'>
+        <header className='text-center flex flex-col items-center'>
+          <AcademicCapIcon className='h-12 w-12 text-[#00FFF7] drop-shadow-[0_0_6px_#00FFF7] mb-4' />
+          <h1 className='text-4xl font-serif font-bold tracking-wide drop-shadow-[0_0_6px_#00FFF7]'>
+            Mis Clases
+          </h1>
+          <p className='mt-2 text-sm text-white/80 max-w-xl'>
             Gestiona tus espacios académicos, asigna estudiantes y organiza tu jornada.
           </p>
         </header>
@@ -78,9 +78,9 @@ const ClasesDocente = () => {
           {clases.map((clase) => (
             <div
               key={clase._id}
-              className='bg-black/60 text-white rounded-xl p-6 shadow-xl hover:shadow-2xl transition duration-300 flex flex-col items-center text-center'
+              className='bg-black/60 text-white rounded-xl p-6 shadow-xl hover:shadow-2xl transition duration-300 flex flex-col items-center text-center border border-white/10 hover:border-[#00FFF7]'
             >
-              <AcademicCapIcon className='h-6 w-6 text-white mb-2' />
+              <AcademicCapIcon className='h-6 w-6 text-[#00FFF7] mb-2 drop-shadow-[0_0_6px_#00FFF7]' />
               <h2 className='text-xl font-semibold mb-1'>{clase.nombre}</h2>
               <p className='text-sm text-white/80 mb-1'>Horario: {clase.horario}</p>
               <p className='text-sm text-white/70 mb-1'>Descripción: {clase.descripcion}</p>
@@ -91,7 +91,7 @@ const ClasesDocente = () => {
 
               <button
                 onClick={() => handleSeleccionarClase(clase)}
-                className='mt-4 w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-500 transition duration-300'
+                className='mt-4 w-full px-4 py-2 bg-gradient-to-r from-[#00FFF7] via-[#C580FF] to-[#00FF33] text-black font-semibold rounded hover:opacity-90 transition duration-300'
               >
                 Asignar estudiantes
               </button>

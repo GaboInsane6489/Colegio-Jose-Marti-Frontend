@@ -21,9 +21,9 @@ const Footer = () => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.8, ease: 'easeOut' }}
-      className='relative w-full bg-[#000000] text-white pt-10 pb-8 px-6 md:px-12 border-t border-gray-800'
+      className='w-full bg-black text-white pt-10 pb-8 px-6 md:px-12 border-t border-white/10'
     >
-      <nav className='max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-8 text-sm text-center border-t border-white/10'>
+      <nav className='max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-8 text-sm text-center'>
         {/* Institucional */}
         <motion.section
           initial={{ opacity: 0, y: 30 }}
@@ -137,8 +137,8 @@ const Footer = () => {
           transition={{ delay: 0.4, duration: 0.6, ease: 'easeOut' }}
           className='flex flex-col items-center group'
         >
-          <FaEnvelope className='text-2xl mb-2 text-[#00FFFF] drop-shadow-[0_0_6px_#00FFFF] group-hover:translate-y-[2px] transition-transform duration-300' />
-          <h3 className='font-semibold mb-4 text-lg group-hover:text-[#00FFFF] transition-colors duration-300'>
+          <FaEnvelope className='text-2xl mb-2 text-[#00FFF7] drop-shadow-[0_0_6px_#00FFF7] group-hover:translate-y-[2px] transition-transform duration-300' />
+          <h3 className='font-semibold mb-4 text-lg group-hover:text-[#00FFF7] transition-colors duration-300'>
             Conecta con nosotros
           </h3>
           <div className='flex justify-center space-x-4 text-xl mb-4'>

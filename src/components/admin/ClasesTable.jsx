@@ -26,10 +26,10 @@ const ClasesTable = ({ clases = [], navigate }) => {
   console.log(`📦 Renderizando tabla de clases: ${clases.length} clases`);
 
   return (
-    <div className='w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8'>
-      <div className='overflow-x-auto border border-white rounded-md'>
+    <div className='w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8'>
+      <div className='overflow-x-auto border border-white/20 rounded-xl shadow-xl'>
         <table className='min-w-full table-fixed bg-black/70 text-white text-xs sm:text-sm'>
-          <thead className='bg-gray-800 uppercase tracking-wider'>
+          <thead className='bg-[#00FFF7]/10 text-[#00FFF7] uppercase tracking-wide'>
             <tr>
               <th scope='col' className='px-4 py-3 text-center whitespace-nowrap'>
                 Nombre
@@ -55,14 +55,14 @@ const ClasesTable = ({ clases = [], navigate }) => {
             {clases.map((clase) => (
               <tr
                 key={clase._id || Math.random()}
-                className='border-t border-gray-700 hover:bg-gray-800 transition duration-200'
+                className='border-t border-white/10 hover:bg-black/30 transition duration-200'
               >
-                <td className='px-4 py-3 text-center whitespace-nowrap font-medium'>
+                <td className='px-4 py-3 text-center font-semibold whitespace-nowrap'>
                   {clase.nombre || '—'}
                 </td>
                 <td className='px-4 py-3 text-center whitespace-nowrap'>
                   <div className='font-medium'>{clase.docente?.nombre || 'Sin nombre'}</div>
-                  <div className='text-xs text-gray-400'>
+                  <div className='text-xs text-white/50'>
                     {clase.docente?.email || 'Sin correo'}
                   </div>
                 </td>
@@ -72,12 +72,12 @@ const ClasesTable = ({ clases = [], navigate }) => {
                 </td>
                 <td className='px-4 py-3 text-center whitespace-nowrap'>
                   {clase.activo ? (
-                    <span className='inline-flex items-center gap-1 text-green-400 font-semibold'>
+                    <span className='inline-flex items-center gap-1 text-green-400 font-semibold drop-shadow-[0_0_4px_#00FF33]'>
                       <CheckCircleIcon className='h-4 w-4' />
                       Activa
                     </span>
                   ) : (
-                    <span className='inline-flex items-center gap-1 text-red-400 font-semibold'>
+                    <span className='inline-flex items-center gap-1 text-red-400 font-semibold drop-shadow-[0_0_4px_#FF0000]'>
                       <XCircleIcon className='h-4 w-4' />
                       Inactiva
                     </span>
@@ -86,10 +86,10 @@ const ClasesTable = ({ clases = [], navigate }) => {
                 <td className='px-4 py-3 text-center whitespace-nowrap'>
                   <button
                     onClick={() => navigate(`/admin/clases/${clase._id}`)}
-                    className='inline-flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-1 rounded-md transition'
+                    className='inline-flex items-center gap-1 bg-gradient-to-r from-[#00FFF7] to-[#00FF33] text-black text-xs px-4 py-1.5 rounded-full font-semibold transition duration-200 hover:opacity-90 shadow-md hover:shadow-xl'
                     aria-label={`Ver clase ${clase.nombre}`}
                   >
-                    <EyeIcon className='h-4 w-4' />
+                    <EyeIcon className='h-4 w-4 text-black' />
                     Ver
                   </button>
                 </td>
