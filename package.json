@@ -1,0 +1,67 @@
+{
+  "name": "frontend-colegio",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "prepare": "husky install",
+    "dev": "vite",
+    "dev-local": "cross-env VITE_API_URL=http://localhost:3000 vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx --cache --cache-location node_modules/.eslintcache",
+    "limpiar": "rimraf dist node_modules .vite",
+    "reinstalar": "npm install",
+    "deploy": "npm run limpiar && npm run reinstalar && npm run build"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "npm run lint"
+    ]
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.2.0",
+    "@material-tailwind/react": "^2.1.10",
+    "@tailwindcss/vite": "^4.1.13",
+    "@tsparticles/engine": "^3.9.1",
+    "@tsparticles/react": "^3.0.0",
+    "@tsparticles/slim": "^3.9.1",
+    "axios": "^1.12.2",
+    "chart.js": "^4.5.1",
+    "date-fns": "^4.1.0",
+    "framer-motion": "^12.23.19",
+    "jwt-decode": "^4.0.0",
+    "nodemailer": "^7.0.10",
+    "react": "^19.1.1",
+    "react-chartjs-2": "^5.3.0",
+    "react-dom": "^19.1.1",
+    "react-error-boundary": "^6.0.0",
+    "react-hot-toast": "^2.6.0",
+    "react-icons": "^5.5.0",
+    "react-intersection-observer": "^9.16.0",
+    "react-native-web": "^0.21.2",
+    "react-router-dom": "^7.9.1",
+    "tailwind-scrollbar": "^4.0.2",
+    "tsparticles-engine": "^2.12.0",
+    "tsparticles-slim": "^2.12.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.36.0",
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^5.0.3",
+    "autoprefixer": "^10.4.21",
+    "cross-env": "^10.1.0",
+    "eslint": "^9.36.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.4.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
+    "postcss": "^8.5.6",
+    "rimraf": "^5.0.5",
+    "tailwindcss": "^4.1.13",
+    "vite": "^7.1.7"
+  }
+}

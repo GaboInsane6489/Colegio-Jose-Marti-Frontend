@@ -1,0 +1,49 @@
+import { FaClipboardCheck } from 'react-icons/fa';
+import ActividadCardEstudiante from './ActividadCardEstudiante';
+
+/**
+ * 📋 Sección institucional para mostrar actividades asignadas al estudiante
+ */
+const SeccionActividadesEstudiante = ({
+  actividadesFiltradas = [],
+  loadingActividades = false,
+}) => {
+  const listaActividades = Array.isArray(actividadesFiltradas) ? actividadesFiltradas : [];
+
+  return (
+    <section className='space-y-6 pt-8 font-[Orbitron]'>
+      {/* Título emocional */}
+      <h2 className='text-xl font-bold text-white text-center flex items-center justify-center gap-2 drop-shadow-[0_0_6px_#00FFF7]'>
+        <FaClipboardCheck className='text-[#00FFF7]' />
+        Actividades asignadas por tus docentes
+      </h2>
+
+      {/* Contenido dinámico */}
+      <div className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
+        {loadingActividades ? (
+          <p className='text-white/70 col-span-full'>Cargando actividades...</p>
+        ) : listaActividades.length === 0 ? (
+          <div className='bg-[#FFD700]/10 text-[#FFD700] p-4 rounded-lg col-span-full text-center border border-[#FFD700]/30'>
+            <p className='font-semibold'>
+              Sin actividades que coincidan con los filtros seleccionados.
+            </p>
+            <p className='text-sm mt-1 text-white/70'>
+              Prueba cambiar la materia o el lapso para ver otras asignaciones.
+            </p>
+          </div>
+        ) : (
+          listaActividades.map((a) => <ActividadCardEstudiante key={a.id || a._id} actividad={a} />)
+        )}
+      </div>
+
+      {/* Mensaje adicional si no hay actividades en absoluto */}
+      {!loadingActividades && listaActividades.length === 0 && (
+        <p className='text-center text-white/60 text-sm italic'>
+          No hay actividades disponibles en este momento.
+        </p>
+      )}
+    </section>
+  );
+};
+
+export default SeccionActividadesEstudiante;
